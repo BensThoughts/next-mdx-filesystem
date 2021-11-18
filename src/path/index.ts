@@ -5,6 +5,7 @@ import {
   POSTS_DIR,
   DIR_INDEX_FILE
 } from '../config';
+import { IPathEntry } from '../interface';
 
 
 export const getPath = (...pathSegment: string[]): string => {
@@ -15,16 +16,6 @@ export const getFullPathFromSlug = (slug: string): string => {
   slug = slug.charAt(0) === path.sep ? slug.substr(1) : slug;
   return path.resolve(POSTS_DIR, slug);
 }
-
-// export const getConfigFilePath = () => {
-//   const configPath = getPath('recussion-config.js')
-
-//   if (!fs.existsSync(configPath)) {
-//     throw new Error(`${configPath} does not exist.`)
-//   }
-
-//   return configPath
-// }
 
 export function slugPathToArray(slugPath: string) {
   const slugArr = slugPath.replace(/^\//, '').split(path.sep);
@@ -47,12 +38,7 @@ export function getSlugPath(fullPath: string) {
   return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
 }
 
-interface Path {
-  pathType?: 'dir' | 'mdx';
-  fullPath: string;
-}
-
-export function slugToFullPath(slug: string): Path {
+export function slugToFullPath(slug: string): IPathEntry {
   const pathWithoutExtension = getFullPathFromSlug(slug);
   const pathExists = fs.existsSync(pathWithoutExtension);
   if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {

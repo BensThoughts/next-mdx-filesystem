@@ -48,9 +48,9 @@ export interface IPageDataOpts<R extends 'tree' | 'array'> {
 }
 
 export interface IConfig {
-  POSTS_DIR: string;
-  EXCLUDED_PROD_DIRS: string[];
-  DIR_INDEX_FILE: string;
+  postsDir: string;
+  excludedProdDirs: string[];
+  dirIndexFile: string;
 }
 
 export interface IExportMarker {
@@ -66,4 +66,8 @@ export interface IStaticPath {
   params: {
     slug: string[];
   }
+}
+export interface IPathEntry {
+  pathType?: 'dir' | 'mdx';
+  fullPath: string;
 }
