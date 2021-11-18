@@ -25,6 +25,10 @@ export function getFileModifiedDate(path: string) {
   return date;
 }
 
+export function readDir(dir: string) {
+  return fs.readdirSync(dir, {withFileTypes: true});
+}
+
 export function getDirentData(cwd: string, dirent: fs.Dirent) {
   const fullPath = path.join(cwd, dirent.name);
   // const slugPath = getFileSlug(fullPath);

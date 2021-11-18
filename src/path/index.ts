@@ -12,7 +12,7 @@ export const getPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment)
 }
 
-export const getPathFromSlug = (slug: string): string => {
+export const getFullPathFromSlug = (slug: string): string => {
   return path.resolve(POSTS_DIR, slug);
 }
 
@@ -49,7 +49,7 @@ interface Path {
 }
 
 export function slugIsDirOrMdx(slug: string): Path {
-  const pathWithoutExtension = getPathFromSlug(slug);
+  const pathWithoutExtension = getFullPathFromSlug(slug);
   const pathExists = fs.existsSync(pathWithoutExtension);
   if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {
     return {

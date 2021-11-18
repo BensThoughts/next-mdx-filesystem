@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 
 import {
@@ -7,8 +6,10 @@ import {
   SlugData,
 } from '../interface';
 
-import {getDirentData} from '../file';
+import {getDirentData, readDir} from '../file';
 import {
+  getFullPathFromSlug,
+  // getPathFromSlugArr,
   getSlugPath,
   slugArrayToString,
   slugPathToArray,
@@ -26,7 +27,7 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
     directories: [],
     mdxArticles: [],
   };
-  const dirents = fs.readdirSync(cwd, {withFileTypes: true});
+  const dirents = readDir(cwd);
   dirents.forEach((dirent) => {
     const {
       isDirectory,
@@ -36,8 +37,6 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
       // slugPath,
     } = getDirentData(cwd, dirent);
     const slugPath = getSlugPath(fullPath);
-    // console.log('slugPath: ' + slugPath);
-    // console.log('slugArray: ' + slugPathToArray(slugPath));
     if (!isDirectory && isMdx) {
       slugData.mdxArticles.push({
         params: {
@@ -67,8 +66,7 @@ function getAllSlugs({
   slugData.directories.push(...directories);
   slugData.mdxArticles.push(...mdxArticles);
   directories.forEach(({params: {slug}}) => {
-    const nextDir = path.parse(slugArrayToString(slug));
-    const nextCwd = path.join(cwd, nextDir.name);
+    const nextCwd = getFullPathFromSlug(slugArrayToString(slug));
     slugData = getAllSlugs({
       cwd: nextCwd,
       slugData,
