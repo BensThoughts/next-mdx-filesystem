@@ -1,21 +1,21 @@
-import path from 'path'
+import path from 'path';
 import fs from 'fs';
 
 import {
   POSTS_DIR,
-  DIR_INDEX_FILE
+  DIR_INDEX_FILE,
 } from '../config';
-import { IPathEntry } from '../interface';
+import {IPathEntry} from '../interface';
 
 
 export const getPath = (...pathSegment: string[]): string => {
-  return path.resolve(process.cwd(), ...pathSegment)
-}
+  return path.resolve(process.cwd(), ...pathSegment);
+};
 
 export const getFullPathFromSlug = (slug: string): string => {
   slug = slug.charAt(0) === path.sep ? slug.substr(1) : slug;
   return path.resolve(POSTS_DIR, slug);
-}
+};
 
 export function slugPathToArray(slugPath: string) {
   const slugArr = slugPath.replace(/^\//, '').split(path.sep);
@@ -56,8 +56,7 @@ export function slugToFullPath(slug: string): IPathEntry {
     };
   }
 
-  return {
-    pathType: undefined,
-    fullPath: '',
-  }
+  throw new Error(
+      `Error, slug lead to neither a directory or .mdx file + ${slug}`,
+  );
 }

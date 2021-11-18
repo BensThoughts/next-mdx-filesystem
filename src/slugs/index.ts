@@ -56,7 +56,13 @@ function getSlugsInDir(cwd: string):Expand<ISlugData> {
   return slugData;
 }
 
-export function getAllSlugs(cwd = POSTS_DIR, slugData:ISlugData = {directories: [], mdxArticles: []}){
+export function getAllSlugs(
+    cwd = POSTS_DIR,
+    slugData:ISlugData = {
+      directories: [],
+      mdxArticles: [],
+    },
+) {
   const {directories, mdxArticles} = getSlugsInDir(cwd);
   slugData.directories.push(...directories);
   slugData.mdxArticles.push(...mdxArticles);

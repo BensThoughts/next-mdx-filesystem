@@ -14,12 +14,12 @@ import {
 import {
   getFileName,
   getFullPathFromSlug,
-  getSlugPath
+  getSlugPath,
 } from '../path';
 
 import {
   POSTS_DIR,
-} from '../config'
+} from '../config';
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {
@@ -69,34 +69,36 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
     console.error(`There was an error reading from ${cwd}: ${e}`);
   }
 
-  dirData.directories.sort((a, b) => (a.dirMetadata.title < b.dirMetadata.title) ? 1 : -1);
-  dirData.mdxArticles.sort((a, b) => (a.metadata.date < b.metadata.date) ? 1 : -1);
+  dirData.directories
+      .sort((a, b) => (a.dirMetadata.title < b.dirMetadata.title) ? 1 : -1);
+  dirData.mdxArticles
+      .sort((a, b) => (a.metadata.date < b.metadata.date) ? 1 : -1);
 
   return dirData;
 }
 
 export function getDirectoryTree<T>(
-  cwd?: string,
-  shallow = false,
-  directoryData?: DirectoryTree<T>,
+    cwd?: string,
+    shallow = false,
+    directoryData?: DirectoryTree<T>,
 ): DirectoryTree<T> {
-cwd = cwd || POSTS_DIR as string;
-directoryData = directoryData || {
-  dirName: getFileName(cwd),
-  dirMtimeDate: getFileModifiedDate(cwd),
-  dirMetadata: getDirectoryMetadata(cwd),
-  directories: [],
-  mdxArticles: [],
-};
-const newDirectoryData = getDirectoryTreeNode<T>(cwd);
-directoryData.directories.push(...newDirectoryData.directories);
-directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
-if (!shallow) {
-  directoryData.directories.forEach((directory) => {
+  cwd = cwd || POSTS_DIR as string;
+  directoryData = directoryData || {
+    dirName: getFileName(cwd),
+    dirMtimeDate: getFileModifiedDate(cwd),
+    dirMetadata: getDirectoryMetadata(cwd),
+    directories: [],
+    mdxArticles: [],
+  };
+  const newDirectoryData = getDirectoryTreeNode<T>(cwd);
+  directoryData.directories.push(...newDirectoryData.directories);
+  directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
+  if (!shallow) {
+    directoryData.directories.forEach((directory) => {
     // const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
-    const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
-    getDirectoryTree(newCwd, shallow, directory);
-  });
-}
-return directoryData;
+      const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
+      getDirectoryTree(newCwd, shallow, directory);
+    });
+  }
+  return directoryData;
 }
