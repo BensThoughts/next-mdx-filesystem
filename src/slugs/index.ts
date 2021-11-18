@@ -55,35 +55,14 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
   return slugData;
 }
 
-function getAllSlugs({
-  cwd,
-  slugData,
-}: {
-  cwd: string;
-  slugData: SlugData;
-}): SlugData {
+export function getAllSlugs(cwd = POSTS_DIR, slugData:SlugData = {directories: [], mdxArticles: []}){
   const {directories, mdxArticles} = getSlugsInDir(cwd);
   slugData.directories.push(...directories);
   slugData.mdxArticles.push(...mdxArticles);
   directories.forEach(({params: {slug}}) => {
     const nextCwd = getFullPathFromSlug(slugArrayToString(slug));
-    slugData = getAllSlugs({
-      cwd: nextCwd,
-      slugData,
-    });
+    slugData = getAllSlugs(nextCwd, slugData);
   });
 
   return slugData;
-};
-
-export function getSlugs(): Expand<StaticPath>[] {
-  const {directories, mdxArticles} = getAllSlugs({
-    cwd: POSTS_DIR,
-    slugData: {
-      directories: [],
-      mdxArticles: [],
-    },
-  });
-
-  return [...directories, ...mdxArticles];
-};
+}
