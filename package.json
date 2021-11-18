@@ -1,7 +1,7 @@
 {
-  "name": "recussion",
+  "name": "next-mdx-filesystem",
   "version": "0.1.0",
-  "description": "A fully typed library to statically get .mdx files into next.js. Recussion will recursively read through a directory of your choosing and output a convenient tree or array datastructure that includes .mdx and directory metadata and content.",
+  "description": "A fully typed library to statically get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and output a convenient tree or array data structure that includes .mdx/directory metadata and content.",
   "main": "index.ts",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -13,8 +13,7 @@
     "next.js",
     "static",
     "mdx",
-    "filesystem",
-    "reader"
+    "filesystem"
   ],
   "author": "Benjamin Blumenfeld-Jones",
   "license": "ISC",
