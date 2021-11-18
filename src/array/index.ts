@@ -1,7 +1,7 @@
 // import path from 'path';
 
 import {
-  DirectoryData,
+  IDirectoryData,
   DirectoryTree,
 } from '../interface';
 import { getPath } from '../path';
@@ -10,11 +10,7 @@ import {
   getDirectoryTree
 } from '../tree';
 
-const {
-  POSTS_DIR,
-} = {
-  POSTS_DIR: getPath('posts-mdx'),
-};
+import { POSTS_DIR } from '../config';
 
 /**
  * Directory Array functions to turn Directory Tree into an array
@@ -34,8 +30,8 @@ const {
 
 function getDirectoryArrayFromTree<T>(
     dirTree: DirectoryTree<T>,
-    dirArray?: DirectoryData<T>[]
-): DirectoryData<T>[] {
+    dirArray?: IDirectoryData<T>[]
+): IDirectoryData<T>[] {
   const {dirName, dirMtimeDate, dirMetadata, directories, mdxArticles} = dirTree;
   dirArray = dirArray || [];
   dirArray.push(

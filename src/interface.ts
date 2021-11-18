@@ -3,11 +3,11 @@ export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 //   ? T extends infer O ? { [K in keyof O]: ExpandRecursively<O[K]> } : never
 //   : T;
 
-export type DirectoryTree<T> = DirectoryData<T> & {
+export type DirectoryTree<T> = IDirectoryData<T> & {
   directories: DirectoryTree<T>[];
 }
 
-export interface DirectoryData<T> {
+export interface IDirectoryData<T> {
     dirName: string;
     dirMtimeDate: string;
     dirMetadata: {
@@ -16,10 +16,10 @@ export interface DirectoryData<T> {
       slug: string;
       description: string | null;
     }
-    mdxArticles: MdxArticleData<T>[]
+    mdxArticles: IMdxArticleData<T>[]
   }
 
-export interface MdxArticleData<T> {
+export interface IMdxArticleData<T> {
   fileName: string;
   mtimeDate: string;
   content?: string;
@@ -30,12 +30,21 @@ export interface MdxArticleData<T> {
   } & T;
 }
 
-export interface PageData<T, R extends 'tree' | 'array' = 'tree'> {
+export interface IPageData<T, R extends 'tree' | 'array' = 'tree'> {
   isDirectory: boolean;
   directory?: {
-    data: R extends 'tree' ? DirectoryTree<T> : DirectoryData<T>[];
+    data: R extends 'tree' ? DirectoryTree<T> : IDirectoryData<T>[];
   },
-  article?: MdxArticleData<T>;
+  article?: IMdxArticleData<T>;
+}
+
+export interface IPageDataOpts<R extends 'tree' | 'array'> {
+  slugArray?: string[],
+  options?: {
+    returnType?: R,
+    shallow?: boolean,
+    reSortArray?: boolean,
+  },
 }
 
 export interface IConfig {
@@ -48,12 +57,12 @@ export interface IExportMarker {
   exportTrailingSlash: boolean
 }
 
-export interface SlugData {
-  directories: StaticPath[],
-  mdxArticles: StaticPath[],
+export interface ISlugData {
+  directories: IStaticPath[],
+  mdxArticles: IStaticPath[],
 }
 
-export interface StaticPath {
+export interface IStaticPath {
   params: {
     slug: string[];
   }

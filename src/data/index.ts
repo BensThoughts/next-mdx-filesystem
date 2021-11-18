@@ -1,5 +1,5 @@
 import {
-  MdxArticleData
+  IMdxArticleData
 } from '../interface';
 
 import {
@@ -18,7 +18,7 @@ import matter from 'gray-matter';
 import yaml from 'js-yaml';
 
 
-export function getBlogPostData<T>(fullPath: string, includeContent: boolean): MdxArticleData<T> {
+export function getBlogPostData<T>(fullPath: string, includeContent: boolean): IMdxArticleData<T> {
   const rawFileSource = readFile(fullPath);
   const slug = getSlugPath(fullPath);
   const mtimeDate = getFileModifiedDate(fullPath);

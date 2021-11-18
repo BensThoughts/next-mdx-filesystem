@@ -1,29 +1,30 @@
 
 import {
   Expand,
-  StaticPath,
-  SlugData,
+  ISlugData,
 } from '../interface';
 
 import {getDirentData, readDir} from '../file';
 import {
   getFullPathFromSlug,
-  getPath,
-  // getPathFromSlugArr,
   getSlugPath,
   slugArrayToString,
   slugPathToArray,
 } from '../path';
 
-const {
+import {
   POSTS_DIR,
-} = {
-  POSTS_DIR: getPath('posts-mdx'),
-};
+} from '../config';
+
+// const {
+//   POSTS_DIR,
+// } = {
+//   POSTS_DIR: getPath('posts-mdx'),
+// };
 
 
-function getSlugsInDir(cwd: string):Expand<SlugData> {
-  const slugData: SlugData = {
+function getSlugsInDir(cwd: string):Expand<ISlugData> {
+  const slugData: ISlugData = {
     directories: [],
     mdxArticles: [],
   };
@@ -55,7 +56,7 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
   return slugData;
 }
 
-export function getAllSlugs(cwd = POSTS_DIR, slugData:SlugData = {directories: [], mdxArticles: []}){
+export function getAllSlugs(cwd = POSTS_DIR, slugData:ISlugData = {directories: [], mdxArticles: []}){
   const {directories, mdxArticles} = getSlugsInDir(cwd);
   slugData.directories.push(...directories);
   slugData.mdxArticles.push(...mdxArticles);

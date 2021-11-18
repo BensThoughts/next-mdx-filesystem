@@ -14,15 +14,12 @@ import {
 import {
   getFileName,
   getFullPathFromSlug,
-  getPath,
   getSlugPath
 } from '../path';
 
-const {
+import {
   POSTS_DIR,
-} = {
-  POSTS_DIR: getPath('posts-mdx'),
-};
+} from '../config'
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {

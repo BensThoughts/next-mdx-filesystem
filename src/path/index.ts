@@ -1,13 +1,10 @@
 import path from 'path'
 import fs from 'fs';
 
-const {
+import {
   POSTS_DIR,
-  DIR_INDEX_FILE,
-} = {
-  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
-  DIR_INDEX_FILE: 'index.yaml',
-};
+  DIR_INDEX_FILE
+} from '../config';
 
 
 export const getPath = (...pathSegment: string[]): string => {
@@ -19,15 +16,15 @@ export const getFullPathFromSlug = (slug: string): string => {
   return path.resolve(POSTS_DIR, slug);
 }
 
-export const getConfigFilePath = () => {
-  const configPath = getPath('recussion-config.js')
+// export const getConfigFilePath = () => {
+//   const configPath = getPath('recussion-config.js')
 
-  if (!fs.existsSync(configPath)) {
-    throw new Error(`${configPath} does not exist.`)
-  }
+//   if (!fs.existsSync(configPath)) {
+//     throw new Error(`${configPath} does not exist.`)
+//   }
 
-  return configPath
-}
+//   return configPath
+// }
 
 export function slugPathToArray(slugPath: string) {
   const slugArr = slugPath.replace(/^\//, '').split(path.sep);

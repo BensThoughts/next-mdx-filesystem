@@ -1,7 +1,8 @@
 import {
-  PageData,
+  IPageData,
   Expand,
-  StaticPath,
+  IStaticPath,
+  IPageDataOpts,
 } from '../interface';
 
 import { getDirectoryTree } from '../tree';
@@ -13,19 +14,10 @@ import {
 } from '../path';
 import { getAllSlugs } from '../slugs';
 
-interface RecussionOpts<R extends 'tree' | 'array'> {
-  slugArray?: string[],
-  options?: {
-    returnType?: R,
-    shallow?: boolean,
-    reSortArray?: boolean,
-  },
-}
-
 export class Recussion<T> {
 
-  getPageData<R extends 'tree' | 'array' = 'tree'>(args?: RecussionOpts<R>): Promise<Expand<PageData<T, R>>>;
-  async getPageData<R extends 'tree' | 'array' = 'tree'>(args?:RecussionOpts<R>) {
+  getPageData<R extends 'tree' | 'array' = 'tree'>(args?: IPageDataOpts<R>): Promise<Expand<IPageData<T, R>>>;
+  async getPageData<R extends 'tree' | 'array' = 'tree'>(args?:IPageDataOpts<R>) {
     const options = args?.options;
     const returnType = options?.returnType ? options.returnType : 'tree';
     const shallow = options?.shallow === true ? true : false;
@@ -40,24 +32,24 @@ export class Recussion<T> {
         directory: {
           data: getDirectoryTree<T>(fullPath, shallow),
         },
-      } as PageData<T, R> : {
+      } as IPageData<T, R> : {
         isDirectory: true,
         directory: {
           data: getDirectoryArray<T>(fullPath, shallow, reSortArray),
         },
-      } as PageData<T, R>;
+      } as IPageData<T, R>;
       return result;
     } else if (pathType === 'mdx') {
       return {
         isDirectory: false,
         article: getBlogPostData<T>(fullPath, true),
-      } as PageData<T, R>;
+      } as IPageData<T, R>;
     }
 
     new Error(`Error in getPageData, slugPath gave neither a valid directory or a valid *.mdx file: ${slug}`)
   }
 
-  getSlugs(): Expand<StaticPath>[];
+  getSlugs(): Expand<IStaticPath>[];
   getSlugs() {
     const {directories, mdxArticles} = getAllSlugs();
   

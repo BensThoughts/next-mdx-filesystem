@@ -1,22 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 
-const {
+
+import {
   EXCLUDED_PROD_DIRS,
-} = {
-  EXCLUDED_PROD_DIRS: [''],
-};
+} from '../config';
 
-
-export const loadFile = <T>(path: string, throwError = true): T | undefined => {
-  if (fs.existsSync(path)) {
-    return require(path) as T
-  }
-
-  if (throwError) {
-    new Error(`${path} does not exist.`)
-  }
-}
 
 export const readFile = (path: string): string => {
   return fs.readFileSync(path, 'utf-8');
