@@ -1,21 +1,27 @@
 import {DirectoryTree} from '../interface';
-import fs from 'fs';
-import path from 'path';
 
 import {
   getDirentData,
   getFileModifiedDate,
+  readDir,
 } from '../file';
+
 import {
   getBlogPostData,
   getDirectoryMetadata,
 } from '../data';
-import { getFileName, getPath, getSlugPath } from '../path';
+
+import {
+  getFileName,
+  getFullPathFromSlug,
+  getPath,
+  getSlugPath
+} from '../path';
 
 const {
   POSTS_DIR,
 } = {
-  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
+  POSTS_DIR: getPath('posts-mdx'),
 };
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
@@ -27,7 +33,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
     directories: [],
   };
   try {
-    const dirents = fs.readdirSync(cwd, {withFileTypes: true});
+    const dirents = readDir(cwd);
     dirents.forEach((dirent) => {
       const {
         isMdx,
@@ -91,7 +97,7 @@ directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
 if (!shallow) {
   directoryData.directories.forEach((directory) => {
     // const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
-    const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
+    const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
     getDirectoryTree(newCwd, shallow, directory);
   });
 }
