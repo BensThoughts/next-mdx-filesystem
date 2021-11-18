@@ -12,6 +12,10 @@ export const getPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment)
 }
 
+export const getPathFromSlug = (slug: string): string => {
+  return path.resolve(POSTS_DIR, slug);
+}
+
 export const getConfigFilePath = () => {
   const configPath = getPath('recussion-config.js')
 
@@ -25,13 +29,6 @@ export const getConfigFilePath = () => {
 export function slugPathToArray(slugPath: string) {
   const slugArr = slugPath.replace(/^\//, '').split(path.sep);
   return slugArr;
-  // const slugPath = path.parse(slugString);
-  // console.log(JSON.stringify(slugPath));
-  // if (slugPath.dir === '') {
-  //   return [slugPath.name];
-  // } else {
-  //   return [...slugPath.dir.split(path.sep), slugPath.name];
-  // }
 }
 
 export function slugArrayToString(slugPath: string[]) {
@@ -44,4 +41,33 @@ export function getFileName(fullPath: string) {
 
 export function getSlugPath(fullPath: string) {
   return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
+}
+
+interface Path {
+  type?: 'dir' | 'mdx';
+  fullPath: string;
+}
+
+export function slugIsDirOrMdx(slug: string): Path {
+  const pathWithoutExtension = getPathFromSlug(slug);
+  const pathExists = fs.existsSync(pathWithoutExtension);
+  if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {
+    return {
+      type: 'dir',
+      fullPath: pathWithoutExtension,
+    };
+  }
+  const pathWithExtension = `${pathWithoutExtension}.mdx`;
+  const mdxPathExists = fs.existsSync(pathWithExtension);
+  if (mdxPathExists && fs.statSync(pathWithExtension).isFile()) {
+    return {
+      type: 'mdx',
+      fullPath: pathWithExtension,
+    };
+  }
+
+  return {
+    type: undefined,
+    fullPath: '',
+  }
 }

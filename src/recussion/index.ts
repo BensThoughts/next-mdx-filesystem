@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 
 
@@ -15,7 +14,7 @@ import {
 import { getDirectoryTree } from '../tree';
 import { getDirectoryArray } from '../array';
 import { getBlogPostData } from '../data';
-import { slugArrayToString } from '../path';
+import { slugArrayToString, slugIsDirOrMdx } from '../path';
 
 const {
   POSTS_DIR,
@@ -45,37 +44,28 @@ export class Recussion<T> {
     const reSortArray = args?.options?.reSortArray ? args.options.reSortArray : true;
 
     const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
-    const cwd = path.resolve(POSTS_DIR, slug);
-    
-    const pathWithoutExtension = path.join(POSTS_DIR, slug);
-    const pathExists = fs.existsSync(pathWithoutExtension);
-    if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {
-      if (dirReturnType === 'tree') {
-        return {
-          isDirectory: true,
-          directory: {
-            data: getDirectoryTree<T>(cwd, shallow),
-          },
-        };
-      } else {
-        return {
-          isDirectory: true,
-          directory: {
-            data: getDirectoryArray<T>(cwd, shallow, reSortArray),
-          },
-        };
-      }
-    } else {
-      const pathWithExtension = `${pathWithoutExtension}.mdx`;
-      const mdxPathExists = fs.existsSync(pathWithExtension);
-      if (mdxPathExists && fs.statSync(pathWithExtension).isFile()) {
-        return {
-          isDirectory: false,
-          article: getBlogPostData<T>(pathWithExtension, true),
-        };
-      } else {
-        throw new Error(`Error in getPageData, slugPath gave neither a valid directory or a valid *.mdx file: ${slug}`);
+    const {type, fullPath} = slugIsDirOrMdx(slug);
+
+    if (type === 'dir') {
+      const result = dirReturnType === 'tree' ? {
+        isDirectory: true,
+        directory: {
+          data: getDirectoryTree<T>(fullPath, shallow),
+        },
+      } as PageData<T, R> : {
+        isDirectory: true,
+        directory: {
+          data: getDirectoryArray<T>(fullPath, shallow, reSortArray),
+        },
+      } as PageData<T, R>;
+      return result;
+    } else if (type === 'mdx') {
+      return {
+        isDirectory: false,
+        article: getBlogPostData<T>(fullPath, true),
       }
     }
+
+    new Error(`Error in getPageData, slugPath gave neither a valid directory or a valid *.mdx file: ${slug}`)
   }
 }
