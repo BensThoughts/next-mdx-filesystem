@@ -8,34 +8,30 @@ import { getDirectoryArray } from '../array';
 import { getBlogPostData } from '../data';
 import {
   slugArrayToString,
-  slugIsDirOrMdx
+  slugToFullPath,
 } from '../path';
 
+interface RecussionOpts<R extends 'tree' | 'array'> {
+  slugArray?: string[],
+  options?: {
+    dirReturnType?: R,
+    shallow?: boolean,
+    reSortArray?: boolean,
+  },
+}
+
 export class Recussion<T> {
-  getPageData<R extends 'tree' | 'array' = 'tree'>(args?: {
-    slugArray?: string[],
-    options?: {
-      dirReturnType?: R,
-      shallow?: boolean,
-      reSortArray?: boolean,
-    },
-  }): Promise<Expand<PageData<T, R>>>;
-  async getPageData<R extends 'tree' | 'array' = 'tree'>(args?: {
-    slugArray?: string[],
-    options?: {
-      dirReturnType?: R,
-      shallow?: boolean,
-      reSortArray?: boolean,
-    },
-  }) {
-    const dirReturnType = args?.options?.dirReturnType || 'tree';
-    const shallow = args?.options?.shallow ? args.options.shallow : false;
-    const reSortArray = args?.options?.reSortArray ? args.options.reSortArray : true;
-
+  getPageData<R extends 'tree' | 'array' = 'tree'>(args?: RecussionOpts<R>): Promise<Expand<PageData<T, R>>>;
+  async getPageData<R extends 'tree' | 'array' = 'tree'>(args?:RecussionOpts<R>) {
+    const options = args?.options;
+    const dirReturnType = options?.dirReturnType ? options.dirReturnType : 'tree';
+    const shallow = options?.shallow === true ? true : false;
+    const reSortArray = options?.reSortArray === false ? false : true;
+  
     const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
-    const {type, fullPath} = slugIsDirOrMdx(slug);
+    const {pathType, fullPath} = slugToFullPath(slug);
 
-    if (type === 'dir') {
+    if (pathType === 'dir') {
       const result = dirReturnType === 'tree' ? {
         isDirectory: true,
         directory: {
@@ -48,11 +44,11 @@ export class Recussion<T> {
         },
       } as PageData<T, R>;
       return result;
-    } else if (type === 'mdx') {
+    } else if (pathType === 'mdx') {
       return {
         isDirectory: false,
         article: getBlogPostData<T>(fullPath, true),
-      }
+      } as PageData<T, R>;
     }
 
     new Error(`Error in getPageData, slugPath gave neither a valid directory or a valid *.mdx file: ${slug}`)

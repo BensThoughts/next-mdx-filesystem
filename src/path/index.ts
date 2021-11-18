@@ -51,16 +51,16 @@ export function getSlugPath(fullPath: string) {
 }
 
 interface Path {
-  type?: 'dir' | 'mdx';
+  pathType?: 'dir' | 'mdx';
   fullPath: string;
 }
 
-export function slugIsDirOrMdx(slug: string): Path {
+export function slugToFullPath(slug: string): Path {
   const pathWithoutExtension = getFullPathFromSlug(slug);
   const pathExists = fs.existsSync(pathWithoutExtension);
   if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {
     return {
-      type: 'dir',
+      pathType: 'dir',
       fullPath: pathWithoutExtension,
     };
   }
@@ -68,13 +68,13 @@ export function slugIsDirOrMdx(slug: string): Path {
   const mdxPathExists = fs.existsSync(pathWithExtension);
   if (mdxPathExists && fs.statSync(pathWithExtension).isFile()) {
     return {
-      type: 'mdx',
+      pathType: 'mdx',
       fullPath: pathWithExtension,
     };
   }
 
   return {
-    type: undefined,
+    pathType: undefined,
     fullPath: '',
   }
 }
