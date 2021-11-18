@@ -2,27 +2,30 @@ import {
   MdxArticleData
 } from '../interface';
 
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
 import {
   getSlugPath,
   getFileName,
+  getDirIndex,
 } from '../path';
 import {
+  doesFileExist,
   getFileModifiedDate,
+  readFile,
 } from '../file';
 
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
 
-const {
-  DIR_INDEX_FILE,
-} = {
-  DIR_INDEX_FILE: 'index.yaml',
-};
+// const {
+//   DIR_INDEX_FILE,
+// } = {
+//   DIR_INDEX_FILE: 'index.yaml',
+// };
 
 export function getBlogPostData<T>(fullPath: string, includeContent: boolean): MdxArticleData<T> {
-  const rawFileSource = fs.readFileSync(fullPath);
+  const rawFileSource = readFile(fullPath);
   const slug = getSlugPath(fullPath);
   const mtimeDate = getFileModifiedDate(fullPath);
   const fileName = getFileName(fullPath);
@@ -58,9 +61,9 @@ export function getBlogPostData<T>(fullPath: string, includeContent: boolean): M
 }
 
 export function getDirectoryMetadata(fullPath: string) {
-  const dirName = path.basename(fullPath);
-  const indexPath = path.join(fullPath, DIR_INDEX_FILE);
-  const indexExists = fs.existsSync(indexPath);
+  const dirName = getFileName(fullPath);
+  const indexPath = getDirIndex(fullPath);
+  const indexExists = doesFileExist(indexPath);
   if (!indexExists) {
     return {
       title: dirName,
@@ -69,7 +72,7 @@ export function getDirectoryMetadata(fullPath: string) {
       description: null,
     };
   } else {
-    const indexYaml = fs.readFileSync(indexPath, 'utf8');
+    const indexYaml = readFile(indexPath);
     const parsedYaml = yaml.load(indexYaml) as {
       title: string,
       date: string,

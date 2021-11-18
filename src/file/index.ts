@@ -19,6 +19,14 @@ export const loadFile = <T>(path: string, throwError = true): T | undefined => {
   }
 }
 
+export const readFile = (path: string): string => {
+  return fs.readFileSync(path, 'utf-8');
+}
+
+export const doesFileExist = (path: string): boolean => {
+  return fs.existsSync(path);
+}
+
 export function getFileModifiedDate(path: string) {
   const fullDate = fs.statSync(path).mtime;
   const date = `${fullDate.getUTCFullYear()}-${fullDate.getUTCMonth() + 1}-${fullDate.getUTCDate()}`;

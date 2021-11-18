@@ -3,8 +3,10 @@ import fs from 'fs';
 
 const {
   POSTS_DIR,
+  DIR_INDEX_FILE,
 } = {
   POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
+  DIR_INDEX_FILE: 'index.yaml',
 };
 
 
@@ -37,6 +39,10 @@ export function slugArrayToString(slugPath: string[]) {
 
 export function getFileName(fullPath: string) {
   return path.basename(fullPath);
+}
+
+export function getDirIndex(dirPath: string) {
+  return path.join(dirPath, DIR_INDEX_FILE);
 }
 
 export function getSlugPath(fullPath: string) {
