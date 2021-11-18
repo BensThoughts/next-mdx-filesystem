@@ -22,7 +22,7 @@ export interface IDirectoryData<T> {
 export interface IMdxArticleData<T> {
   fileName: string;
   mtimeDate: string;
-  content?: string;
+  content: string | null;
   metadata: {
     title: string;
     date: string;

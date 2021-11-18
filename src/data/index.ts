@@ -40,7 +40,7 @@ export function getBlogPostData<T>(
       title,
       slug,
     },
-    content: includeContent ? content : undefined,
+    content: includeContent ? content : null,
   };
 }
 
