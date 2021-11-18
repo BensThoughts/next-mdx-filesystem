@@ -49,12 +49,12 @@ export interface IExportMarker {
 }
 
 export interface SlugData {
-  directories: Expand<StaticPath>[],
-  mdxArticles: Expand<StaticPath>[],
+  directories: StaticPath[],
+  mdxArticles: StaticPath[],
 }
 
 export interface StaticPath {
   params: {
-    slug: string[]
+    slug: string[];
   }
 }

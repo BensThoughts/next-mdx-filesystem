@@ -16,12 +16,8 @@ import matter from 'gray-matter';
 import yaml from 'js-yaml';
 
 const {
-  EXCLUDED_PROD_DIRS,
   DIR_INDEX_FILE,
-  POSTS_DIR,
 } = {
-  POSTS_DIR: './',
-  EXCLUDED_PROD_DIRS: [''],
   DIR_INDEX_FILE: 'index.yaml',
 };
 

@@ -2,13 +2,9 @@ import path from 'path'
 import fs from 'fs';
 
 const {
-  EXCLUDED_PROD_DIRS,
-  DIR_INDEX_FILE,
   POSTS_DIR,
 } = {
-  POSTS_DIR: './',
-  EXCLUDED_PROD_DIRS: [''],
-  DIR_INDEX_FILE: 'index.yaml',
+  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
 };
 
 
@@ -26,13 +22,16 @@ export const getConfigFilePath = () => {
   return configPath
 }
 
-export function slugStringToArray(slugString: string) {
-  const slugPath = path.parse(slugString);
-  if (slugPath.dir === '') {
-    return [slugPath.name];
-  } else {
-    return [...slugPath.dir.split(path.sep), slugPath.name];
-  }
+export function slugPathToArray(slugPath: string) {
+  const slugArr = slugPath.replace(/^\//, '').split(path.sep);
+  return slugArr;
+  // const slugPath = path.parse(slugString);
+  // console.log(JSON.stringify(slugPath));
+  // if (slugPath.dir === '') {
+  //   return [slugPath.name];
+  // } else {
+  //   return [...slugPath.dir.split(path.sep), slugPath.name];
+  // }
 }
 
 export function slugArrayToString(slugPath: string[]) {
@@ -44,5 +43,5 @@ export function getFileName(fullPath: string) {
 }
 
 export function getSlugPath(fullPath: string) {
-  return fullPath.replace(POSTS_DIR, '').split(path.sep).join('/').replace('.mdx', '');
+  return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
 }

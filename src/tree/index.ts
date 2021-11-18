@@ -10,16 +10,12 @@ import {
   getBlogPostData,
   getDirectoryMetadata,
 } from '../data';
-import { getFileName, getSlugPath } from '../path';
+import { getFileName, getPath, getSlugPath } from '../path';
 
 const {
-  EXCLUDED_PROD_DIRS,
-  DIR_INDEX_FILE,
   POSTS_DIR,
 } = {
-  POSTS_DIR: './',
-  EXCLUDED_PROD_DIRS: [''],
-  DIR_INDEX_FILE: 'index.yaml',
+  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
 };
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
@@ -94,6 +90,7 @@ directoryData.directories.push(...newDirectoryData.directories);
 directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
 if (!shallow) {
   directoryData.directories.forEach((directory) => {
+    // const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
     const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
     getDirectoryTree(newCwd, shallow, directory);
   });

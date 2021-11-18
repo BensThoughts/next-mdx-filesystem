@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "prepublish": "rm -r ./dist && tsc",
+    "prepublish": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -1,32 +1,27 @@
+import fs from 'fs';
+import path from 'path';
+
 import {
   Expand,
   StaticPath,
-} from '../interface';
-
-import fs from 'fs';
-import path from 'path';
-import {
   SlugData,
 } from '../interface';
+
 import {getDirentData} from '../file';
 import {
   getSlugPath,
   slugArrayToString,
-  slugStringToArray,
+  slugPathToArray,
 } from '../path';
 
 const {
-  EXCLUDED_PROD_DIRS,
-  DIR_INDEX_FILE,
   POSTS_DIR,
 } = {
-  POSTS_DIR: './',
-  EXCLUDED_PROD_DIRS: [''],
-  DIR_INDEX_FILE: 'index.yaml',
+  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
 };
 
 
-function getSlugsInDir(cwd: string): SlugData {
+function getSlugsInDir(cwd: string):Expand<SlugData> {
   const slugData: SlugData = {
     directories: [],
     mdxArticles: [],
@@ -41,17 +36,18 @@ function getSlugsInDir(cwd: string): SlugData {
       // slugPath,
     } = getDirentData(cwd, dirent);
     const slugPath = getSlugPath(fullPath);
-
+    // console.log('slugPath: ' + slugPath);
+    // console.log('slugArray: ' + slugPathToArray(slugPath));
     if (!isDirectory && isMdx) {
       slugData.mdxArticles.push({
         params: {
-          slug: slugStringToArray(slugPath),
+          slug: slugPathToArray(slugPath),
         },
       });
     } else if (isDirectory && !isExcludedPath) {
       slugData.directories.push({
         params: {
-          slug: slugStringToArray(slugPath),
+          slug: slugPathToArray(slugPath),
         },
       });
     };
@@ -85,8 +81,7 @@ function getAllSlugs({
 /**
  * *Exported Function
  * Get all of the slugs in POSTS_DIR recursively all
- * the way down the file system tree.
- * @returns {params: {slug: string[]}}[]
+ * the way down the file system tree. Test
  */
 
 export function getSlugs(): Expand<StaticPath>[] {

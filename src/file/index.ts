@@ -1,14 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 
+// import {config} from '../config';
 const {
   EXCLUDED_PROD_DIRS,
-  DIR_INDEX_FILE,
-  POSTS_DIR,
 } = {
-  POSTS_DIR: './',
   EXCLUDED_PROD_DIRS: [''],
-  DIR_INDEX_FILE: 'index.yaml',
 };
 
 
@@ -22,14 +19,10 @@ export const loadFile = <T>(path: string, throwError = true): T | undefined => {
   }
 }
 
-export function getFileModifiedDate(path: fs.PathLike) {
-  try {
-    const fullDate = fs.statSync(path).mtime;
-    const date = `${fullDate.getUTCFullYear()}-${fullDate.getUTCMonth() + 1}-${fullDate.getUTCDate()}`;
-    return date;
-  } catch (e) {
-    throw new Error('Error in getFileModifiedDate, failed to access ' + path + ':' + e);
-  }
+export function getFileModifiedDate(path: string) {
+  const fullDate = fs.statSync(path).mtime;
+  const date = `${fullDate.getUTCFullYear()}-${fullDate.getUTCMonth() + 1}-${fullDate.getUTCDate()}`;
+  return date;
 }
 
 export function getDirentData(cwd: string, dirent: fs.Dirent) {

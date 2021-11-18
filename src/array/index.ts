@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
   DirectoryData,
   DirectoryTree,
@@ -8,13 +10,9 @@ import {
 } from '../tree';
 
 const {
-  EXCLUDED_PROD_DIRS,
-  DIR_INDEX_FILE,
   POSTS_DIR,
 } = {
-  POSTS_DIR: './',
-  EXCLUDED_PROD_DIRS: [''],
-  DIR_INDEX_FILE: 'index.yaml',
+  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
 };
 
 /**
