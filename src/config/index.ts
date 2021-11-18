@@ -22,7 +22,7 @@ const getPath = (...pathSegment: string[]): string => {
 };
 
 const defaultConfig: Partial<IConfig> = {
-  postsDir: getPath('posts-mdx'),
+  postsDir: getPath('mdx-posts'),
   excludedProdDirs: [],
   dirIndexFile: 'index.yaml',
 };
@@ -53,7 +53,7 @@ const loadConfig = (path: string): IConfig => {
   return withDefaultConfig(userConfig!);
 };
 
-const config = loadConfig(getPath('recussion-config.js'));
+const config = loadConfig(getPath('mdx-filesystem-config.js'));
 
 const productionConfig = {
   POSTS_DIR: config.postsDir,
