@@ -1,9 +1,10 @@
-import path from 'path';
+// import path from 'path';
 
 import {
   DirectoryData,
   DirectoryTree,
 } from '../interface';
+import { getPath } from '../path';
 
 import {
   getDirectoryTree
@@ -12,7 +13,7 @@ import {
 const {
   POSTS_DIR,
 } = {
-  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
+  POSTS_DIR: getPath('posts-mdx'),
 };
 
 /**

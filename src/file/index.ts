@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-// import {config} from '../config';
 const {
   EXCLUDED_PROD_DIRS,
 } = {

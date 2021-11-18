@@ -1,26 +1,15 @@
-import path from 'path';
-
-
 import {
-  DirectoryData,
-  MdxArticleData,
   PageData,
-  DirectoryTree,
-  IConfig,
   Expand,
 } from '../interface';
 
-// import { slugArrayToString } from '../path';
 import { getDirectoryTree } from '../tree';
 import { getDirectoryArray } from '../array';
 import { getBlogPostData } from '../data';
-import { slugArrayToString, slugIsDirOrMdx } from '../path';
-
-const {
-  POSTS_DIR,
-} = {
-  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
-};
+import {
+  slugArrayToString,
+  slugIsDirOrMdx
+} from '../path';
 
 export class Recussion<T> {
   getPageData<R extends 'tree' | 'array' = 'tree'>(args?: {

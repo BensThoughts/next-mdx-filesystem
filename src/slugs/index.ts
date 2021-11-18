@@ -1,4 +1,3 @@
-import path from 'path';
 
 import {
   Expand,
@@ -9,6 +8,7 @@ import {
 import {getDirentData, readDir} from '../file';
 import {
   getFullPathFromSlug,
+  getPath,
   // getPathFromSlugArr,
   getSlugPath,
   slugArrayToString,
@@ -18,7 +18,7 @@ import {
 const {
   POSTS_DIR,
 } = {
-  POSTS_DIR: path.resolve(process.cwd(), 'posts-mdx'),
+  POSTS_DIR: getPath('posts-mdx'),
 };
 
 
@@ -75,12 +75,6 @@ function getAllSlugs({
 
   return slugData;
 };
-
-/**
- * *Exported Function
- * Get all of the slugs in POSTS_DIR recursively all
- * the way down the file system tree. Test
- */
 
 export function getSlugs(): Expand<StaticPath>[] {
   const {directories, mdxArticles} = getAllSlugs({

@@ -2,13 +2,12 @@ import {
   MdxArticleData
 } from '../interface';
 
-// import fs from 'fs';
-// import path from 'path';
 import {
   getSlugPath,
   getFileName,
   getDirIndex,
 } from '../path';
+
 import {
   doesFileExist,
   getFileModifiedDate,
@@ -18,11 +17,6 @@ import {
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
 
-// const {
-//   DIR_INDEX_FILE,
-// } = {
-//   DIR_INDEX_FILE: 'index.yaml',
-// };
 
 export function getBlogPostData<T>(fullPath: string, includeContent: boolean): MdxArticleData<T> {
   const rawFileSource = readFile(fullPath);
