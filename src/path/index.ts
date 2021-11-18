@@ -15,6 +15,7 @@ export const getPath = (...pathSegment: string[]): string => {
 }
 
 export const getFullPathFromSlug = (slug: string): string => {
+  slug = slug.charAt(0) === path.sep ? slug.substr(1) : slug;
   return path.resolve(POSTS_DIR, slug);
 }
 
