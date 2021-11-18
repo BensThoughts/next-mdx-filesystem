@@ -14,7 +14,7 @@ import {
 } from '../path';
 import {getAllSlugs} from '../slugs';
 
-export class Recussion<T> {
+export class MdxFilesystem<T> {
   async getPageData
     <R extends 'tree' | 'array' = 'tree'>(
       args?: IPageDataOpts<R>
