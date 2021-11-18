@@ -10,7 +10,7 @@ import {getDirectoryArray} from '../array';
 import {getBlogPostData} from '../data';
 import {
   slugArrayToString,
-  slugToFullPath,
+  getPathEntry,
 } from '../path';
 import {getAllSlugs} from '../slugs';
 
@@ -21,14 +21,16 @@ export class MdxFilesystem<T> {
     ): Promise<Expand<IPageData<T, R>>>;
 
   async getPageData
-    <R extends 'tree' | 'array' = 'tree'>(args?:IPageDataOpts<R>) {
+    <R extends 'tree' | 'array' = 'tree'>(
+      args?:IPageDataOpts<R>,
+  ) {
       const options = args?.options;
       const returnType = options?.returnType ? options.returnType : 'tree';
       const shallow = options?.shallow === true ? true : false;
       const reSortArray = options?.reSortArray === false ? false : true;
 
       const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
-      const {pathType, fullPath} = slugToFullPath(slug);
+      const {pathType, fullPath} = getPathEntry(slug);
 
       if (pathType === 'dir') {
         const result = returnType === 'tree' ? {
@@ -36,18 +38,18 @@ export class MdxFilesystem<T> {
           directory: {
             data: getDirectoryTree<T>(fullPath, shallow),
           },
-        } as IPageData<T, R> : {
+        } : {
           isDirectory: true,
           directory: {
             data: getDirectoryArray<T>(fullPath, shallow, reSortArray),
           },
-        } as IPageData<T, R>;
-        return result;
+        };
+        return result as Expand<IPageData<T, R>>;
       } else if (pathType === 'mdx') {
         return {
           isDirectory: false,
-          article: getBlogPostData<T>(fullPath, true),
-        } as IPageData<T, R>;
+          mdxArticle: getBlogPostData<T>(fullPath, true),
+        };
       }
     }
 

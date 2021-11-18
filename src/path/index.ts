@@ -8,9 +8,9 @@ import {
 import {IPathEntry} from '../interface';
 
 
-export const getPath = (...pathSegment: string[]): string => {
-  return path.resolve(process.cwd(), ...pathSegment);
-};
+// export const getPath = (...pathSegment: string[]): string => {
+//   return path.resolve(process.cwd(), ...pathSegment);
+// };
 
 export const getFullPathFromSlug = (slug: string): string => {
   slug = slug.charAt(0) === path.sep ? slug.substr(1) : slug;
@@ -38,7 +38,7 @@ export function getSlugPath(fullPath: string) {
   return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
 }
 
-export function slugToFullPath(slug: string): IPathEntry {
+export function getPathEntry(slug: string): IPathEntry {
   const pathWithoutExtension = getFullPathFromSlug(slug);
   const pathExists = fs.existsSync(pathWithoutExtension);
   if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {

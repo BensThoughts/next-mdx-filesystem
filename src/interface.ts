@@ -33,9 +33,9 @@ export interface IMdxArticleData<T> {
 export interface IPageData<T, R extends 'tree' | 'array' = 'tree'> {
   isDirectory: boolean;
   directory?: {
-    data: R extends 'tree' ? DirectoryTree<T> : IDirectoryData<T>[];
+    data: R extends 'tree' ? DirectoryTree<T> : Expand<IDirectoryData<T>>[];
   },
-  article?: IMdxArticleData<T>;
+  mdxArticle?: Expand<IMdxArticleData<T>>;
 }
 
 export interface IPageDataOpts<R extends 'tree' | 'array'> {
