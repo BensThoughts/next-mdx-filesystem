@@ -1,7 +1,7 @@
 {
   "name": "next-mdx-filesystem",
   "version": "0.0.6",
-  "description": "A fully typed library to get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and output a convenient tree or array data structure that includes .mdx/directory metadata and content.",
+  "description": "A fully typed library to get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and give you back .mdx/directory metadata that is easy to consume in a React component",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
   "dependencies": {
@@ -18,9 +18,6 @@
     "eslint-config-google": "^0.14.0",
     "jest": "^27.3.1"
   },
-  "peerDependencies": {
-    "next": "*"
-  },
   "scripts": {
     "build": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc && npm run build:esm",
     "build:esm": "tsc --module es2015 --outDir dist/esm",
@@ -31,7 +28,8 @@
     "next.js",
     "markdown",
     "mdx",
-    "filesystem"
+    "filesystem",
+    "react"
   ],
   "author": "Benjamin Blumenfeld-Jones",
   "license": "ISC",
