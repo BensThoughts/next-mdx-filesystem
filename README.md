@@ -1,7 +1,7 @@
 # next-mdx-filesystem
 
 Ever wanted to define the shape of you mdx front matter data in your next.js
-project? This package is for you. Ever want to organize you articles into
+project? This package is for you. Ever wanted to organize you articles into
 folders that represent categories but don't want to write an algorithm that will
 correctly walk through them all recursively and give you back all of them mdx
 and directory metadata? This package is also for you.
@@ -21,7 +21,7 @@ It should take the form of
 
 ```js
 module.exports = {
-  postsDir: string; // Default 'mdx-posts'
+  postsDir: string, // Default 'mdx-posts'
   excludedProdDirs: string[], // Default []
   dirIndexFile: string, // Default 'index.yaml'
 };
