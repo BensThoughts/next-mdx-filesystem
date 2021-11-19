@@ -1,6 +1,6 @@
 {
   "name": "next-mdx-filesystem",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "A fully typed library to statically get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and output a convenient tree or array data structure that includes .mdx/directory metadata and content.",
   "main": "index.ts",
   "types": "dist/index.d.ts",
@@ -19,12 +19,12 @@
   "license": "ISC",
   "dependencies": {
     "@corex/deepmerge": "^2.6.34",
+    "@types/js-yaml": "^4.0.4",
+    "@types/node": "^16.11.7",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.4",
-    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
