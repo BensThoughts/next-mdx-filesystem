@@ -2,19 +2,19 @@
 import {
   Expand,
   ISlugData,
-} from '../interface';
+} from '../interface.js';
 
-import {getDirentData, readDir} from '../file';
+import {getDirentData, readDir} from '../file/index.js';
 import {
   getFullPathFromSlug,
   getSlugPath,
   slugArrayToString,
   slugPathToArray,
-} from '../path';
+} from '../path/index.js';
 
 import {
   POSTS_DIR,
-} from '../config';
+} from '../config/index.js';
 
 // const {
 //   POSTS_DIR,

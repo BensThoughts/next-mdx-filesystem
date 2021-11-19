@@ -1,18 +1,18 @@
 import {
   IMdxArticleData,
-} from '../interface';
+} from '../interface.js';
 
 import {
   getSlugPath,
   getFileName,
   getDirIndex,
-} from '../path';
+} from '../path/index.js';
 
 import {
   doesFileExist,
   getFileModifiedDate,
   readFile,
-} from '../file';
+} from '../file/index.js';
 
 import matter from 'gray-matter';
 import yaml from 'js-yaml';

@@ -4,7 +4,7 @@ import path from 'path';
 
 import {
   EXCLUDED_PROD_DIRS,
-} from '../config';
+} from '../config/index.js';
 
 
 export const readFile = (path: string): string => {

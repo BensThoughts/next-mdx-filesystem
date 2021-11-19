@@ -3,16 +3,16 @@ import {
   Expand,
   IStaticPath,
   IPageDataOpts,
-} from '../interface';
+} from '../interface.js';
 
-import {getDirectoryTree} from '../tree';
-import {getDirectoryArray} from '../array';
-import {getBlogPostData} from '../data';
+import {getDirectoryTree} from '../tree/index.js';
+import {getDirectoryArray} from '../array/index.js';
+import {getBlogPostData} from '../data/index.js';
 import {
   slugArrayToString,
   getPathEntry,
-} from '../path';
-import {getAllSlugs} from '../slugs';
+} from '../path/index.js';
+import {getAllSlugs} from '../slugs/index.js';
 
 export class MdxFilesystem<T> {
   async getPageData

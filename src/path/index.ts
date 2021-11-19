@@ -4,8 +4,8 @@ import fs from 'fs';
 import {
   POSTS_DIR,
   DIR_INDEX_FILE,
-} from '../config';
-import {IPathEntry} from '../interface';
+} from '../config/index.js';
+import {IPathEntry} from '../interface.js';
 
 
 // export const getPath = (...pathSegment: string[]): string => {

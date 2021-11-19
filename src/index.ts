@@ -1,2 +1,2 @@
-export * from './mdx-filesystem';
-export * from './interface';
+export * from './mdx-filesystem/index.js';
+export * from './interface.js';
