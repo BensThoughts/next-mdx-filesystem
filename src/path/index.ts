@@ -56,9 +56,6 @@ export function getPathEntry(slug: string): IPathEntry {
     };
   }
 
-  console.log('SLUG: ' + slug);
-  console.log('path:' + pathWithExtension);
-  console.log('path2: ' + pathWithoutExtension);
   throw Error(
       `Error, slug lead to neither a directory or .mdx file.
        Path checked: ${pathWithoutExtension}

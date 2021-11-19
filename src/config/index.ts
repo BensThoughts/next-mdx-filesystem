@@ -39,7 +39,7 @@ const updateConfig = (
 };
 
 const loadConfig = (path: string): IConfig => {
-  const baseConfig = loadFile<Partial<IConfig>>(path, true);
+  const baseConfig = loadFile<Partial<IConfig>>(path, false);
   const fullPathPostsDir = baseConfig?.postsDir ?
     getPath(baseConfig.postsDir) :
     defaultConfig.postsDir;
