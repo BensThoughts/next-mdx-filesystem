@@ -56,7 +56,13 @@ export function getPathEntry(slug: string): IPathEntry {
     };
   }
 
-  throw new Error(
-      `Error, slug lead to neither a directory or .mdx file + ${slug}`,
+  console.log('SLUG: ' + slug);
+  console.log('path:' + pathWithExtension);
+  console.log('path2: ' + pathWithoutExtension);
+  throw Error(
+      `Error, slug lead to neither a directory or .mdx file.
+       Path checked: ${pathWithoutExtension}
+       Check your mdx-filesystem.config.js file to make sure it
+       points to the directory that contains your mdx files.`,
   );
 }

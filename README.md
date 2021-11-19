@@ -14,16 +14,16 @@ inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
 ## Configuration
 
-configuration can be placed into `mdx-filesystem-config.js` at the root of a
+configuration can be placed into `mdx-filesystem.config.json` at the root of a
 project.
 
 It should take the form of
 
-```js
-module.exports = {
-  postsDir: string, // Default 'mdx-posts'
-  excludedProdDirs: string[], // Default []
-  dirIndexFile: string, // Default 'index.yaml'
+```json
+{
+  "postsDir": string, // Default "mdx-posts"
+  "excludedProdDirs": string[], // Default []
+  "dirIndexFile": string, // Default "index.yaml"
 };
 ```
 
@@ -100,8 +100,8 @@ getSlugs returns `IStaticPath[]`. It can be used directly and easily in
 getStaticPaths. Each slug is a string array of the path. For example /myslug/a
 translates to ['myslug', 'a'].  See [Next.js Dynamic
 Routes](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes) for
-more detail. Below is the shape of `IStaticPath[]`, it is the exact format that
-next.js expects for `paths` as shown below
+more detail. The code below is the shape of `IStaticPath[]`, it is the exact
+format that next.js expects for `paths`.
 
 ```ts
 slugs: {
@@ -112,8 +112,8 @@ slugs: {
 ```
 
 Perfect, simple, done, now next.js knows about all of the routes that exist
-based on the file structure of your mdx directory as configured in the
-configuration file as `postsDir`.
+based on the file structure of your mdx directory. Your mdx directory is the
+directory you set `postsDir` to in your `mdx-filesystem.config.json` file.
 
 ## Function Overview: `getPageData()`
 
@@ -127,22 +127,21 @@ property of the returned object. If the route that the slug points to is a
 directory then the property `directory` will exist along with all of the
 metadata about that directory and the mdx articles in it. If the route that the
 slug points to is an mdx article then the property `mdxArticle` will exist and
-will contain all of the metadata and content for that mdx file.
+it will contain all of the metadata and content for that mdx file.
 
 ## Calling: `getPageData()`
 
 >`getPageData()` should be called from within `getStaticProps()`.
 
 If you are calling it from within an `index.tsx`, for example
-`/pages/blog/index.tsx`, you can call it without a slugArray and it will give
-you back the `directory` property that contains all of the metadata for the root
-directory of your mdx articles as configured by `postsDir` in the configuration
-file.
+`/pages/blog/index.tsx`, you can call it without the `slugArray` property and it
+will give you back the `directory` property that contains all of the metadata
+for the root directory of your mdx articles as configured by `postsDir` in the
+configuration file `mdx-filesystem.config.json`.
 
-If you are calling it from within `[...slug]` for example
-`/pages/blog/[...slug]` you can feed it params.slug as given by next.js and it
+If you are calling it from within `[...slug]` for example `/pages/blog/[...slug]` you can feed it params.slug as given by next.js and it
 will give you back an object with `isDirectory` that will tell you if
-that path was a directory of an mdx article. If it was a directory the property
+that path was a directory or an mdx article. If it was a directory the property
 `directory` will contain a well organized data structure that represents all of
 the metadata for the directories and mdx articles that exist in that directory.
 If the path was an mdx article the property `mdxArticle` will contain a well
@@ -163,8 +162,8 @@ getPageData(args?: {
 
 `slugArray` is the current path. If in `[...slug]` page `{params.slug}` as given
 by next.js will be the slug array given for the current route. `{params.slug}`
-can be handed to getPageData to request data for that route. If in `index.tsx`
-this can be left out. More is explained in getPageData().
+can be used for `slugArray` to request data for that route. If in `index.tsx`
+this can be left out.
 
 `dirOptions`
 

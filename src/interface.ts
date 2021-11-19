@@ -38,7 +38,7 @@ export interface IPageData<T, R extends 'tree' | 'array' = 'tree'> {
   mdxArticle?: Expand<IMdxArticleData<T>>;
 }
 
-export interface IPageDataOpts<R extends 'tree' | 'array'> {
+export interface IPageDataOpts<R extends 'tree' | 'array' = 'tree'> {
   slugArray?: string[],
   dirOptions?: {
     returnType?: R,

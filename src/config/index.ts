@@ -7,7 +7,9 @@ import {
 
 const loadFile = <T>(path: string, throwError = true): T | undefined => {
   if (fs.existsSync(path)) {
-    return require(path) as T;
+    const config = fs.readFileSync(path, 'utf-8');
+    const userConfig = JSON.parse(config) as T;
+    return userConfig;
   }
 
   if (throwError) {
@@ -37,7 +39,7 @@ const updateConfig = (
 };
 
 const loadConfig = (path: string): IConfig => {
-  const baseConfig = loadFile<Partial<IConfig>>(path, false);
+  const baseConfig = loadFile<Partial<IConfig>>(path, true);
   const fullPathPostsDir = baseConfig?.postsDir ?
     getPath(baseConfig.postsDir) :
     defaultConfig.postsDir;
@@ -45,10 +47,10 @@ const loadConfig = (path: string): IConfig => {
     ...baseConfig,
     postsDir: fullPathPostsDir,
   };
-  return updateConfig(userConfig!);
+  return updateConfig(userConfig);
 };
 
-const config = loadConfig(getPath('mdx-filesystem-config.cjs'));
+const config = loadConfig(getPath('mdx-filesystem.config.json'));
 
 const productionConfig = {
   POSTS_DIR: config.postsDir,
