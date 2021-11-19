@@ -3,8 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import {
   IConfig,
-} from '../interface';
-import deepmerge from '@corex/deepmerge';
+} from '../interface.js';
 
 const loadFile = <T>(path: string, throwError = true): T | undefined => {
   if (fs.existsSync(path)) {
@@ -21,25 +20,25 @@ const getPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment);
 };
 
-const defaultConfig: Partial<IConfig> = {
-  postsDir: getPath('mdx-posts'),
-  excludedProdDirs: [],
-  dirIndexFile: 'index.yaml',
+const defaultConfig: IConfig = {
+  'postsDir': getPath('mdx-posts'),
+  'excludedProdDirs': [],
+  'dirIndexFile': 'index.yaml',
 };
 
 
 const updateConfig = (
-    currConfig: Partial<IConfig>,
-    newConfig: Partial<IConfig>,
+    userConfig: Partial<IConfig>,
 ): IConfig => {
-  return deepmerge.merge([currConfig, newConfig], {
-    arrayMergeType: 'overwrite',
-  }) as IConfig;
+  if (userConfig) {
+    return {...defaultConfig, ...userConfig};
+  }
+  return defaultConfig;
 };
 
-const withDefaultConfig = (config: Partial<IConfig>): IConfig => {
-  return updateConfig(defaultConfig, config);
-};
+// const withDefaultConfig = (config: Partial<IConfig>): IConfig => {
+//   return updateConfig(config);
+// };
 
 const loadConfig = (path: string): IConfig => {
   const baseConfig = loadFile<IConfig>(path, false);
@@ -50,10 +49,10 @@ const loadConfig = (path: string): IConfig => {
     ...baseConfig,
     postsDir: fullPathPostsDir,
   };
-  return withDefaultConfig(userConfig!);
+  return updateConfig(userConfig!);
 };
 
-const config = loadConfig(getPath('mdx-filesystem-config.js'));
+const config = loadConfig(getPath('mdx-filesystem-config.cjs'));
 
 const productionConfig = {
   POSTS_DIR: config.postsDir,
