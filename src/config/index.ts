@@ -4,7 +4,7 @@ import fs from 'fs';
 import {
   IConfig,
 } from '../interface';
-import {merge} from '@corex/deepmerge';
+import deepmerge from '@corex/deepmerge';
 
 const loadFile = <T>(path: string, throwError = true): T | undefined => {
   if (fs.existsSync(path)) {
@@ -32,7 +32,7 @@ const updateConfig = (
     currConfig: Partial<IConfig>,
     newConfig: Partial<IConfig>,
 ): IConfig => {
-  return merge([currConfig, newConfig], {
+  return deepmerge.merge([currConfig, newConfig], {
     arrayMergeType: 'overwrite',
   }) as IConfig;
 };
