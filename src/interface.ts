@@ -40,7 +40,7 @@ export interface IPageData<T, R extends 'tree' | 'array' = 'tree'> {
 
 export interface IPageDataOpts<R extends 'tree' | 'array'> {
   slugArray?: string[],
-  options?: {
+  dirOptions?: {
     returnType?: R,
     shallow?: boolean,
     reSortArray?: boolean,

@@ -24,10 +24,10 @@ export class MdxFilesystem<T> {
     <R extends 'tree' | 'array' = 'tree'>(
       args?:IPageDataOpts<R>,
   ) {
-      const options = args?.options;
-      const returnType = options?.returnType ? options.returnType : 'tree';
-      const shallow = options?.shallow === true ? true : false;
-      const reSortArray = options?.reSortArray === false ? false : true;
+      const dirOptions = args?.dirOptions;
+      const returnType = dirOptions?.returnType || 'tree';
+      const shallow = dirOptions?.shallow === true ? true : false;
+      const reSortArray = dirOptions?.reSortArray === false ? false : true;
 
       const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
       const {pathType, fullPath} = getPathEntry(slug);
