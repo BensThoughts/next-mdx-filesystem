@@ -1,22 +1,10 @@
 {
   "name": "next-mdx-filesystem",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A fully typed library to statically get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and output a convenient tree or array data structure that includes .mdx/directory metadata and content.",
-  "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": ".dist/index.js",
+  "types": "index.d.ts",
   "type": "module",
-  "scripts": {
-    "prepublish": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "next.js",
-    "static",
-    "mdx",
-    "filesystem"
-  ],
-  "author": "Benjamin Blumenfeld-Jones",
-  "license": "ISC",
   "dependencies": {
     "@corex/deepmerge": "^2.6.34",
     "@types/js-yaml": "^4.0.4",
@@ -30,5 +18,23 @@
     "eslint": "^8.2.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.3.1"
-  }
+  },
+  "scripts": {
+    "prepublish": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "next",
+    "next.js",
+    "markdown",
+    "mdx",
+    "filesystem"
+  ],
+  "author": "Benjamin Blumenfeld-Jones",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BensThoughts/next-mdx-filesystem.git"
+  },
+  "sideEffects": false
 }
