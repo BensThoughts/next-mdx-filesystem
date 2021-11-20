@@ -19,11 +19,11 @@ project.
 
 It should take the form of
 
-```js
+```ts
 {
-  "postsDir": "string", // Default "mdx-posts"
-  "excludedProdDirs": "Array<string>", // Default []
-  "dirIndexFile": "string", // Default "index.yaml"
+  "postsDir": string, // Default "mdx-posts"
+  "excludedProdDirs": Array<string>, // Default []
+  "dirIndexFile": string, // Default "index.yaml"
 }
 ```
 
