@@ -19,7 +19,7 @@ project.
 
 It should take the form of
 
-```json
+```js
 {
   "postsDir": "string", // Default "mdx-posts"
   "excludedProdDirs": "Array<string>", // Default []
