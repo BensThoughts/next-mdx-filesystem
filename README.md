@@ -1,10 +1,10 @@
 # next-mdx-filesystem
 
 Ever wanted to define the shape of you mdx front matter data in your next.js
-project? This package is for you. Ever wanted to organize you articles into
+project? This package is for you. Ever wanted to organize your articles into
 folders that represent categories but don't want to write an algorithm that will
-correctly walk through them all recursively and give you back all of them mdx
-and directory metadata? This package is also for you.
+correctly walk through them all recursively and give you back all of the mdx
+and directory metadata? This package is for you.
 
 This package provides 2 functions that read the contents of a directory and give
 you back the data in a format that is easy for react components to consume.
