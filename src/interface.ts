@@ -3,11 +3,11 @@ export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 //   ? T extends infer O ? { [K in keyof O]: ExpandRecursively<O[K]> } : never
 //   : T;
 
-export type DirectoryTree<T> = IDirectoryData<T> & {
+export type DirectoryTree<T> = DirectoryData<T> & {
   directories: DirectoryTree<T>[];
 }
 
-export interface IDirectoryData<T> {
+export interface DirectoryData<T> {
     dirName: string;
     dirMtimeDate: string;
     dirMetadata: {
@@ -16,10 +16,10 @@ export interface IDirectoryData<T> {
       slug: string;
       description: string | null;
     }
-    mdxArticles: IMdxArticleData<T>[]
+    mdxArticles: MdxArticleData<T>[]
   }
 
-export interface IMdxArticleData<T> {
+export interface MdxArticleData<T> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
@@ -30,15 +30,13 @@ export interface IMdxArticleData<T> {
   } & T;
 }
 
-export interface IPageData<T, R extends 'tree' | 'array' = 'tree'> {
+export interface PageData<T, R extends 'tree' | 'array' = 'tree'> {
   isDirectory: boolean;
-  directory?: {
-    data: R extends 'tree' ? DirectoryTree<T> : Expand<IDirectoryData<T>>[];
-  },
-  mdxArticle?: Expand<IMdxArticleData<T>>;
+  directory?: R extends 'tree' ? DirectoryTree<T> : Expand<DirectoryData<T>>[];
+  mdxArticle?: Expand<MdxArticleData<T>>;
 }
 
-export interface IPageDataOpts<R extends 'tree' | 'array' = 'tree'> {
+export interface PageDataOpts<R extends 'tree' | 'array' = 'tree'> {
   slugArray?: string[],
   dirOptions?: {
     returnType?: R,
@@ -47,27 +45,22 @@ export interface IPageDataOpts<R extends 'tree' | 'array' = 'tree'> {
   },
 }
 
-export interface IConfig {
+export interface GlobalConfig {
   postsDir: string;
   excludedProdDirs: string[];
   dirIndexFile: string;
 }
-
-export interface IExportMarker {
-  exportTrailingSlash: boolean
+export interface SlugData {
+  directories: StaticPath[],
+  mdxArticles: StaticPath[],
 }
 
-export interface ISlugData {
-  directories: IStaticPath[],
-  mdxArticles: IStaticPath[],
-}
-
-export interface IStaticPath {
+export interface StaticPath {
   params: {
     slug: string[];
   }
 }
-export interface IPathEntry {
+export interface PathEntry {
   pathType?: 'dir' | 'mdx';
   fullPath: string;
 }

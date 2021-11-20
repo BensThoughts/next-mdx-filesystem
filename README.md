@@ -32,7 +32,7 @@ can be a relative path, absolute path, or just the name of the directory if the
 directory is in the root of the project.
 
 `excludedProdDirs` is an array of folder names that you would like to exclude
-from your production build. For example `['drafts']`
+from your production build. For example `["drafts"]`
 
 `dirIndexFile` is the name of a special file that you can place into any
 directory to specify the metadata for a directory. Currently supported metadata
@@ -81,7 +81,7 @@ always be given to you based on the filesystem path to the file.
 
 >`getSlugs()` should be called from within `getStaticPaths()`
 
-This can be used inside of a catch all next route that uses slug. i.e. a page named `[...slug]`.
+This can be used inside of a catch all next route that uses slug. i.e. a page named `[...slug].tsx`.
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -139,7 +139,7 @@ will give you back the `directory` property that contains all of the metadata
 for the root directory of your mdx articles as configured by `postsDir` in the
 configuration file `mdx-filesystem.config.json`.
 
-If you are calling it from within `[...slug]` for example `/pages/blog/[...slug]` you can feed it params.slug as given by next.js and it
+If you are calling it from within `[...slug].tsx` for example `/pages/blog/[...slug].tsx` you can feed it params.slug as given by next.js and it
 will give you back an object with `isDirectory` that will tell you if
 that path was a directory or an mdx article. If it was a directory the property
 `directory` will contain a well organized data structure that represents all of
@@ -160,7 +160,7 @@ getPageData(args?: {
 })
 ```
 
-`slugArray` is the current path. If in `[...slug]` page `{params.slug}` as given
+`slugArray` is the current path. If in `[...slug].tsx` page `{params.slug}` as given
 by next.js will be the slug array given for the current route. `{params.slug}`
 can be used for `slugArray` to request data for that route. If in `index.tsx`
 this can be left out.
@@ -177,13 +177,17 @@ this can be left out.
 ## Return Data Structures: `getPageData()`
 
 The general return structure of `getPageData()` is...
+
 ```ts
 {
   isDirectory: boolean,
-  directory: DirectoryTree | DirectoryData[],
-  mdxArticle: MdxArticleData
+  directory: DirectoryTree<T> | DirectoryData<T>[],
+  mdxArticle: MdxArticleData<T>
 }
 ```
+
+Where T is the shape of *your* mdx metadata as given when you imported and
+created the MdxFilesystem class. `DirectoryTree<T>` and `DirectoryData<T>[]`
 
 Listed below are the 3 main data structures that may be returned by
 `getPageData()`.
@@ -194,7 +198,7 @@ Listed below are the 3 main data structures that may be returned by
 If the route was an mdx article the `mdxArticle` property will contain...
 
 ```ts
-interface IMdxArticleData<T> {
+interface MdxArticleData<T> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
@@ -238,8 +242,8 @@ type DirectoryTree<T> = {
 }
 ```
 
-This is a recursive data structure. You can walk the entire directory tree in
-the manner. Given a react component that displays a list of the `directories`
+This is a recursive data structure. You can walk the entire directory tree with
+it. Given a react component that displays a list of the `directories`
 property and all of the slugs within them you can let your users click through
 the directory tree or with the `shallow` option set to false you could display
 an entire directory tree all at once.
@@ -248,7 +252,7 @@ If the `returnType` is 'array' the `directory` property will contain an array of
 `IDirectoryData`...
 
 ```ts
-interface IDirectoryData<T> {
+interface DirectoryData<T> {
     dirName: string;
     dirMtimeDate: string;
     dirMetadata: {
@@ -257,10 +261,96 @@ interface IDirectoryData<T> {
       slug: string;
       description: string | null;
     }
-    mdxArticles: IMdxArticleData<T>[]
+    mdxArticles: MdxArticleData<T>[]
 }[]
 ```
 
 This is convenient for displaying a list of all directories (categories in most
 cases) and the mdx articles they hold. You may want to use this on your main
 /blog route.
+
+
+## Examples
+
+### Array example:
+
+Given the files in the pages directory `/pages/blog/index.tsx` and
+`/pages/blog/[...slug].tsx`.
+
+/pages/blog/index.tsx...
+
+```tsx
+import type {GetStaticProps} from 'next';
+import BlogListLayoutArr from '@app/components/mdx/BlogListLayoutArr';
+
+export interface BlogArticleMetaData {
+  slug: string,
+  title: string,
+  date: string,
+  description: string,
+  readTime: number,
+}
+
+import {MdxFilesystem, DirectoryData} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+
+export const getStaticProps: GetStaticProps = async () => {
+  const {directory} = await mdxFilesystem.getPageData({
+      dirOptions: {
+        returnType: 'array'
+      }
+  });
+
+  return {
+    props: {
+      directory,
+    },
+  };
+};
+
+interface BlogPageProps {
+  directory: {
+    data: IDirectoryData<BlogArticleMetaData>[];
+  };
+}
+
+export default function BlogPage({directory}: BlogPageProps) {
+  const {data} = directory;
+  return (
+    <div>
+      {data.map((dir) => {
+        if (dir.mdxArticles.length > 0) {
+          return (
+            <React.Fragment key={dir.dirMetadata.title}>
+              <div>
+                {dir.dirMetadata.title}
+              </div>
+              <ul>
+                {dir.mdxArticles.map(({metadata}) => (
+                  <li key={metadata.slug}>
+                    <Link href={`/blog${metadata.slug}`}>
+                      {metadata.title}
+                    </Link>
+                    <span>
+                      {metadata.date}
+                    </span>
+                    <span>
+                      {metadata.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </React.Fragment>
+          );
+        }
+      })}
+    </div>
+  )
+};
+```
+
+/pages/blog/[...slug].tsx...
+
+```tsx
+
+```

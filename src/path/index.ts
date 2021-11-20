@@ -5,7 +5,7 @@ import {
   POSTS_DIR,
   DIR_INDEX_FILE,
 } from '../config/index.js';
-import {IPathEntry} from '../interface.js';
+import {PathEntry} from '../interface.js';
 
 
 // export const getPath = (...pathSegment: string[]): string => {
@@ -38,7 +38,7 @@ export function getSlugPath(fullPath: string) {
   return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
 }
 
-export function getPathEntry(slug: string): IPathEntry {
+export function getPathEntry(slug: string): PathEntry {
   const pathWithoutExtension = getFullPathFromSlug(slug);
   const pathExists = fs.existsSync(pathWithoutExtension);
   if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {

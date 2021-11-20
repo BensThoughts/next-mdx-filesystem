@@ -1,5 +1,5 @@
 import {
-  IDirectoryData,
+  DirectoryData,
   DirectoryTree,
 } from '../interface.js';
 
@@ -28,8 +28,8 @@ export function getDirectoryArray<T>(
 
 function getDirectoryArrayFromTree<T>(
     dirTree: DirectoryTree<T>,
-    dirArray?: IDirectoryData<T>[],
-): IDirectoryData<T>[] {
+    dirArray?: DirectoryData<T>[],
+): DirectoryData<T>[] {
   const {
     dirName,
     dirMtimeDate,

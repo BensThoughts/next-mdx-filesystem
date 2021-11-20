@@ -2,7 +2,7 @@
 import path from 'path';
 import fs from 'fs';
 import {
-  IConfig,
+  GlobalConfig,
 } from '../interface.js';
 
 const loadFile = <T>(path: string, throwError = true): T | undefined => {
@@ -22,7 +22,7 @@ const getPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment);
 };
 
-const defaultConfig: IConfig = {
+const defaultConfig: GlobalConfig = {
   'postsDir': getPath('mdx-posts'),
   'excludedProdDirs': [],
   'dirIndexFile': 'index.yaml',
@@ -30,20 +30,20 @@ const defaultConfig: IConfig = {
 
 
 const updateConfig = (
-    userConfig: Partial<IConfig>,
-): IConfig => {
+    userConfig: Partial<GlobalConfig>,
+): GlobalConfig => {
   if (userConfig) {
     return {...defaultConfig, ...userConfig};
   }
   return defaultConfig;
 };
 
-const loadConfig = (path: string): IConfig => {
-  const baseConfig = loadFile<Partial<IConfig>>(path, false);
+const loadConfig = (path: string): GlobalConfig => {
+  const baseConfig = loadFile<Partial<GlobalConfig>>(path, false);
   const fullPathPostsDir = baseConfig?.postsDir ?
     getPath(baseConfig.postsDir) :
     defaultConfig.postsDir;
-  const userConfig: Partial<IConfig> = {
+  const userConfig: Partial<GlobalConfig> = {
     ...baseConfig,
     postsDir: fullPathPostsDir,
   };

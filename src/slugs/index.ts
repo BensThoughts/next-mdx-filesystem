@@ -1,7 +1,7 @@
 
 import {
   Expand,
-  ISlugData,
+  SlugData,
 } from '../interface.js';
 
 import {getDirentData, readDir} from '../file/index.js';
@@ -23,8 +23,8 @@ import {
 // };
 
 
-function getSlugsInDir(cwd: string):Expand<ISlugData> {
-  const slugData: ISlugData = {
+function getSlugsInDir(cwd: string):Expand<SlugData> {
+  const slugData: SlugData = {
     directories: [],
     mdxArticles: [],
   };
@@ -58,7 +58,7 @@ function getSlugsInDir(cwd: string):Expand<ISlugData> {
 
 export function getAllSlugs(
     cwd = POSTS_DIR,
-    slugData:ISlugData = {
+    slugData:SlugData = {
       directories: [],
       mdxArticles: [],
     },

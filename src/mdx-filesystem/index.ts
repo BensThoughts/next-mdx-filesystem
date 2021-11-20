@@ -1,8 +1,8 @@
 import {
-  IPageData,
+  PageData,
   Expand,
-  IStaticPath,
-  IPageDataOpts,
+  StaticPath,
+  PageDataOpts,
 } from '../interface.js';
 
 import {getDirectoryTree} from '../tree/index.js';
@@ -17,12 +17,12 @@ import {getAllSlugs} from '../slugs/index.js';
 export class MdxFilesystem<T> {
   async getPageData
     <R extends 'tree' | 'array' = 'tree'>(
-      args?: IPageDataOpts<R>
-    ): Promise<Expand<IPageData<T, R>>>;
+      args?: PageDataOpts<R>
+    ): Promise<Expand<PageData<T, R>>>;
 
   async getPageData
     <R extends 'tree' | 'array' = 'tree'>(
-      args?:IPageDataOpts<R>,
+      args?:PageDataOpts<R>,
   ) {
       const dirOptions = args?.dirOptions;
       const returnType = dirOptions?.returnType || 'tree';
@@ -35,16 +35,12 @@ export class MdxFilesystem<T> {
       if (pathType === 'dir') {
         const result = returnType === 'tree' ? {
           isDirectory: true,
-          directory: {
-            data: getDirectoryTree<T>(fullPath, shallow),
-          },
+          directory: getDirectoryTree<T>(fullPath, shallow),
         } : {
           isDirectory: true,
-          directory: {
-            data: getDirectoryArray<T>(fullPath, shallow, reSortArray),
-          },
+          directory: getDirectoryArray<T>(fullPath, shallow, reSortArray),
         };
-        return result as Expand<IPageData<T, R>>;
+        return result as Expand<PageData<T, R>>;
       } else if (pathType === 'mdx') {
         return {
           isDirectory: false,
@@ -53,7 +49,7 @@ export class MdxFilesystem<T> {
       }
     }
 
-  getSlugs(): Expand<IStaticPath>[];
+  getSlugs(): Expand<StaticPath>[];
   getSlugs() {
     const {directories, mdxArticles} = getAllSlugs();
 
