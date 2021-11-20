@@ -21,10 +21,10 @@ It should take the form of
 
 ```json
 {
-  "postsDir": string, // Default "mdx-posts"
-  "excludedProdDirs": string[], // Default []
-  "dirIndexFile": string, // Default "index.yaml"
-};
+  "postsDir": "string", // Default "mdx-posts"
+  "excludedProdDirs": "Array<string>", // Default []
+  "dirIndexFile": "string", // Default "index.yaml"
+}
 ```
 
 `postDir` is the primary directory where all of your mdx files are stored. It
