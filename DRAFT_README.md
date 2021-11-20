@@ -269,3 +269,140 @@ interface DirectoryData<T> {
 This is convenient for displaying a list of all directories (categories in most
 cases) and the mdx articles they hold. You may want to use this return type on
 your main /blog route.
+
+
+## Examples
+
+### Array example:
+
+Given the files in the pages directory `/pages/blog/index.tsx` and
+`/pages/blog/[...slug].tsx`.
+
+/pages/blog/index.tsx...
+
+```tsx
+import type {GetStaticProps} from 'next';
+import {MdxFilesystem, DirectoryData} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+
+interface BlogArticleMetaData {
+  slug: string,
+  title: string,
+  date: string,
+  description: string,
+  readTime: number,
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const {directory} = await mdxFilesystem.getPageData({
+      dirOptions: {
+        returnType: 'array'
+      }
+  });
+
+  return {
+    props: {
+      directory,
+    },
+  };
+};
+
+interface BlogPageProps {
+  directory: {
+    data: DirectoryData<BlogArticleMetaData>[];
+  };
+}
+
+export default function BlogPage({directory}: BlogPageProps) {
+  return (
+    <div>
+      {directory.map((dir) => {
+        if (dir.mdxArticles.length > 0) {
+          return (
+            <React.Fragment key={dir.dirMetadata.title}>
+              <div>
+                {dir.dirMetadata.title}
+              </div>
+              <ul>
+                {dir.mdxArticles.map(({metadata}) => (
+                  <li key={metadata.slug}>
+                    <Link href={`/blog${metadata.slug}`}>
+                      {metadata.title}
+                    </Link>
+                    <span>
+                      {metadata.date}
+                    </span>
+                    <span>
+                      {metadata.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </React.Fragment>
+          );
+        }
+      })}
+    </div>
+  )
+};
+```
+
+/pages/blog/[...slug].tsx...
+
+```tsx
+import {GetStaticPaths, GetStaticProps} from 'next';
+import {MDXRemoteSerializeResult} from 'next-mdx-remote';
+import {MdxFilesystem, DirectoryData} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+
+interface BlogArticleMetaData {
+  slug: string,
+  title: string,
+  date: string,
+  description: string,
+  readTime: number,
+}
+
+interface SlugPageProps {
+  isDirectory: boolean;
+  directory?: DirectoryData<BlogArticleMetaData>[],
+  article?: {
+    content: MDXRemoteSerializeResult,
+    metadata: BlogArticleMetaData,
+  }
+}
+
+export default function SlugPage({
+  isDirectory,
+  directory,
+  article,
+}: SlugPageProps) {
+  const router = useRouter();
+  const currentRoute = router.asPath;
+
+  if (isDirectory && directory) {
+    if (Array.isArray(directory)) {
+      return (
+        <BlogListLayoutArr
+          dirArr={directory}
+        />
+      );
+    } else {
+      return (
+        <BlogListLayout
+          dirTree={directory}
+        />
+      );
+    }
+  } else if (article) {
+    return (
+      <BlogLayout
+        content={article.content}
+        url={`${seoConfig.openGraph.url}${currentRoute}`}
+        metadata={article.metadata}
+      />
+    );
+  }
+};
+
+```
