@@ -16,7 +16,7 @@ inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
 ## Configuration
 
-configuration can be placed into `mdx-filesystem.config.json` at the root of a
+Configuration can be placed into `mdx-filesystem.config.json` at the root of a
 project.
 
 It should take the form of
@@ -72,8 +72,8 @@ const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>()
 ```
 
 The type you place into `MdxFilesystem` defines the shape of your mdx front
-matter data. By default your mdx metadata will always include title, date, and
-slug. If an mdx file fails to provide any of them or you just don't define them,
+matter data. By default your mdx metadata will always include `title`, `date`,
+and `slug`. If an mdx file fails to provide any of them in its front matter,
 sensible defaults will be given back to you. `title` will become the name of the
 file. `date` will become the files last modified date as (yyyy-mm-dd). `slug` is
 unique in that it cannot be set manually within your front matter and will
