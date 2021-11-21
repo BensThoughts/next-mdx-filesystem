@@ -60,7 +60,7 @@ export interface StaticPath {
     slug: string[];
   }
 }
-export interface PathEntry {
-  pathType?: 'dir' | 'mdx';
-  fullPath: string;
-}
+// export interface PathEntry {
+//   pathType?: 'dir' | 'mdx';
+//   fullPath: string;
+// }

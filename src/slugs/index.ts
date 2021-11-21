@@ -4,23 +4,18 @@ import {
   SlugData,
 } from '../interface.js';
 
-import {getDirentData, readDir} from '../file/index.js';
+import {readDir} from '../file/index.js';
 import {
   getFullPathFromSlug,
-  getSlugPath,
+  getSlugFromFullPath,
   slugArrayToString,
-  slugPathToArray,
+  slugToArray,
+  getDirentData,
 } from '../path/index.js';
 
 import {
   POSTS_DIR,
 } from '../config/index.js';
-
-// const {
-//   POSTS_DIR,
-// } = {
-//   POSTS_DIR: getPath('posts-mdx'),
-// };
 
 
 function getSlugsInDir(cwd: string):Expand<SlugData> {
@@ -35,19 +30,18 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
       isMdx,
       isExcludedPath,
       fullPath,
-      // slugPath,
     } = getDirentData(cwd, dirent);
-    const slugPath = getSlugPath(fullPath);
+    const slugPath = getSlugFromFullPath(fullPath);
     if (!isDirectory && isMdx) {
       slugData.mdxArticles.push({
         params: {
-          slug: slugPathToArray(slugPath),
+          slug: slugToArray(slugPath),
         },
       });
     } else if (isDirectory && !isExcludedPath) {
       slugData.directories.push({
         params: {
-          slug: slugPathToArray(slugPath),
+          slug: slugToArray(slugPath),
         },
       });
     };
@@ -56,7 +50,7 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
   return slugData;
 }
 
-export function getAllSlugs(
+export default function getAllSlugs(
     cwd = POSTS_DIR,
     slugData:SlugData = {
       directories: [],

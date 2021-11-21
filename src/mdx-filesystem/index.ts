@@ -1,18 +1,28 @@
 import {
+  // PathEntry,
   PageData,
   Expand,
   StaticPath,
   PageDataOpts,
 } from '../interface.js';
 
-import {getDirectoryTree} from '../tree/index.js';
-import {getDirectoryArray} from '../array/index.js';
-import {getBlogPostData} from '../data/index.js';
+import {
+  getDirectoryArray,
+  getDirectoryTree,
+  getMdxData,
+} from '../page-data';
+
 import {
   slugArrayToString,
-  getPathEntry,
+  getFullPathFromSlug,
 } from '../path/index.js';
-import {getAllSlugs} from '../slugs/index.js';
+
+import {
+  doesPathExist,
+  isPathDir,
+  isPathFile,
+} from '../file/index.js';
+import getAllSlugs from '../slugs/index.js';
 
 export class MdxFilesystem<T> {
   async getPageData
@@ -30,23 +40,35 @@ export class MdxFilesystem<T> {
       const reSortArray = dirOptions?.reSortArray === false ? false : true;
 
       const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
-      const {pathType, fullPath} = getPathEntry(slug);
 
-      if (pathType === 'dir') {
+      const dirPath = getFullPathFromSlug(slug);
+      const dirPathExists = doesPathExist(dirPath);
+      if (dirPathExists && isPathDir(dirPath)) {
         const result = returnType === 'tree' ? {
           isDirectory: true,
-          directory: getDirectoryTree<T>(fullPath, shallow),
+          directory: getDirectoryTree<T>(dirPath, shallow),
         } : {
           isDirectory: true,
-          directory: getDirectoryArray<T>(fullPath, shallow, reSortArray),
+          directory: getDirectoryArray<T>(dirPath, shallow, reSortArray),
         };
         return result as Expand<PageData<T, R>>;
-      } else if (pathType === 'mdx') {
+      }
+
+      const mdxPath = `${dirPath}.mdx`;
+      const mdxPathExists = doesPathExist(mdxPath);
+      if (mdxPathExists && isPathFile(mdxPath)) {
         return {
           isDirectory: false,
-          mdxArticle: getBlogPostData<T>(fullPath, true),
-        };
+          mdxArticle: getMdxData<T>(mdxPath, true),
+        } as Expand<PageData<T, R>>;
       }
+
+      throw Error(
+          `Error, slug lead to neither a directory or .mdx file.
+           Path checked: ${dirPath}
+           Check your mdx-filesystem.config.js file to make sure it
+           points to the directory that contains your mdx files.`,
+      );
     }
 
   getSlugs(): Expand<StaticPath>[];
@@ -56,3 +78,29 @@ export class MdxFilesystem<T> {
     return [...directories, ...mdxArticles];
   };
 }
+
+// function getPathEntry(slug: string): PathEntry {
+//   const pathWithoutExtension = getFullPathFromSlug(slug);
+//   const pathExists = doesPathExist(pathWithoutExtension);
+//   if (pathExists && isPathDir(pathWithoutExtension)) {
+//     return {
+//       pathType: 'dir',
+//       fullPath: pathWithoutExtension,
+//     };
+//   }
+//   const pathWithExtension = `${pathWithoutExtension}.mdx`;
+//   const mdxPathExists = doesPathExist(pathWithExtension);
+//   if (mdxPathExists && isPathFile(pathWithExtension)) {
+//     return {
+//       pathType: 'mdx',
+//       fullPath: pathWithExtension,
+//     };
+//   }
+
+//   throw Error(
+//       `Error, slug lead to neither a directory or .mdx file.
+//        Path checked: ${pathWithoutExtension}
+//        Check your mdx-filesystem.config.js file to make sure it
+//        points to the directory that contains your mdx files.`,
+//   );
+// }

@@ -29,7 +29,7 @@ It should take the form of
 }
 ```
 
-`postDir` is the primary directory where all of your mdx files are stored. It
+`postsDir` is the primary directory where all of your mdx files are stored. It
 can be a relative path, absolute path, or just the name of the directory if the
 directory is in the root of the project.
 
@@ -49,7 +49,7 @@ description: string | undefined
 
 `date` should take the form yyyy-mm-dd. By default `title` and `date` will
 always be included in the metadata of a directory.  If there is no index file in
-a directory the name of the directory and the last modified date will be used for title and date respectively.
+a directory the name of the directory and the last modified date will be used for `title` and `date` respectively.
 
 
 ## How to import and Typescript configuration
@@ -87,7 +87,9 @@ always be given to you based on the filesystem path to the file.
 the file structure of your mdx directory. Your mdx directory is the directory
 you set `postsDir` to in your `mdx-filesystem.config.json` file.
 
-This can be used inside of a catch all next route that uses slug. i.e. a page named `[...slug].tsx`.
+`getSlugs()` can be used inside of a next.js catch all route. Specifically it
+should be used inside of a page named `[...slug].tsx`.  You can read more about
+catch all routes in the next.js docs [here](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes).
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -138,6 +140,12 @@ If you are calling it from within an `index.tsx`, for example
 will give you back the `directory` property that contains all of the metadata
 for the root directory of your mdx articles as configured by `postsDir` in the
 configuration file `mdx-filesystem.config.json`.
+
+Example: `/pages/blog/index.tsx`:
+
+```
+
+```
 
 If you are calling it from within `[...slug].tsx` for example `/pages/blog/[...slug].tsx` you can feed it `params.slug` as given by next.js and it
 will give you back an object with `isDirectory` that will tell you if

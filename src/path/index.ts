@@ -4,9 +4,8 @@ import fs from 'fs';
 import {
   POSTS_DIR,
   DIR_INDEX_FILE,
+  EXCLUDED_PROD_DIRS,
 } from '../config/index.js';
-import {PathEntry} from '../interface.js';
-
 
 // export const getPath = (...pathSegment: string[]): string => {
 //   return path.resolve(process.cwd(), ...pathSegment);
@@ -17,49 +16,41 @@ export const getFullPathFromSlug = (slug: string): string => {
   return path.resolve(POSTS_DIR, slug);
 };
 
-export function slugPathToArray(slugPath: string) {
-  const slugArr = slugPath.replace(/^\//, '').split(path.sep);
+export function slugToArray(slug: string): string[] {
+  const slugArr = slug.replace(/^\//, '').split(path.sep);
   return slugArr;
 }
 
-export function slugArrayToString(slugPath: string[]) {
-  return path.join(...slugPath);
+export function slugArrayToString(slug: string[]): string {
+  return path.join(...slug);
 }
 
-export function getFileName(fullPath: string) {
+export function getFileName(fullPath: string): string {
   return path.basename(fullPath);
 }
 
-export function getDirIndex(dirPath: string) {
+export function getDirIndex(dirPath: string): string {
   return path.join(dirPath, DIR_INDEX_FILE);
 }
 
-export function getSlugPath(fullPath: string) {
-  return fullPath.replace(POSTS_DIR, '').replace('.mdx', '');
+export function getSlugFromFullPath(fullPath: string): string {
+  return fullPath
+      .replace(POSTS_DIR, '')
+      .replace(path.sep, '/')
+      .replace('.mdx', '');
 }
 
-export function getPathEntry(slug: string): PathEntry {
-  const pathWithoutExtension = getFullPathFromSlug(slug);
-  const pathExists = fs.existsSync(pathWithoutExtension);
-  if (pathExists && fs.statSync(pathWithoutExtension).isDirectory()) {
-    return {
-      pathType: 'dir',
-      fullPath: pathWithoutExtension,
-    };
-  }
-  const pathWithExtension = `${pathWithoutExtension}.mdx`;
-  const mdxPathExists = fs.existsSync(pathWithExtension);
-  if (mdxPathExists && fs.statSync(pathWithExtension).isFile()) {
-    return {
-      pathType: 'mdx',
-      fullPath: pathWithExtension,
-    };
-  }
-
-  throw Error(
-      `Error, slug lead to neither a directory or .mdx file.
-       Path checked: ${pathWithoutExtension}
-       Check your mdx-filesystem.config.js file to make sure it
-       points to the directory that contains your mdx files.`,
-  );
+export function getDirentData(cwd: string, dirent: fs.Dirent) {
+  const fullPath = path.join(cwd, dirent.name);
+  const isMdx = path.extname(fullPath) === '.mdx';
+  const isDirectory = dirent.isDirectory();
+  const excludedRoutes =
+    process.env.NODE_ENV === 'production' ? EXCLUDED_PROD_DIRS : [];
+  const isExcludedPath = excludedRoutes.includes(dirent.name);
+  return {
+    fullPath,
+    isMdx,
+    isDirectory,
+    isExcludedPath,
+  };
 }

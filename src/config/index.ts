@@ -5,7 +5,7 @@ import {
   GlobalConfig,
 } from '../interface.js';
 
-const loadFile = <T>(path: string, throwError = true): T | undefined => {
+const loadConfigFile = <T>(path: string, throwError = true): T | undefined => {
   if (fs.existsSync(path)) {
     const config = fs.readFileSync(path, 'utf-8');
     const userConfig = JSON.parse(config) as T;
@@ -18,12 +18,12 @@ const loadFile = <T>(path: string, throwError = true): T | undefined => {
 };
 
 
-const getPath = (...pathSegment: string[]): string => {
+const getConfigPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment);
 };
 
 const defaultConfig: GlobalConfig = {
-  'postsDir': getPath('mdx-posts'),
+  'postsDir': getConfigPath('mdx-posts'),
   'excludedProdDirs': [],
   'dirIndexFile': 'index.yaml',
 };
@@ -39,9 +39,9 @@ const updateConfig = (
 };
 
 const loadConfig = (path: string): GlobalConfig => {
-  const baseConfig = loadFile<Partial<GlobalConfig>>(path, false);
+  const baseConfig = loadConfigFile<Partial<GlobalConfig>>(path, false);
   const fullPathPostsDir = baseConfig?.postsDir ?
-    getPath(baseConfig.postsDir) :
+    getConfigPath(baseConfig.postsDir) :
     defaultConfig.postsDir;
   const userConfig: Partial<GlobalConfig> = {
     ...baseConfig,
@@ -50,7 +50,7 @@ const loadConfig = (path: string): GlobalConfig => {
   return updateConfig(userConfig);
 };
 
-const config = loadConfig(getPath('mdx-filesystem.config.json'));
+const config = loadConfig(getConfigPath('mdx-filesystem.config.json'));
 
 const productionConfig = {
   POSTS_DIR: config.postsDir,

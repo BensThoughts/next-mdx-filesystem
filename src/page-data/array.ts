@@ -3,13 +3,11 @@ import {
   DirectoryTree,
 } from '../interface.js';
 
-import {
-  getDirectoryTree,
-} from '../tree/index.js';
+import getDirectoryTree from './tree.js';
 
 import {POSTS_DIR} from '../config/index.js';
 
-export function getDirectoryArray<T>(
+export default function getDirectoryArray<T>(
     cwd?: string,
     shallow = false,
     reSortArr = true,

@@ -1,20 +1,20 @@
 import {DirectoryTree} from '../interface.js';
 
 import {
-  getDirentData,
   getFileModifiedDate,
   readDir,
 } from '../file/index.js';
 
 import {
-  getBlogPostData,
+  getMdxData,
   getDirectoryMetadata,
-} from '../data/index.js';
+} from './metadata';
 
 import {
   getFileName,
   getFullPathFromSlug,
-  getSlugPath,
+  getSlugFromFullPath,
+  getDirentData,
 } from '../path/index.js';
 
 import {
@@ -39,7 +39,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
         fullPath,
         // slugPath,
       } = getDirentData(cwd, dirent);
-      const slugPath = getSlugPath(fullPath);
+      const slugPath = getSlugFromFullPath(fullPath);
 
       if (isDirectory && !isExcludedPath) {
         const {
@@ -61,7 +61,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
           mdxArticles: [],
         });
       } else if (!isDirectory && isMdx) {
-        const mdxArticleData = getBlogPostData<T>(fullPath, false);
+        const mdxArticleData = getMdxData<T>(fullPath, false);
         dirData.mdxArticles.push(mdxArticleData);
       };
     });
@@ -77,7 +77,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   return dirData;
 }
 
-export function getDirectoryTree<T>(
+export default function getDirectoryTree<T>(
     cwd?: string,
     shallow = false,
     directoryData?: DirectoryTree<T>,
