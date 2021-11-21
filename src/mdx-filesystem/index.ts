@@ -10,7 +10,7 @@ import {
   getDirectoryArray,
   getDirectoryTree,
   getMdxData,
-} from '../page-data';
+} from '../page-data/index.js';
 
 import {
   slugArrayToString,
