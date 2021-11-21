@@ -91,9 +91,11 @@ you set `postsDir` to in your `mdx-filesystem.config.json` file.
 should be used inside of a page named `[...slug].tsx`.  You can read more about
 catch all routes in the next.js docs [here](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes).
 
+**Example** use in `/pages/blog/[...slug].tsx`:
+
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
-const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>();
 
 export const getStaticPaths: GetStaticPaths = async (params) => {
   const slugs = mdxFilesystem.getSlugs();
@@ -141,9 +143,68 @@ will give you back the `directory` property that contains all of the metadata
 for the root directory of your mdx articles as configured by `postsDir` in the
 configuration file `mdx-filesystem.config.json`.
 
-Example: `/pages/blog/index.tsx`:
+**Example** use in `/pages/blog/index.tsx`:
 
+```ts
+import {MdxFilesystem} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>();
+
+export const getStaticProps: GetStaticProps = async () => {
+  const {directory} = await mdxFilesystem.getPageData({
+    dirOptions: {
+      returnType: 'array',
+      shallow: false,
+      reSortArray: true,
+    },
+  });
+
+  return {
+    props: {
+      directory,
+    },
+  };
+};
 ```
+
+**Example** use in `/pages/blog/[...slug].tsx`:
+
+```ts
+import {serialize} from 'next-mdx-remote/serialize';
+import {MdxFilesystem} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>();
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const slugArray = params!.slug as string[];
+  const {isDirectory, directory, mdxArticle} =
+    await mdxFilesystem.getPageData({
+      slugArray: slugArray,
+      dirOptions: {
+        returnType: 'tree',
+        shallow: true,
+      },
+    });
+
+  if (isDirectory) {
+    return {
+      props: {
+        isDirectory,
+        directory,
+      },
+    };
+  } else {
+    const mdxSource = await serialize(mdxArticle?.content || '');
+    const metadata = mdxArticle?.metadata || null;
+    return {
+      props: {
+        isDirectory,
+        mdxArticle: {
+          content: mdxSource,
+          metadata: mdxArticle?.metadata,
+        },
+      },
+    };
+  }
+};
 
 ```
 
