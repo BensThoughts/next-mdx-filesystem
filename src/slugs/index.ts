@@ -7,10 +7,9 @@ import {
 import {readDir} from '../file/index.js';
 import {
   getFullPathFromSlug,
-  getSlugFromFullPath,
   slugArrayToString,
   slugToArray,
-  getDirentData,
+  getPathData,
 } from '../path/index.js';
 
 import {
@@ -29,19 +28,18 @@ function getSlugsInDir(cwd: string):Expand<SlugData> {
       isDirectory,
       isMdx,
       isExcludedPath,
-      fullPath,
-    } = getDirentData(cwd, dirent);
-    const slugPath = getSlugFromFullPath(fullPath);
+      slug,
+    } = getPathData(cwd, dirent);
     if (!isDirectory && isMdx) {
       slugData.mdxArticles.push({
         params: {
-          slug: slugToArray(slugPath),
+          slug: slugToArray(slug),
         },
       });
     } else if (isDirectory && !isExcludedPath) {
       slugData.directories.push({
         params: {
-          slug: slugToArray(slugPath),
+          slug: slugToArray(slug),
         },
       });
     };

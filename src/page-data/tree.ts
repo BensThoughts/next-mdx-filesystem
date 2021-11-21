@@ -13,8 +13,7 @@ import {
 import {
   getFileName,
   getFullPathFromSlug,
-  getSlugFromFullPath,
-  getDirentData,
+  getPathData,
 } from '../path/index.js';
 
 import {
@@ -37,10 +36,8 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
         isDirectory,
         isExcludedPath,
         fullPath,
-        // slugPath,
-      } = getDirentData(cwd, dirent);
-      const slugPath = getSlugFromFullPath(fullPath);
-
+        slug,
+      } = getPathData(cwd, dirent);
       if (isDirectory && !isExcludedPath) {
         const {
           title,
@@ -54,7 +51,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
           dirMetadata: {
             title,
             date,
-            slug: slugPath,
+            slug,
             description,
           },
           directories: [],
@@ -95,7 +92,6 @@ export default function getDirectoryTree<T>(
   directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
   if (!shallow) {
     directoryData.directories.forEach((directory) => {
-    // const newCwd = path.join(POSTS_DIR, directory.dirMetadata.slug);
       const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
       getDirectoryTree(newCwd, shallow, directory);
     });
