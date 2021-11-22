@@ -1,0 +1,253 @@
+---
+title: "Stylish Links With CSS"
+shortDescription: "A simple but reusable link component"
+longDescription: "In this article I show you how I built a stylish and reusable link
+component that works with the Next.js Link component.  The component is also fully typed with Typescript."
+date: "2021-09-21"
+readTime: 15
+cloudinaryImgPath: "v1633657786/blog/blog/stylish-typed-link-component/fahrul-azmi-BnWDqUCWQDU-unsplash_o9v8cb.jpg"
+imgWidth: 1200
+imgHeight: 960
+imgAlt: "Highway Ramps"
+tags:
+  - 'Typescript'
+  - 'React'
+  - 'emotionjs'
+  - 'styledcomponents'
+---
+
+Photo by [Fahrul Azmi](https://unsplash.com/@fahrulazmi?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+on
+[unsplash](https://unsplash.com/s/photos/link?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
+---
+
+## What We Are Building
+
+While the component being built here may at first seem mundane there is more than
+meets the eye. As they say, the devil is in the details. I am not only going to show
+you how I build an animated and stylish link component using css. I am also going to
+show how I properly type the component to make it **HIGHLY** reusable in a number of
+situations. Future users of the component will not have to worry about weather or not
+it will work for their situation. Need a link that opens a new tab/window to an
+external site? no problem. Need a link that gets wrapped by another component like
+Next.js `<Link>`? Again, no problem. This component is flexible and adaptable.
+
+---
+
+## Initial Setup
+
+For this component I have used *@emotion/styled* but we could have just as easily
+used a css module with a className. The important bits of css as well as how and why
+the link works with the Next.js `<Link>` element will be discussed. The article
+assumes you already have a Next.js application up and running. Details on how to
+start a Next.JS project can be found here [next.js](https://nextjs.org/docs). Details
+on installing @emotion/styled can be found here [@emotion/styled](https://emotion.sh/docs/install)
+
+<CommandLine
+  title="install @emotion/styled"
+  command="npm"
+  options="install"
+  args="@emotion/styled"
+/>
+
+---
+
+## The Component a First Attempt
+
+```tsx:/components/AnimatedLink/index.tsx
+import styled from '@emotion/styled';
+
+const A = styled.a`
+  --color-app-secondary: 49, 130, 206;
+  position: relative;
+  padding: 0.2em 0;
+  overflow: hidden;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.1em;
+    background-color: rgb(var(--color-app-secondary));
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center;
+    transition: opacity 300ms, transform 300ms;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+type AProps = {
+  children: React.ReactNode;
+  className?: string;
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+const AnimatedLink = ({
+  children,
+  className = '',
+  ...rest
+}: AProps) => {
+  return (
+    <A
+      className={`someClass ${className}`}
+      {...rest}
+    >
+      {children}
+    </A>
+  );
+});
+
+export default AnimatedLink;
+```
+
+This is a good first attempt. We have stripped the anchor element of it's usual
+styles and created a nice animated line underneath using the ::after pseudo-element
+and the :hover pseudo-selector.
+
+Styled components generates a unique css class name for every component that is
+created with the styled. notation. The & gets replaced with the class name. So in the
+example above if the component is given the class name of `.css-1h37a0y` then the &::after gets translated to `.css-1h37a0y::after`.
+
+We have also properly typed the component. The children prop should almost always be
+typed as ReactNode. See [Typescript React
+Cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example#useful-react-prop-type-examples)
+for more details. ClassName is a string and is optional here. Technically I did not
+need to include className but have done so in the interest of showing how you can
+give a component a className from a css module and still allow the users of the
+component to add additional classNames.
+
+I have joined the base typings of the component with `AnchorHTMLAttributes` using a
+Typescript intersection (the &). This is what allows any user of the component to
+pass any valid anchor props to the component. I use {..rest} to spread those props
+out within the styled anchor element itself. In total this makes the component highly
+reusable because any user of the component can pass any valid anchor element props to
+it. Such as `style={style}`, `rel={rel}`, or the all important `href={href}`.
+
+---
+
+## This Works, But Does It?
+
+
+The component outlined above does work as a standard anchor element with a stylish
+css effect, but will it work with Next.js and the `<Link>` component? Not quite!
+
+To use this component with the Next Link component we are going to need to do a
+little more. For starters using the component like this...
+
+```tsx
+import Link from 'next/link';
+import AnimatedLink from '@app/components/AnimatedLink';
+
+export default function({ href, name }) {
+  return (
+    <Link href={href}>
+      <AnimatedLink>{children}</AnimatedLink>
+    </Link>
+  );
+}
+```
+Does not properly set the href prop on the AnimatedLink. So when hovering it will not
+display the correct location that the Link is supposed to traverse to. This is very
+bad for SEO and something we need to correct. Fortunately it is easy to correct.
+
+```tsx
+import Link from 'next/link';
+import AnimatedLink from '@app/components/AnimatedLink';
+
+export default function({ href, name }) {
+  return (
+    <Link href={href} passHref>
+      <AnimatedLink>{children}</AnimatedLink>
+    </Link>
+  );
+}
+```
+The passHref prop will tell the `<Link>` component to properly pass the href prop
+down to our stylish AnimatedLink component. But there is still one more step!
+
+---
+
+## The Final Steps
+
+The final steps involve making sure that href, onClick and a ref are passed to the
+functional component that wraps our AnimatedLink. Without correctly using forwardRef
+and passing onClick a number of bugs can appear when using this component. The
+primary source of frustration is that rather then quickly loading the page that gets
+navigated to we will actually end up doing a full reload of the entire app whenever a
+new page is navigated to if we do not properly pass these props. This can cause
+flashing colors as well as give the whole app a sluggish feel.
+
+```tsx:/components/AnimatedLink/index.tsx
+import {forwardRef, MouseEventHandler} from 'react';
+import styled from '@emotion/styled';
+
+const A = styled.a`
+  --color-app-secondary: 49, 130, 206;
+  position: relative;
+  padding: 0.2em 0;
+  overflow: hidden;
+  text-decoration: none;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.1em;
+    background-color: rgb(var(--color-app-secondary));
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center;
+    transition: opacity 300ms, transform 300ms;
+  }
+
+  &:hover:after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+`;
+
+type AProps = {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+const AnimatedLink = forwardRef<HTMLAnchorElement, AProps>(({
+  children,
+  className = '',
+  onClick,
+  ...rest
+}, ref) => {
+  return (
+    <A
+      ref={ref}
+      onClick={onClick}
+      className={className}
+      {...rest}
+    >
+      {children}
+    </A>
+  );
+});
+
+AnimatedLink.displayName = 'AnimatedLink';
+
+export default AnimatedLink;
+```
+
+This is the final version of our fully reusable, fully typed and very stylish
+AnimatedLink component. Feel free to tweak the css properties to see what other sorts
+of animations you can come up with. Hopefully you found this article useful.
+
+---

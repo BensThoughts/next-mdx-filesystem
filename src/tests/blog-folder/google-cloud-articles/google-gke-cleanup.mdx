@@ -1,0 +1,39 @@
+---
+title: "Clean Up Your Google Kubernetes Pods"
+longDescription: "A simple bash command to cleanup Google Kubernetes pods.
+Preemptible nodes leave behind pods in a 'Shutdown' state. This simple command
+will clean them all up in one go."
+shortDescription: "A simple command line to clean up your Google Kubernetes
+Pods running on preemptible nodes"
+date: "2021-08-27"
+readTime: 2
+cloudinaryImgPath: "v1631126762/blog/blog/google-gke-cleanup/og-image_lmf6ry.jpg"
+imgWidth: 1200
+imgHeight: 627
+imgAlt: "Computer Terminal"
+tags:
+  - 'Google'
+  - 'GKE'
+  - 'preemptible'
+  - 'Shutdown'
+  - 'bash'
+---
+<!-- ## Cleaning up GKE pods on preemptible nodes -->
+
+> A simple solution to a common problem.
+
+If you have ever used google GKE (Kubernetes Engine) with preemptible nodes you
+would likely have found yourself in the situation of having a bunch of pods
+sitting around in a Shutdown state littering your cluster.  GKE likely
+preempted the node the pods were running on, shutdown the pods, and then started
+up new pods on new nodes.  The old pods are are left behind just so that you can
+check the logs in case anything went wrong outside of the nodes being shutdown.
+
+We often don't need these pods at all and should be cleaning them up by deleting them.  This is a simple bash command to eliminate all of those pods.
+
+<CommandLine
+  command="kubectl get pods"
+  options=""
+  args="| grep Shutdown | awk '{print $1}' | xargs kubectl delete pod"
+  size="large"
+/>

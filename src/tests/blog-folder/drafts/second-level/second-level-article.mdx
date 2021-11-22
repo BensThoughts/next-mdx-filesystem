@@ -1,0 +1,118 @@
+---
+title: "Second Level Article"
+description: "A test page for the infrastructure."
+date: "2021-08-24"
+readTime: 20
+tags:
+  - 'second level'
+  - 'blog article'
+  - 'testing'
+---
+
+
+> This a quote
+
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+
+## Large heading
+
+---
+
+*this is italic*
+
+**This bold**
+
+__This is emphasis__
+
+~~This is del~~
+
+---
+
+[Google](https://google.com)
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+When we focus our attention on one feature at a time we are better able to
+diagnose the challenges that arise with implementing that feature.  For this
+reason I am going to break this blog entry down into sections based on the
+feature that is being implemented.
+
+...setup
+
+## Setting up next.js with Typescript
+...setup
+
+## Setting up eslint and prettier
+...setup
+
+## Setting up mdx
+...setup
+
+## Setting up next-mdx-remote
+...setup
+
+
+<CommandLine command="usermod" options="-a --init" args="/test/dir/file.tsx" />
+
+```tsx:src/components/mdx/CodeElement.tsx
+import { Box } from '@chakra-ui/react';
+import Highlight, { defaultProps } from 'prism-react-renderer';
+import styled from '@emotion/styled';
+
+const Pre = styled(Box)`
+  text-align: left;
+  margin: 1em 0;
+  padding: 0.5em;
+  overflow-x: auto;
+`;
+
+const Line = styled.div`
+  display: table-row;
+`;
+
+const LineNo = styled(Box)`
+  text-align: right;
+  padding-right: 1em;
+  user-select: none;
+  opacity: 0.5;
+`;
+
+const LineContent = styled.span`
+  display: table-cell;
+`;
+
+export default function CodeElement(props: { children: string }) {
+  return (
+    <Box padding={3} overflow="auto">
+      <Highlight {...defaultProps} code={props.children.trim()} language="jsx">
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <Pre
+            as="pre"
+            w={{
+              base:'sm',
+              md: '700px'
+            }}
+            className={className}
+            style={style}
+          >
+            {tokens.map((line, i) => (
+              <Line key={i} {...getLineProps({ line, key: i })}>
+                <LineNo
+                  as="span"
+                  display={{ base: 'none', md: 'table-cell' }}
+                >{i + 1}</LineNo>
+                <LineContent>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </LineContent>
+              </Line>
+            ))}
+          </Pre>
+        )}
+      </Highlight>
+    </Box>
+  );
+};
+```

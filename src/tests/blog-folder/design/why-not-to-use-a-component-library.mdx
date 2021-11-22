@@ -1,0 +1,90 @@
+---
+title: "Why I Decided Against A Component Library"
+shortDescription: "How I came to see that even the most flexible of design systems has deeply embed
+opinions about color."
+longDescription: "The highlight/outline problem that quickly surfaced and how I came
+to see that even the most flexible of design systems has deeply embed opinions
+about color."
+date: "2021-09-02"
+readTime: 2
+cloudinaryImgPath: "v1631126762/blog/blog/why-not-to-use-a-component-library/og-image_weirg3.png"
+imgWidth: 1200
+imgHeight: 627
+imgAlt: "Design System"
+tags:
+  - 'React'
+  - 'Typescript'
+  - 'CSS'
+  - 'chakraui'
+  - 'MaterialDesign'
+  - 'tailwindcss'
+  - 'emotionjs'
+  - 'styledcomponents'
+  - 'headlessui'
+---
+
+> Sometimes the right path is not the easiest.
+
+Early on in the development cycle of this blog I was still deciding between
+using a fully featured component library and rolling my own. I had used
+[Angular Material Design](https://material.angular.io/) in the past on an
+Angular project and been quite happy with the results.  It handed me
+*beautiful*, **fully accessible** components on a platter. It worked well
+for the project it was used in because I had to implement a ton of backend and
+frontend infrastructure logic on my own. I did not have the time to also
+roll my own library of front-end components for that project.
+
+I knew that for my personal development blog I was going to want more
+customization over the look and feel of every component and that Material Design
+was to strict in the constraints provided to implement what I wanted to.
+This lead me to do lots of research and testing on component libraries
+that claimed to be less constrained. I finally landed on
+[chakra-ui](https://chakra-ui.com/). During the first week of writing the
+infrastructure for this blog I thought that I had found the holy grail. A
+component library which was not only using
+[@emotion/styled](https://emotion.sh/docs/introduction) but fully encouraged the
+use of it to the extent that they require you install @emotion/styled as a
+primary dependency with your project. This was a sign to me that I could
+completely re-style the components included in the library and not have to worry
+about making sure they were bullet proof in the accessibility department.
+
+---
+
+## ...Fail Fast, Fail Often...
+
+Fortunately I ran into my first issue using a @chakra-ui within a week of
+using it. The dreaded blue-outline...
+
+![Blue Ring
+Issue](v1631126762/blog/blog/why-not-to-use-a-component-library/blue-ring_xvkgla.png)
+
+As you can see in the image above, there is a bright blue outline on this simple
+icon button. It is a css-shadow property that shows up when the button is
+clicked or navigated to with the keyboard. I searched for 3-4 hours for a
+solution to the issue. It seemed like no matter what I did I could not get
+the color of the outline to change. My research unveiled that the outline
+is part of their **accessibility** design.
+
+The very 2 problems I was trying to solve (full customization & accessibility)
+were now in conflict with each other because the component library I had chosen
+made a decision about the effects of style on accessibility. There were a
+couple of solutions floating around the web [Github issue
+708](https://github.com/chakra-ui/chakra-ui/issues/708) but they involved
+installing yet another dependency as well as disabling the outline entirely.
+What if I want an outline, but just a different color? Do I really
+want to track and manage yet another dependency just for the outline on some
+components?
+
+It became clear to me that the simplest solution would be to implement my own
+component library from scratch in which I have full control over every pixel on
+screen. While this may seem daunting at first, and may take a little more
+time in the beginning of a project it will save countless hours of frustration
+in the future. There are certain problems for which accessibility is hard to
+implement, such as modals, tooltips, dropdowns, and tabs. The good news is
+that there are great libraries out there which solve these issues with **ZERO**
+design. They are called ***Headless UI*** component libraries. Two
+great ones are [Reach UI](https://reach.tech/) and
+[Headless-UI](https://headlessui.dev/)
+
+---
+
