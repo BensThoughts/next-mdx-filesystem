@@ -32,7 +32,7 @@ export interface MdxArticleData<T> {
 
 export interface PageData<T, R extends 'tree' | 'array' = 'tree'> {
   isDirectory: boolean;
-  directory?: R extends 'tree' ? DirectoryTree<T> : Expand<DirectoryData<T>>[];
+  directory?: R extends 'tree' ? DirectoryTree<T> : DirectoryData<T>[];
   mdxArticle?: Expand<MdxArticleData<T>>;
 }
 

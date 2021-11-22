@@ -1,6 +1,5 @@
 
 import {
-  Expand,
   SlugData,
 } from '../interface.js';
 
@@ -17,7 +16,7 @@ import {
 } from '../config/index.js';
 
 
-function getSlugsInDir(cwd: string):Expand<SlugData> {
+function getSlugsInDir(cwd: string):SlugData {
   const slugData: SlugData = {
     directories: [],
     mdxArticles: [],
