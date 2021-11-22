@@ -5,16 +5,8 @@ import {
   POSTS_DIR,
   DIR_INDEX_FILE,
   EXCLUDED_PROD_DIRS,
-} from '../config/index.js';
+} from '../config';
 
-export const slugToArray = (slug: string): string[] => {
-  const slugArr = slug.split('/');
-  return slugArr;
-};
-
-export const slugArrayToString = (slug: string[]): string => {
-  return path.join(...slug);
-};
 
 export const getFileName = (fullPath: string): string => {
   return path.basename(fullPath);
@@ -22,6 +14,16 @@ export const getFileName = (fullPath: string): string => {
 
 export const getDirIndex = (dirPath: string): string => {
   return path.join(dirPath, DIR_INDEX_FILE);
+};
+
+export const slugToArray = (slug: string): string[] => {
+  const slugArr = slug.split('/');
+  return slugArr;
+};
+
+export const slugArrayToFullPath = (slugArr: string[]): string => {
+  const slug = path.join(...slugArr);
+  return getFullPathFromSlug(slug);
 };
 
 export const getSlugFromFullPath = (fullPath: string): string => {
@@ -34,9 +36,12 @@ export const getSlugFromFullPath = (fullPath: string): string => {
 };
 
 export const getFullPathFromSlug = (slug: string): string => {
-  slug = slug.charAt(0) === '/' ?
-    slug.substr(1) :
-    slug;
+  if (slug.charAt(0) === '/') {
+    throw new Error(`slug started with /, this is not a proper slug, ${slug}`);
+  }
+  // slug = slug.charAt(0) === '/' ?
+  //   slug.substr(1) :
+  //   slug;
   return path.resolve(POSTS_DIR, slug);
 };
 
