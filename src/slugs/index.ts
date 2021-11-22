@@ -5,9 +5,8 @@ import {
 
 import {readDir} from '../file';
 import {
-  // getFullPathFromSlug,
-  slugArrayToFullPath,
   slugToArray,
+  slugArrayToFullPath,
   getPathData,
 } from '../path';
 

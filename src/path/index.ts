@@ -39,9 +39,7 @@ export const getFullPathFromSlug = (slug: string): string => {
   if (slug.charAt(0) === '/') {
     throw new Error(`slug started with /, this is not a proper slug, ${slug}`);
   }
-  // slug = slug.charAt(0) === '/' ?
-  //   slug.substr(1) :
-  //   slug;
+
   return path.resolve(POSTS_DIR, slug);
 };
 

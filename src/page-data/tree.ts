@@ -6,11 +6,6 @@ import {
 } from '../file';
 
 import {
-  getMdxData,
-  getDirectoryMetadata,
-} from './metadata';
-
-import {
   getFileName,
   getFullPathFromSlug,
   getPathData,
@@ -19,6 +14,9 @@ import {
 import {
   POSTS_DIR,
 } from '../config';
+
+import getMdxData from './mdx-data';
+import getDirectoryMetadata from './dir-data';
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {

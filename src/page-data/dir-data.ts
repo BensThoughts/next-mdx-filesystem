@@ -1,50 +1,18 @@
-import {
-  MdxArticleData,
-} from '../interface';
+import yaml from 'js-yaml';
 
 import {
-  getSlugFromFullPath,
-  getFileName,
   getDirIndex,
+  getFileName,
+  getSlugFromFullPath,
 } from '../path';
 
 import {
   doesPathExist,
-  getFileModifiedDate,
   readFile,
+  getFileModifiedDate,
 } from '../file';
 
-import matter from 'gray-matter';
-import yaml from 'js-yaml';
-
-
-export function getMdxData<T>(
-    fullPath: string,
-    includeContent: boolean,
-): MdxArticleData<T> {
-  const rawFileSource = readFile(fullPath);
-  const slug = getSlugFromFullPath(fullPath);
-  const mtimeDate = getFileModifiedDate(fullPath);
-  const fileName = getFileName(fullPath);
-  const {content, data} = matter(rawFileSource);
-  let {date, title} = data;
-  date = date || mtimeDate;
-  title = title || fileName;
-
-  return {
-    fileName,
-    mtimeDate,
-    metadata: {
-      ...data as T,
-      date,
-      title,
-      slug,
-    },
-    content: includeContent ? content : null,
-  };
-}
-
-export function getDirectoryMetadata(fullPath: string) {
+export default function getDirectoryMetadata(fullPath: string) {
   const dirName = getFileName(fullPath);
   const indexPath = getDirIndex(fullPath);
   const indexExists = doesPathExist(indexPath);
