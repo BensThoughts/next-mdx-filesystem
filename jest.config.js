@@ -1,5 +1,10 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-  preset: 'ts-jest',
+  // preset: 'ts-jest',
   testEnvironment: 'node',
+  // globals: {
+  //   'ts-jest': {
+  //     diagnostics: true,
+  //   },
+  // },
 };
