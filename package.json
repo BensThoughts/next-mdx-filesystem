@@ -6,22 +6,25 @@
   "types": "./dist/cjs/index.d.ts",
   "dependencies": {
     "@corex/deepmerge": "^2.6.34",
-    "@types/js-yaml": "^4.0.4",
-    "@types/node": "^16.11.7",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/js-yaml": "^4.0.4",
+    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
     "eslint-config-google": "^0.14.0",
-    "jest": "^27.3.1"
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
   },
   "scripts": {
-    "build": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc && npm run build:esm",
-    "build:esm": "tsc --module es2015 --outDir dist/esm",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
+    "postbuild": "tsc --module es2015 --outDir dist/esm",
+    "test": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./src"
   },
   "keywords": [
     "next",
