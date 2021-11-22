@@ -24,7 +24,8 @@
   "scripts": {
     "build": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
     "postbuild": "tsc --module es2015 --outDir dist/esm",
-    "test": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./src"
+    "test": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./src",
+    "preversion": "npm run test"
   },
   "keywords": [
     "next",
