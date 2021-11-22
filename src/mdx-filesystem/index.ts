@@ -12,8 +12,8 @@ import {
 } from '../page-data/index.js';
 
 import {
-  slugArrayToString,
-  getFullPathFromSlug,
+  slugArrayToFullPath,
+  // getFullPathFromSlug,
 } from '../path/index.js';
 
 import {
@@ -53,9 +53,11 @@ export class MdxFilesystem<T> {
       const shallow = dirOptions?.shallow === true ? true : false;
       const reSortArray = dirOptions?.reSortArray === false ? false : true;
 
-      const slug = args?.slugArray ? slugArrayToString(args.slugArray) : '';
+      const slugArr = args?.slugArray || [];
+      const dirPath = slugArrayToFullPath(slugArr);
+      // const dirPath = args?.slugArray ? slugArrayToPath(args.slugArray) : '';
 
-      const dirPath = getFullPathFromSlug(slug);
+      // const dirPath = getFullPathFromSlug(slug);
       const dirPathExists = doesPathExist(dirPath);
       if (dirPathExists && isPathDir(dirPath)) {
         const result = returnType === 'tree' ? {

@@ -5,8 +5,8 @@ import {
 
 import {readDir} from '../file/index.js';
 import {
-  getFullPathFromSlug,
-  slugArrayToString,
+  // getFullPathFromSlug,
+  slugArrayToFullPath,
   slugToArray,
   getPathData,
 } from '../path/index.js';
@@ -58,7 +58,8 @@ export default function getAllSlugs(
   slugData.directories.push(...directories);
   slugData.mdxArticles.push(...mdxArticles);
   directories.forEach(({params: {slug}}) => {
-    const nextCwd = getFullPathFromSlug(slugArrayToString(slug));
+    // const nextCwd = getFullPathFromSlug(slugArrayToPath(slug));
+    const nextCwd = slugArrayToFullPath(slug);
     slugData = getAllSlugs(nextCwd, slugData);
   });
 
