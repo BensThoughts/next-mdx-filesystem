@@ -18,12 +18,12 @@ const loadConfigFile = <T>(path: string, throwError = true): T | undefined => {
 };
 
 
-const getConfigPath = (...pathSegment: string[]): string => {
+const getPath = (...pathSegment: string[]): string => {
   return path.resolve(process.cwd(), ...pathSegment);
 };
 
 const defaultConfig: GlobalConfig = {
-  'postsDir': getConfigPath('mdx-posts'),
+  'postsDir': getPath('mdx-posts'),
   'excludedProdDirs': [],
   'dirIndexFile': 'index.yaml',
 };
@@ -41,7 +41,7 @@ const updateConfig = (
 const loadConfig = (path: string): GlobalConfig => {
   const baseConfig = loadConfigFile<Partial<GlobalConfig>>(path, false);
   const fullPathPostsDir = baseConfig?.postsDir ?
-    getConfigPath(baseConfig.postsDir) :
+    getPath(baseConfig.postsDir) :
     defaultConfig.postsDir;
   const userConfig: Partial<GlobalConfig> = {
     ...baseConfig,
@@ -50,7 +50,11 @@ const loadConfig = (path: string): GlobalConfig => {
   return updateConfig(userConfig);
 };
 
-const config = loadConfig(getConfigPath('mdx-filesystem.config.json'));
+const configPath = process.env.MDX_FILESYSTEM_CONFIG_PATH ?
+    process.env.MDX_FILESYSTEM_CONFIG_PATH :
+    'mdx-filesystem.config.json';
+
+const config = loadConfig(getPath(configPath));
 
 const productionConfig = {
   POSTS_DIR: config.postsDir,
