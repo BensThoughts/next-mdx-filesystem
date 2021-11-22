@@ -162,6 +162,7 @@ is given to you by next.js and will be the slug array for the current route. See
 [examples](#calling:).
 
 
+
 `dirOptions`:
 
 - `returnType (defaults to 'tree')`: Choose the data structure you want to get
