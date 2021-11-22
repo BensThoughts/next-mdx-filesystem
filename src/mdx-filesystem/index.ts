@@ -3,29 +3,26 @@ import {
   PageData,
   StaticPath,
   PageDataOpts,
-} from '../interface.js';
-
-import {
-  getDirectoryArray,
-  getDirectoryTree,
-  getMdxData,
-} from '../page-data/index.js';
+} from '../interface';
 
 import {
   slugArrayToFullPath,
-  // getFullPathFromSlug,
-} from '../path/index.js';
+} from '../path';
 
 import {
   doesPathExist,
   isPathDir,
   isPathFile,
-} from '../file/index.js';
-import getAllSlugs from '../slugs/index.js';
+} from '../file';
 
-/**
- *
- */
+import {
+  getDirectoryArray,
+  getDirectoryTree,
+  getMdxData,
+} from '../page-data';
+
+import getAllSlugs from '../slugs';
+
 export class MdxFilesystem<T> {
   /**
    *

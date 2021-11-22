@@ -1,19 +1,19 @@
 
 import {
   SlugData,
-} from '../interface.js';
+} from '../interface';
 
-import {readDir} from '../file/index.js';
+import {readDir} from '../file';
 import {
   // getFullPathFromSlug,
   slugArrayToFullPath,
   slugToArray,
   getPathData,
-} from '../path/index.js';
+} from '../path';
 
 import {
   POSTS_DIR,
-} from '../config/index.js';
+} from '../config';
 
 
 function getSlugsInDir(cwd: string):SlugData {

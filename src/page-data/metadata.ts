@@ -1,18 +1,18 @@
 import {
   MdxArticleData,
-} from '../interface.js';
+} from '../interface';
 
 import {
   getSlugFromFullPath,
   getFileName,
   getDirIndex,
-} from '../path/index.js';
+} from '../path';
 
 import {
   doesPathExist,
   getFileModifiedDate,
   readFile,
-} from '../file/index.js';
+} from '../file';
 
 import matter from 'gray-matter';
 import yaml from 'js-yaml';

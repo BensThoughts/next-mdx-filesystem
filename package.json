@@ -1,6 +1,6 @@
 {
   "name": "next-mdx-filesystem",
-  "version": "0.0.9-beta.3",
+  "version": "0.0.9-beta.4",
   "description": "A fully typed library to get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and give you back .mdx/directory metadata that is easy to consume in a React component",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
@@ -26,13 +26,14 @@
     "typescript": "^4.5.2"
   },
   "scripts": {
+    "prepublish": "npm run build && npm run test",
     "build": "if [ -d './dist' ]; then rm -Rf ./dist; fi && tsc",
     "postbuild": "tsc --module es2015 --outDir dist/esm",
-    "test": "npm run test:ts",
+    "test": "npm run test:ts && npm run test:cjs && npm run test:esm",
     "test:ts": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./src",
     "test:cjs": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./dist/cjs",
     "test:esm": "MDX_FILESYSTEM_CONFIG_PATH=src/tests/test.config.json jest --testPathPattern=./dist/esm",
-    "preversion": "npm run test"
+    "preversion": "npm run build && npm run test"
   },
   "keywords": [
     "next",

@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import {
   GlobalConfig,
-} from '../interface.js';
+} from '../interface';
 
 const loadConfigFile = <T>(path: string, throwError = true): T | undefined => {
   if (fs.existsSync(path)) {

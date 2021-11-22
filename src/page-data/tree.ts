@@ -1,9 +1,9 @@
-import {DirectoryTree} from '../interface.js';
+import {DirectoryTree} from '../interface';
 
 import {
   getFileModifiedDate,
   readDir,
-} from '../file/index.js';
+} from '../file';
 
 import {
   getMdxData,
@@ -14,11 +14,11 @@ import {
   getFileName,
   getFullPathFromSlug,
   getPathData,
-} from '../path/index.js';
+} from '../path';
 
 import {
   POSTS_DIR,
-} from '../config/index.js';
+} from '../config';
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {

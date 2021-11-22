@@ -1,11 +1,11 @@
 import {
   DirectoryData,
   DirectoryTree,
-} from '../interface.js';
+} from '../interface';
 
-import getDirectoryTree from './tree.js';
+import getDirectoryTree from './tree';
 
-import {POSTS_DIR} from '../config/index.js';
+import {POSTS_DIR} from '../config';
 
 export default function getDirectoryArray<T>(
     cwd?: string,

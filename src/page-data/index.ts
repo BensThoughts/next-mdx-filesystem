@@ -1,3 +1,3 @@
-export {default as getDirectoryTree} from './tree.js';
-export {default as getDirectoryArray} from './array.js';
-export {getMdxData} from './metadata.js';
+export {default as getDirectoryTree} from './tree';
+export {default as getDirectoryArray} from './array';
+export {getMdxData} from './metadata';
