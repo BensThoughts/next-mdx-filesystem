@@ -11,7 +11,7 @@ you back the data in a format that is easy for react components to consume.
 While this could be used outside of a next.js project it was designed to be used
 inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
->#### Important Note: The directory names become a part of the slug path. They need to use a slug friendly separator such as hyphens. Example: 'react-articles' is *good* 'react articles' is *bad*.
+>#### Important Note: The directory and .mdx file names become a part of the slug path. They need to use a slug friendly separator such as hyphens. Example: 'react-articles' is *good* 'react articles' is *bad*. 'react-article.mdx' is *good* 'react article.mdx' is *bad*
 
 
 ## Configuration
