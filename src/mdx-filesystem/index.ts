@@ -1,5 +1,4 @@
 import {
-  // PathEntry,
   PageData,
   Expand,
   StaticPath,
@@ -78,29 +77,3 @@ export class MdxFilesystem<T> {
     return [...directories, ...mdxArticles];
   };
 }
-
-// function getPathEntry(slug: string): PathEntry {
-//   const pathWithoutExtension = getFullPathFromSlug(slug);
-//   const pathExists = doesPathExist(pathWithoutExtension);
-//   if (pathExists && isPathDir(pathWithoutExtension)) {
-//     return {
-//       pathType: 'dir',
-//       fullPath: pathWithoutExtension,
-//     };
-//   }
-//   const pathWithExtension = `${pathWithoutExtension}.mdx`;
-//   const mdxPathExists = doesPathExist(pathWithExtension);
-//   if (mdxPathExists && isPathFile(pathWithExtension)) {
-//     return {
-//       pathType: 'mdx',
-//       fullPath: pathWithExtension,
-//     };
-//   }
-
-//   throw Error(
-//       `Error, slug lead to neither a directory or .mdx file.
-//        Path checked: ${pathWithoutExtension}
-//        Check your mdx-filesystem.config.js file to make sure it
-//        points to the directory that contains your mdx files.`,
-//   );
-// }
