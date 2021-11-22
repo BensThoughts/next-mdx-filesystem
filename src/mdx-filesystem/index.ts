@@ -1,6 +1,6 @@
 import {
-  PageData,
   Expand,
+  PageData,
   StaticPath,
   PageDataOpts,
 } from '../interface.js';
@@ -23,15 +23,30 @@ import {
 } from '../file/index.js';
 import getAllSlugs from '../slugs/index.js';
 
+/**
+ *
+ */
 export class MdxFilesystem<T> {
+  /**
+   *
+   * @param {string} args.slugArray - The slug array for the current path..
+   * @param {'tree' | 'array'} args.dirOptions.returnType - The return type of
+   * directory when isDirectory is true. Can be 'tree' or 'array'
+   * @param {boolean} args.dirOptions.shallow - true when you only want to
+   * search and return data about the current directory. false when you want
+   * all of the data in the sub-directories below it as well.
+   * @param {boolean} args.dirOptions.reSortArray - when the returned directory
+   * data is an array this states if it should be sorted alphabetically or not.
+   *
+   */
   async getPageData
     <R extends 'tree' | 'array' = 'tree'>(
-      args?: PageDataOpts<R>
+      args?: Expand<PageDataOpts<R>>
     ): Promise<Expand<PageData<T, R>>>;
 
   async getPageData
     <R extends 'tree' | 'array' = 'tree'>(
-      args?:PageDataOpts<R>,
+      args?:Expand<PageDataOpts<R>>,
   ) {
       const dirOptions = args?.dirOptions;
       const returnType = dirOptions?.returnType || 'tree';
