@@ -159,7 +159,7 @@ mdxFilesystem.getPageData(args?: {
 this option out. If called in a `[...slug].tsx` page `{params.slug}` can be
 handed directly to `slugArray` to request data for that route. `{params.slug}`
 is given to you by next.js and will be the slug array for the current route. See
-[examples](#Example-use-in-/pages/blog/[...slug].tsx).
+[examples](#calling:).
 
 
 `dirOptions`:
