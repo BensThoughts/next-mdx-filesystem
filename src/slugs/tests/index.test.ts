@@ -1,3 +1,6 @@
+/*eslint spaced-comment: ["off"] */
+/*eslint max-len: ["off"] */
+
 import getAllSlugs from '../index';
 
 describe('getAllSlugs', () => {
@@ -55,22 +58,22 @@ describe('getAllSlugs', () => {
       },
       {
         'params': {
-          'slug': ['design', 'using-overlays-for-elevation'],
+          'slug': ['design', 'design-article-1'],
         },
       },
       {
         'params': {
-          'slug': ['design', 'why-not-to-use-a-component-library'],
+          'slug': ['design', 'design-article-2'],
         },
       },
       {
         'params': {
-          'slug': ['drafts', 'ultimate-blog'],
+          'slug': ['drafts', 'draft-1'],
         },
       },
       {
         'params': {
-          'slug': ['drafts', 'ultimate-perfect-dark'],
+          'slug': ['drafts', 'draft-2'],
         },
       },
       {
@@ -80,32 +83,27 @@ describe('getAllSlugs', () => {
       },
       {
         'params': {
-          'slug': [
-            'drafts',
-            'second-level',
-            'third-level',
-            'third-level-article',
-          ],
+          'slug': ['drafts', 'second-level', 'third-level', 'third-level-article'],
         },
       },
       {
         'params': {
-          'slug': ['google-cloud-articles', 'google-gke-cleanup'],
+          'slug': ['google-cloud-articles', 'google-cloud-article-1'],
         },
       },
       {
         'params': {
-          'slug': ['react-articles', 'headless-ui-drawer'],
+          'slug': ['react-articles', 'react-article-1'],
         },
       },
       {
         'params': {
-          'slug': ['react-articles', 'staggered-animation-2-ways'],
+          'slug': ['react-articles', 'react-article-2'],
         },
       },
       {
         'params': {
-          'slug': ['react-articles', 'stylish-typed-link-component'],
+          'slug': ['react-articles', 'react-article-3'],
         },
       },
     ]);

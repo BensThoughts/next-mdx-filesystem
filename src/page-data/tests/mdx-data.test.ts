@@ -36,12 +36,12 @@ describe('getMdxData', () => {
         expect(mdxArticle.mtimeDate).toStrictEqual('2021-11-22');
       });
       test.concurrent('content is correct', () => {
-        expect(mdxArticle.content).toStrictEqual('This is a simple paragraph.');
+        expect(mdxArticle.content).toStrictEqual('This is the root article content.');
       });
     });
     describe('default metadata is correctly overwritten', () => {
       test.concurrent('title is correct', () => {
-        expect(metadata.title).toStrictEqual('Root Article');
+        expect(metadata.title).toStrictEqual('root article');
       });
       test.concurrent('date is correct', () => {
         expect(metadata.date).toStrictEqual('2021-08-24');
@@ -52,13 +52,13 @@ describe('getMdxData', () => {
     });
     describe('extra metadata is correct', () => {
       test.concurrent('description is correct', () => {
-        expect(metadata.description).toStrictEqual('A test page for the infrastructure.');
+        expect(metadata.description).toStrictEqual('this is the root article');
       });
       test.concurrent('readTime is correct', () => {
         expect(metadata.readTime).toStrictEqual(20);
       });
       test.concurrent('tags are correct', () => {
-        expect(metadata.tags).toStrictEqual(['root level', 'blog article', 'testing']);
+        expect(metadata.tags).toStrictEqual(['rootLevel', 'testing']);
       });
     });
   });
@@ -76,7 +76,7 @@ describe('getMdxData', () => {
         expect(mdxArticle.mtimeDate).toStrictEqual('2021-11-22');
       });
       test.concurrent('content is an empty string', () => {
-        expect(mdxArticle.content).toStrictEqual('This is a simple paragraph.');
+        expect(mdxArticle.content).toStrictEqual('This is an article with no front matter.');
       });
     });
     describe('default metadata is correctly overwritten', () => {
