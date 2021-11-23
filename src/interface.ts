@@ -3,11 +3,11 @@ export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
 //   ? T extends infer O ? { [K in keyof O]: ExpandRecursively<O[K]> } : never
 //   : T;
 
-export type DirectoryTree<T> = DirectoryData<T> & {
+export type DirectoryTree<T = {}> = DirectoryData<T> & {
   directories: DirectoryTree<T>[];
 }
 
-export interface DirectoryData<T> {
+export interface DirectoryData<T = {}> {
   dirName: string;
   dirMtimeDate: string;
   dirMetadata: {
@@ -19,7 +19,7 @@ export interface DirectoryData<T> {
   mdxArticles: MdxArticleData<T>[]
 }
 
-export interface MdxArticleData<T> {
+export interface MdxArticleData<T = {}> {
   fileName: string;
   mtimeDate: string;
   content: string | null;

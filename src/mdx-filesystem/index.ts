@@ -23,7 +23,7 @@ import {
 
 import getAllSlugs from '../slugs';
 
-export class MdxFilesystem<T> {
+export class MdxFilesystem<T = {}> {
   /**
    *
    * @param {string} args.slugArray - The slug array for the current path..
