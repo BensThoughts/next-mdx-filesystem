@@ -65,7 +65,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   }
 
   dirData.directories
-      .sort((a, b) => (a.dirMetadata.title < b.dirMetadata.title) ? 1 : -1);
+      .sort((a, b) => (a.dirMetadata.title > b.dirMetadata.title) ? 1 : -1);
   dirData.mdxArticles
       .sort((a, b) => (a.metadata.date < b.metadata.date) ? 1 : -1);
 
