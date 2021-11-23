@@ -8,16 +8,16 @@ export type DirectoryTree<T> = DirectoryData<T> & {
 }
 
 export interface DirectoryData<T> {
-    dirName: string;
-    dirMtimeDate: string;
-    dirMetadata: {
-      title: string;
-      date: string;
-      slug: string;
-      description: string | null;
-    }
-    mdxArticles: MdxArticleData<T>[]
+  dirName: string;
+  dirMtimeDate: string;
+  dirMetadata: {
+    title: string;
+    date: string;
+    slug: string;
+    description: string | null;
   }
+  mdxArticles: MdxArticleData<T>[]
+}
 
 export interface MdxArticleData<T> {
   fileName: string;
@@ -60,7 +60,3 @@ export interface StaticPath {
     slug: string[];
   }
 }
-// export interface PathEntry {
-//   pathType?: 'dir' | 'mdx';
-//   fullPath: string;
-// }
