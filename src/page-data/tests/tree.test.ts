@@ -5,11 +5,24 @@ import getDirectoryTree from '../tree';
 
 // import {POSTS_DIR} from '../../config';
 import {BlogArticleMetadata} from '../../test-setup/BlogArticleMetadata';
+import {DirectoryTree, MdxArticleData} from '../../interface';
 // import {DirectoryTree} from '../../interface';
 
 describe('getDirectoryTree', () => {
   describe('called with no options', () => {
     const tree = getDirectoryTree<BlogArticleMetadata>();
+    test.concurrent('directories should be sorted alphabetically descending', () => {
+      const isSorted = (arr: DirectoryTree<BlogArticleMetadata>[]) =>
+        arr.every((v, i, a) => !i || a[i-1].dirMetadata.title <= v.dirMetadata.title);
+      expect(isSorted(tree.directories)).toStrictEqual(true);
+    });
+
+    test.concurrent('mdxArticles should be sorted by their date with most current first', () => {
+      const isSorted = (arr: MdxArticleData<BlogArticleMetadata>[]) =>
+        arr.every((v, i, a) => !i || a[i-1].metadata.date >= v.metadata.date);
+      expect(isSorted(tree.mdxArticles)).toStrictEqual(true);
+    });
+
     test.concurrent('tree should be complete', () => {
       expect(tree).toStrictEqual({
         dirName: 'blog-folder',
@@ -21,6 +34,31 @@ describe('getDirectoryTree', () => {
           description: null,
         },
         directories: [
+          {
+            dirName: 'google-cloud-articles',
+            dirMtimeDate: '2021-11-22',
+            dirMetadata: {
+              title: 'a google cloud',
+              date: '2021-11-22',
+              slug: 'google-cloud-articles',
+              description: 'articles about google cloud',
+            },
+            directories: [],
+            mdxArticles: [
+              {
+                'fileName': 'google-cloud-article-1.mdx',
+                'mtimeDate': '2021-11-22',
+                'metadata': {
+                  'title': 'google cloud article 1',
+                  'description': 'the first google cloud article',
+                  'date': '2021-10-07',
+                  'tags': ['google-cloud', 'firstArticle', 'CSS'],
+                  'slug': 'google-cloud-articles/google-cloud-article-1',
+                },
+                'content': null,
+              },
+            ],
+          },
           {
             dirName: 'design',
             dirMtimeDate: '2021-11-22',
@@ -145,31 +183,6 @@ describe('getDirectoryTree', () => {
                   'date': '2021-10-07',
                   'tags': ['drafts', 'firstArticle', 'CSS'],
                   'slug': 'drafts/draft-1',
-                },
-                'content': null,
-              },
-            ],
-          },
-          {
-            dirName: 'google-cloud-articles',
-            dirMtimeDate: '2021-11-22',
-            dirMetadata: {
-              title: 'google cloud',
-              date: '2021-11-22',
-              slug: 'google-cloud-articles',
-              description: 'articles about google cloud',
-            },
-            directories: [],
-            mdxArticles: [
-              {
-                'fileName': 'google-cloud-article-1.mdx',
-                'mtimeDate': '2021-11-22',
-                'metadata': {
-                  'title': 'google cloud article 1',
-                  'description': 'the first google cloud article',
-                  'date': '2021-10-07',
-                  'tags': ['google-cloud', 'firstArticle', 'CSS'],
-                  'slug': 'google-cloud-articles/google-cloud-article-1',
                 },
                 'content': null,
               },
