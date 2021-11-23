@@ -4,7 +4,7 @@
 import {POSTS_DIR} from '../../config';
 import path from 'path';
 import getMdxData from '../mdx-data';
-import {BlogArticleMetadata} from '../../test-setup/BlogArticleMetadata';
+import {BlogArticleMetadata} from '../../test-interface';
 
 describe('getMdxData', () => {
   test.concurrent('content should be null when includeContent=false', () => {
