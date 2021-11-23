@@ -256,6 +256,10 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 ```
 
+The example above uses `next-mdx-remote/serialize` to serialize the mdx file
+into something that can be rendered by next.js but you are free to do whatever
+you want with the data.
+
 
 ## Return Data Structures: `getPageData()`
 
