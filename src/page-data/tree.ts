@@ -17,6 +17,7 @@ import {
 
 import getMdxData from './mdx-data';
 import getDirectoryMetadata from './dir-data';
+import {sortDirsByTitle, sortMdxArticlesByDate} from './sort';
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {
@@ -64,10 +65,8 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
     console.error(`There was an error reading from ${cwd}: ${e}`);
   }
 
-  dirData.directories
-      .sort((a, b) => (a.dirMetadata.title > b.dirMetadata.title) ? 1 : -1);
-  dirData.mdxArticles
-      .sort((a, b) => (a.metadata.date < b.metadata.date) ? 1 : -1);
+  sortDirsByTitle(dirData.directories);
+  sortMdxArticlesByDate(dirData.mdxArticles);
 
   return dirData;
 }

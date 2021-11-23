@@ -6,6 +6,7 @@ import {
 import getDirectoryTree from './tree';
 
 import {POSTS_DIR} from '../config';
+import {sortDirsByTitle} from './sort';
 
 export default function getDirectoryArray<T>(
     cwd?: string,
@@ -16,8 +17,7 @@ export default function getDirectoryArray<T>(
   const dirTree = getDirectoryTree<T>(cwd, shallow);
   const dirArr = getDirectoryArrayFromTree<T>(dirTree);
   if (reSortArr) {
-    return dirArr
-        .sort((a, b) => (a.dirMetadata.title > b.dirMetadata.title) ? 1 : -1);
+    return sortDirsByTitle(dirArr);
   } else {
     return dirArr;
   }
