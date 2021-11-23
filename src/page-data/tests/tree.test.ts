@@ -4,7 +4,7 @@
 import getDirectoryTree from '../tree';
 
 // import {POSTS_DIR} from '../../config';
-import {BlogArticleMetadata} from '../../test-setup/BlogArticleMetadata';
+import {BlogArticleMetadata} from '../../test-interface';
 import {DirectoryTree, MdxArticleData} from '../../interface';
 // import {DirectoryTree} from '../../interface';
 
