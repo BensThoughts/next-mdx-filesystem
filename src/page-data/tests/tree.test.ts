@@ -10,7 +10,6 @@ import {BlogArticleMetadata} from '../../test-setup/BlogArticleMetadata';
 describe('getDirectoryTree', () => {
   describe('called with no options', () => {
     const tree = getDirectoryTree<BlogArticleMetadata>();
-    console.log(tree.directories[0]);
     test.concurrent('tree should be complete', () => {
       expect(tree).toStrictEqual({
         dirName: 'blog-folder',
@@ -26,18 +25,18 @@ describe('getDirectoryTree', () => {
             dirName: 'design',
             dirMtimeDate: '2021-11-22',
             dirMetadata: {
-              title: 'Design',
+              title: 'design',
               date: '2021-11-07',
               slug: 'design',
-              description: 'Articles about web design',
+              description: 'articles about web design',
             },
             directories: [],
             mdxArticles: [
               {
                 'fileName': 'design-article-2.mdx',
-                'mtimeDate': '2021-11-22',
+                'mtimeDate': '2021-11-23',
                 'metadata': {
-                  'title': 'Design article 2',
+                  'title': 'design article 2',
                   'description': 'The second design article',
                   'date': '2021-10-07',
                   'tags': ['design', 'secondArticle', 'CSS'],
@@ -48,9 +47,9 @@ describe('getDirectoryTree', () => {
               {
                 'fileName':
                 'design-article-1.mdx',
-                'mtimeDate': '2021-11-22',
+                'mtimeDate': '2021-11-23',
                 'metadata': {
-                  'title': 'Design article 1',
+                  'title': 'design article 1',
                   'description': 'The first design article',
                   'date': '2021-10-07',
                   'tags': ['design', 'firstArticle', 'CSS'],
