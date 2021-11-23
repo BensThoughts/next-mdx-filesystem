@@ -1,5 +1,5 @@
-import {getFileModifiedDate} from '.';
-import {POSTS_DIR} from '../config';
+import {getFileModifiedDate} from '..';
+import {POSTS_DIR} from '../../config';
 
 describe('getFileModifiedDate', () => {
   test('returns the correct file modified date format', () => {
