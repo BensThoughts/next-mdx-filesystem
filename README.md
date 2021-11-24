@@ -1,3 +1,10 @@
+- **IMPORTANT Change in 0.1.0-beta.1:** `mdxArticle` is now `mdxFile`
+  throughout. It is more accurate, mdx files do not have to be articles. This
+  means the data returned for an mdx file with `getPageData()` now includes the
+  property `mdxFile` instead of `mdxArticle`.
+  
+  ---
+
 # next-mdx-filesystem
 
 Do you want to strongly type the shape of you mdx front matter data in your
@@ -13,7 +20,38 @@ inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
 >**Important Note:** The directory and .mdx file names become a part of the slug path. They need to use a slug friendly separator such as hyphens. Example: 'react-articles' is *good* 'react articles' is *bad*. 'react-article.mdx' is *good* 'react article.mdx' is *bad*
 
-- **IMPORTANT Change in 0.1.0-beta.1:** `mdxArticle` is now `mdxFile` throughout. It is more accurate, as mdx files do not have to be articles. This means the data returned for an mdx file with `getPageData()` now includes the property `mdxFile` instead of `mdxArticle`.
+---
+
+## Table of Contents
+
+- Getting Started
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Importing With Typescript](#how-to-import-and-typescript-configuration)
+- [Function `getSlugs()`](#function---getslugs)
+- Function `getPageData()`
+  - [Function Overview](#function---getpagedata)
+  - [Argurments & Options](#arguments-and-options---getpagedata)
+  - [Calling](#calling---getpagedata)
+  - [Return Data Structures](#return-data-structures---getpagedata)
+    - [MdxFileData](#mdxfiledata)
+    - [DirectoryTree](#directorytree)
+    - [DirectoryData](#directorydata)
+- Complete Example
+  - [Setup](#setup)
+  - [File Structure](#file-structure)
+  - [Example Files](#example-files)
+
+---
+
+## Installation
+
+
+```bash
+npm install --save next-mdx-filesystem
+```
+
+---
 
 ## Configuration
 
@@ -61,6 +99,7 @@ date: '2021-11-07'
 description: 'Articles about web design.'
 ```
 
+---
 
 ## How to import and Typescript configuration
 
@@ -93,7 +132,9 @@ always be given to you based on the filesystem path to the file.
 > of now dates are always *yyyy-mm-dd*. The order of your posts in the output is
 > most recent article first, and based on this assumption.
 
-## Function: `getSlugs()`
+---
+
+## Function - `getSlugs`
 
 >`getSlugs()` should be called from within `getStaticPaths()` inside of `[...slug].tsx`
 
@@ -132,7 +173,9 @@ interface StaticPath {
 }
 ```
 
-## Function Overview: `getPageData()`
+---
+
+## Function - `getPageData`
 
 This is the meat and potatoes of next-mdx-filesystem. It is the function that
 will give you all of the data for a directory or mdx article in an easy to
@@ -151,7 +194,7 @@ function it returns `isDirectory: boolean` as a property of the returned object.
 > will be `false` and the property `mdxFile` will exist.  `mdxFile` will
 > contain all of the metadata and content for that mdx file.
 
-## Arguments and Options: `getPageData()`
+### Arguments and Options - `getPageData`
 
 ```ts
 mdxFilesystem.getPageData(args?: {
@@ -186,9 +229,9 @@ examples in Calling `getPageData()`.
 - `reSortArray (defaults to true)`: When returnType is array this will resort
   the array alphabetically based on the title of each directory.
 
+---
 
-
-## Calling: `getPageData()`
+### Calling - `getPageData`
 
 >`getPageData()` should be called from within `getStaticProps()`.
 
@@ -272,8 +315,9 @@ The example above uses `next-mdx-remote/serialize` to serialize the mdx file
 into something that can be rendered by next.js but you are free to do whatever
 you want with the data.
 
+---
 
-## Return Data Structures: `getPageData()`
+### Return Data Structures - `getPageData`
 
 The return structure of `getPageData()` is...
 
@@ -304,7 +348,7 @@ Listed below are the 3 main data structures that may be returned by
 `getPageData()`.
 
 
-#### MdxFileData:
+#### MdxFileData
 
 If the route points to an mdx article `isDirectory` will be `false` and the `mdxFile` property will contain...
 
@@ -333,7 +377,7 @@ matter.
 
 `T` is the shape of *your* metadata as you defined when you imported `next-mdx-filesystem`
 
-#### DirectoryTree:
+#### DirectoryTree
 
 If the route points to a directory and `returnType` is set to `tree` (which is
 default) then `isDirectory` will be `true` and the `directory`
@@ -428,3 +472,399 @@ to a page that displays the contents of the directory.
 directory or `null` if no description or index.yaml is given.
 
 `mdxFiles` an array of every .mdx article that is stored in this directory.
+
+---
+
+## Complete Examples
+
+### Setup
+
+#### 1: Start a New next.js Project with Typescript.
+
+Check out the
+[next.js install guide](https://nextjs.org/docs/basic-features/typescript) for more details.
+
+```bash
+npx create-next-app@latest --ts
+```
+
+#### 2: Install next-mdx-remote
+
+In the newly created next.js project. This will be used
+to convert the `content` from a string to react components. Check out the
+[next-mdx-remote](https://www.npmjs.com/package/next-mdx-remote) package for
+more details. You can technically use any MDX plugin/converter to convert the
+`content`, but I have found next-mdx-remote to be simple and effective.
+
+```bash
+npm i --save next-mdx-remote
+```
+
+#### 3: Install next-mdx-filesystem
+
+In the next.js project.
+
+```bash
+npm i --save next-mdx-filesystem
+```
+
+#### 4. Create a Directory to Hold .mdx files/folders
+
+In a terminal at the root of your next.js project
+
+```bash
+mkdir mdx-posts
+```
+
+You can place your .mdx files into this directory. You can also create
+sub-directories in here to hold articles.
+
+#### 5: Create Your Config File (Optional)
+
+If you would like to set some custom options for next-mdx-filesystem you can
+create a config file. Check out the [configuration](#configuration) section for
+more info about these options.
+
+In a terminal at the root of your next.js project
+
+```bash
+touch mdx-filesystem.config.json
+```
+
+Open your favorite editor and edit `mdx-filesystem.config.json` to look like
+
+```json
+{
+  "postsDir": "./my-custom-folder",
+  "excludedProdDirs": ["drafts"],
+  "dirIndexFile": "index.yaml"
+}
+```
+
+---
+
+### File Structure
+
+After setting up a fresh next.js project I have...
+
+- Created some basic .mdx files and folders in `./mdx-posts`
+- Added some `index.yaml` files to the folders to store the metadata for each folder.
+- Created `./interfaces/index.ts`, `./pages/blog/index.tsx`, and
+`./pages/blog/[...slug].tsx`.
+
+The folder structure should look similar to the following:
+
+```bash
+├── interfaces
+│   └── index.ts
+├── mdx-posts
+│   ├── design
+│   │   ├── design-article-1.mdx
+│   │   ├── design-article-2.mdx
+│   │   └── index.yaml
+│   ├── drafts
+│   │   ├── draft-1.mdx
+│   │   ├── draft-2.mdx
+│   │   ├── index.yaml
+│   │   └── second-level
+│   │       ├── second-level-article.mdx
+│   │       ├── index.yaml
+│   │       └── third-level
+│   │           ├── index.yaml
+│   │           └── third-level-article.mdx
+│   ├── react-articles
+│   │   ├── index.yaml
+│   │   ├── react-article-1.mdx
+│   │   ├── react-article-2.mdx
+│   │   └── react-article-3.mdx
+│   └── index.yaml
+│   └── root-article-1.mdx
+│   └── root-article-2.mdx
+├── next.config.js
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── pages
+│   ├── _app.tsx
+│   ├── blog
+│   │   ├── index.tsx
+│   │   └── [...slug].tsx
+│   └── index.tsx
+├── public
+│   ├── favicon.ico
+│   └── vercel.svg
+├── README.md
+├── styles
+│   ├── globals.css
+│   └── Home.module.css
+└── tsconfig.json
+```
+
+Directories and Mdx files will map to next.js routes like below...
+
+- `./mdx-posts/` --> `http://localhost:3000/blog`
+- `./mdx-posts/root-article-1.mdx` --> `http://localhost:3000/blog/root-article-1`
+- `./mdx-posts/drafts` --> `http://localhost:3000/blog/drafts`
+- `./mdx-posts/drafts/draft-1.mdx` -->
+  `http://localhost:3000/blog/drafts/draft-1`
+
+
+---
+
+### Example Files
+
+After filling in the code for `./interfaces/index.ts`,
+`./pages/blog/index.tsx`, and `./pages/blog/[...slug].tsx` you will be able to
+run `npm run dev` and navigate to http://localhost:3000/blog to see a list of
+every article all the way down the directory tree. 
+
+You will also be able to navigate to a specific article or directory. For
+example the article at http://localhost:3000/blog/react-articles/react-article-1
+or the directory at http://localhost:3000/blog/drafts/second-level
+
+The following shows the code for some of the files that have been added to the
+starter next.js project.
+
+In `./interfaces/index.ts` I have:
+
+```ts
+export interface BlogArticleMetaData {
+  slug: string,
+  title: string,
+  date: string,
+  description: string,
+  readTime: number,
+  tags: string[],
+}
+```
+
+In `./pages/blog/index.tsx` I have:
+
+```tsx
+import React from 'react';
+import type {GetStaticProps} from 'next';
+import Link from 'next/link';
+import {BlogArticleMetaData} from '../../interfaces';
+
+import {MdxFilesystem, DirectoryData} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+
+export const getStaticProps: GetStaticProps = async () => {
+  const {directory} = await mdxFilesystem.getPageData({
+    dirOptions: {
+      returnType: 'array',
+      shallow: false,
+      reSortArray: true,
+    },
+  });
+
+  return {
+    props: {
+      directory,
+    },
+  };
+};
+
+interface BlogArticleListProps {
+  directory: DirectoryData<BlogArticleMetaData>[];
+}
+
+export default function BlogArticleListPage({directory}: BlogArticleListProps) {
+  return (
+    <section style={
+      {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+      }
+    }>
+      <h1>
+          Array of DirectoryData:
+      </h1>
+      {directory.map((dir) => (
+        <React.Fragment key={dir.dirMetadata.title}>
+          <h2>
+            <span className="text-icon-secondary">[&nbsp;</span>
+            {dir.dirMetadata.title}
+            <span className="text-icon-secondary">&nbsp;]</span>
+          </h2>
+          <div>
+            {dir.mdxFiles.map((mdxFile) => (
+              <div key={mdxFile.fileName}>
+                <span style={{color: 'blue', textDecoration: 'underline'}}>
+                  <Link href={`/blog/${mdxFile.metadata.slug}`}>{mdxFile.metadata.title}</Link>
+                </span>
+              </div>
+            ))}
+          </div>
+        </React.Fragment>
+      ))}
+    </section>
+  );
+};
+```
+
+In `./pages/blog/[...slug].tsx` I have:
+
+```tsx
+import {GetStaticPaths, GetStaticProps} from 'next';
+import Link from 'next/link';
+import {serialize} from 'next-mdx-remote/serialize';
+import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
+
+import {BlogArticleMetaData} from '../../interfaces';
+import {
+  MdxFilesystem,
+  DirectoryTree,
+  MdxMetadata,
+} from 'next-mdx-filesystem';
+const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
+
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+
+
+export const getStaticPaths: GetStaticPaths = (params) => {
+  const slugs = mdxFilesystem.getSlugs();
+  return {
+    paths: slugs,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  if (!params) {
+    throw new Error(`No params in getStaticProps: ${params}`);
+  }
+
+  if (!params.slug) {
+    throw new Error(`No slug on params object: ${params.slug}`);
+  }
+
+  const slugArray = params.slug as string[];
+  const {isDirectory, directory, mdxFile} =
+    await mdxFilesystem.getPageData({
+      slugArray,
+      dirOptions: {
+        returnType: 'tree',
+        shallow: true,
+      },
+    });
+
+  if (isDirectory) {
+    return {
+      props: {
+        isDirectory,
+        directory,
+      },
+    };
+  } else {
+    const mdxSource = await serialize(mdxFile?.content ? mdxFile.content : '');
+    const metadata = mdxFile?.metadata || null;
+    return {
+      props: {
+        isDirectory,
+        mdxFile: {
+          content: mdxSource,
+          metadata,
+        },
+      },
+    };
+  }
+};
+
+type PostProps = {
+  isDirectory: boolean;
+  directory?: DirectoryTree<BlogArticleMetaData>,
+  mdxFile?: {
+    content: MDXRemoteSerializeResult,
+    metadata: MdxMetadata<BlogArticleMetaData>
+  }
+}
+
+export default function PostsPage({
+  isDirectory,
+  directory,
+  mdxFile,
+}: PostProps) {
+  if (isDirectory && directory) {
+    const {dirMetadata, directories, mdxFiles} = directory;
+    return (
+      <section>
+        <h2>Current Directory Metadata:</h2>
+        <ul>
+          <li>Dir Name: {directory.dirName}</li>
+          <li>Dir Modified Date: {directory.dirMtimeDate}</li>
+          <li>index.yaml title: {dirMetadata.title}</li>
+          <li>index.yaml date: {dirMetadata.date}</li>
+          {dirMetadata.description && <li>index.yaml description: {dirMetadata.description}</li>}
+        </ul>
+        <h2>
+          Directories Under This Directory:
+        </h2>
+        <ol>
+          {directories.map((dir) => (
+            <li key={dir.dirName}>
+              <span style={{color: 'blue', textDecoration: 'underline'}}>
+                <Link href={`/blog/${dir.dirMetadata.slug}`}>{dir.dirMetadata.title}</Link>
+              </span>
+              {dir.dirMetadata.description && <span>&nbsp;-&nbsp;{dir.dirMetadata.description}</span>}
+            </li>
+          ))}
+        </ol>
+        <h2>
+          Mdx Files:
+        </h2>
+        <ul>
+          {mdxFiles.map((mdxFile) => (
+            <li key={mdxFile.fileName}>
+              <span style={{color: 'blue', textDecoration: 'underline'}}>
+                <Link href={`/blog/${mdxFile.metadata.slug}`}>{mdxFile.metadata.title}</Link>
+              </span>
+              {mdxFile.metadata.description && <span>&nbsp;-&nbsp;{mdxFile.metadata.description}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  } else if (mdxFile) {
+    const {content, metadata} = mdxFile;
+    return (
+      <article>
+        <h1>Current Article Metadata</h1>
+        <ul>
+          <li>Title: {metadata.title}</li>
+          <li>Date: {metadata.date}</li>
+          <li>Read Time: {metadata.readTime}</li>
+          <li>Description: {metadata.description}</li>
+          <li>Tags: <ul>{metadata.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul></li>
+        </ul>
+        <hr />
+        <MDXRemote {...content} />
+      </article>
+    );
+  }
+};
+```
+
+An example of a .mdx file `./mdx-posts/root-article-1.mdx` is
+
+```mdx
+---
+title: "The Ultimate Perfect Dark Solution"
+description: "Create the ultimate perfect dark mode in Next.js with Typescript"
+date: "2021-08-29"
+readTime: 30
+tags:
+  - 'styled'
+  - 'react'
+  - '@emotion'
+  - 'css'
+  - 'Typescript'
+---
+
+## The ultimate perfect dark solution
+
+Setting out to build the ultimate dark mode was a...
+```

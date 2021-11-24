@@ -2,8 +2,21 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to [Semantic
+Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-beta.6] - 2021-11-24
+### Added
+- Added table of contents and division lines to README.md
+- Added complete example to README.md
+### Changed
+- Removed @corex/deepmerge from dependencies.  It is no longer needed.
+- Fixed error message when path is not present to guide user to check their
+  config file.
+
+## [0.1.0-beta.5] - 2021-11-23
+### Changed
+- README.md updates.
 ## [0.1.0-beta.3] - 2021-11-23
 ### Added
 - Added important notice of the API change to the README.md.
