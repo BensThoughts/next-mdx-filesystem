@@ -1,9 +1,9 @@
 {
   "name": "next-mdx-filesystem",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "A fully typed library to get .mdx files into next.js. next-mdx-filesystem will recursively read through a directory of your choosing and give you back .mdx/directory metadata that is easy to consume in a React component",
-  "main": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "dependencies": {
     "@corex/deepmerge": "^2.6.34",
     "gray-matter": "^4.0.3",
