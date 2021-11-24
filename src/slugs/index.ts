@@ -57,7 +57,6 @@ export default function getAllSlugs(
   slugData.directories.push(...directories);
   slugData.mdxFiles.push(...mdxFiles);
   directories.forEach(({params: {slug}}) => {
-    // const nextCwd = getFullPathFromSlug(slugArrayToPath(slug));
     const nextCwd = slugArrayToFullPath(slug);
     slugData = getAllSlugs(nextCwd, slugData);
   });
