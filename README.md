@@ -1,13 +1,3 @@
-- **NOTICE:** This is still beta software. It is highly functional, well
-  tested, and the public API is in a good place to become stable pending further
-  review by peers. Until I get some feedback and release a non-beta version the
-  API is subject to change ***without*** a major version bump as required by
-  [Semantic Versioning](https://semver.org/spec/v2.0.0.html). That said, all API
-  changes will be marked at the top of the README.md until a non-beta version is
-  released and in the CHANGELOG.md permanently.
-
-- **IMPORTANT Change in 0.1.0-beta.1:** `mdxArticle` is now `mdxFile` throughout. It is more accurate, as mdx files do not have to be articles. This means the data returned for an mdx file with `getPageData()` now includes the property `mdxFile` instead of `mdxArticle`.
-
 # next-mdx-filesystem
 
 Do you want to strongly type the shape of you mdx front matter data in your
@@ -23,7 +13,7 @@ inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
 >**Important Note:** The directory and .mdx file names become a part of the slug path. They need to use a slug friendly separator such as hyphens. Example: 'react-articles' is *good* 'react articles' is *bad*. 'react-article.mdx' is *good* 'react article.mdx' is *bad*
 
-
+- **IMPORTANT Change in 0.1.0-beta.1:** `mdxArticle` is now `mdxFile` throughout. It is more accurate, as mdx files do not have to be articles. This means the data returned for an mdx file with `getPageData()` now includes the property `mdxFile` instead of `mdxArticle`.
 
 ## Configuration
 
