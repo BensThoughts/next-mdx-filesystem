@@ -1,4 +1,4 @@
-import {DirectoryData, MdxArticleData} from '../interface';
+import {DirectoryData, MdxFileData} from '../interface';
 
 export function sortDirsByTitle<T>(arr: DirectoryData<T>[]) {
   return arr
@@ -10,6 +10,6 @@ export function sortDirsByTitle<T>(arr: DirectoryData<T>[]) {
       });
 }
 
-export function sortMdxArticlesByDate<T>(arr: MdxArticleData<T>[]) {
+export function sortMdxFilesByDate<T>(arr: MdxFileData<T>[]) {
   return arr.sort((a, b) => (a.metadata.date < b.metadata.date) ? 1 : -1);
 }

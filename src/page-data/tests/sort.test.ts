@@ -1,13 +1,13 @@
 /*eslint spaced-comment: ["off"] */
 /*eslint max-len: ["off"] */
 
-import {sortDirsByTitle, sortMdxArticlesByDate} from '../sort';
-import {DirectoryData, MdxArticleData} from '../../interface';
+import {sortDirsByTitle, sortMdxFilesByDate} from '../sort';
+import {DirectoryData, MdxFileData} from '../../interface';
 import {BlogArticleMetadata} from '../../test-interface';
 
-describe('sortMdxArticlesByDate', () => {
+describe('sortMdxFilesByDate', () => {
   test.concurrent('should be sorted by standard date with latest date first', () => {
-    const mdxData: MdxArticleData[] = [
+    const mdxData: MdxFileData[] = [
       {
         fileName: 'a',
         mtimeDate: '2022-01-03',
@@ -39,8 +39,8 @@ describe('sortMdxArticlesByDate', () => {
         },
       },
     ];
-    const sortedData = sortMdxArticlesByDate(mdxData);
-    const isSorted = (arr: MdxArticleData[]) =>
+    const sortedData = sortMdxFilesByDate(mdxData);
+    const isSorted = (arr: MdxFileData[]) =>
       arr.every((v, i, a) => !i || a[i-1].metadata.date >= v.metadata.date);
 
     expect(isSorted(sortedData)).toStrictEqual(true);
@@ -59,7 +59,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
       {
         dirName: 'a',
@@ -70,7 +70,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
       {
         dirName: 'a',
@@ -81,7 +81,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
       {
         dirName: 'a',
@@ -92,7 +92,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
       {
         dirName: 'a',
@@ -103,7 +103,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
       {
         dirName: 'a',
@@ -114,7 +114,7 @@ describe('sortDirsByTitle', () => {
           slug: '',
           description: null,
         },
-        mdxArticles: [],
+        mdxFiles: [],
       },
     ];
     const sortedData = sortDirsByTitle(dirData);

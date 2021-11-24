@@ -1,5 +1,5 @@
 import {
-  MdxArticleData,
+  MdxFileData,
 } from '../interface';
 
 import {
@@ -13,11 +13,12 @@ import {
 } from '../file';
 
 import matter from 'gray-matter';
+import {Expand} from '..';
 
 export default function getMdxData<T>(
     fullPath: string,
     includeContent = true,
-): MdxArticleData<T> {
+): MdxFileData<T> {
   const rawFileSource = readFile(fullPath);
   const slug = getSlugFromFullPath(fullPath);
   const mtimeDate = getFileModifiedDate(fullPath);
@@ -31,7 +32,7 @@ export default function getMdxData<T>(
     fileName,
     mtimeDate,
     metadata: {
-      ...data as T,
+      ...data as Expand<T>,
       date,
       title,
       slug,

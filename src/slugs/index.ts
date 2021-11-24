@@ -18,7 +18,7 @@ import {
 function getSlugsInDir(cwd: string):SlugData {
   const slugData: SlugData = {
     directories: [],
-    mdxArticles: [],
+    mdxFiles: [],
   };
   const dirents = readDir(cwd);
   dirents.forEach((dirent) => {
@@ -29,7 +29,7 @@ function getSlugsInDir(cwd: string):SlugData {
       slug,
     } = getPathData(cwd, dirent);
     if (!isDirectory && isMdx) {
-      slugData.mdxArticles.push({
+      slugData.mdxFiles.push({
         params: {
           slug: slugToArray(slug),
         },
@@ -50,12 +50,12 @@ export default function getAllSlugs(
     cwd = POSTS_DIR,
     slugData:SlugData = {
       directories: [],
-      mdxArticles: [],
+      mdxFiles: [],
     },
 ) {
-  const {directories, mdxArticles} = getSlugsInDir(cwd);
+  const {directories, mdxFiles} = getSlugsInDir(cwd);
   slugData.directories.push(...directories);
-  slugData.mdxArticles.push(...mdxArticles);
+  slugData.mdxFiles.push(...mdxFiles);
   directories.forEach(({params: {slug}}) => {
     // const nextCwd = getFullPathFromSlug(slugArrayToPath(slug));
     const nextCwd = slugArrayToFullPath(slug);

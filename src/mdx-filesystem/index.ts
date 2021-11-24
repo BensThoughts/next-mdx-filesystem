@@ -72,7 +72,7 @@ export class MdxFilesystem<T = {}> {
       if (mdxPathExists && isPathFile(mdxPath)) {
         return {
           isDirectory: false,
-          mdxArticle: getMdxData<T>(mdxPath, true),
+          mdxFile: getMdxData<T>(mdxPath, true),
         } as Expand<PageData<T, R>>;
       }
 
@@ -86,8 +86,8 @@ export class MdxFilesystem<T = {}> {
 
   getSlugs(): Expand<StaticPath>[];
   getSlugs() {
-    const {directories, mdxArticles} = getAllSlugs();
+    const {directories, mdxFiles} = getAllSlugs();
 
-    return [...directories, ...mdxArticles];
+    return [...directories, ...mdxFiles];
   };
 }

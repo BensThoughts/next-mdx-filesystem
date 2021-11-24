@@ -4,7 +4,7 @@
 import getAllSlugs from '../index';
 
 describe('getAllSlugs', () => {
-  const {directories, mdxArticles} = getAllSlugs();
+  const {directories, mdxFiles} = getAllSlugs();
   test.concurrent('should get all of the slugs for directories', () => {
     expect(directories).toStrictEqual([
       {
@@ -39,8 +39,8 @@ describe('getAllSlugs', () => {
       },
     ]);
   });
-  test.concurrent('should get all of the slugs for mdxArticles', () => {
-    expect(mdxArticles).toStrictEqual([
+  test.concurrent('should get all of the slugs for mdxFiles', () => {
+    expect(mdxFiles).toStrictEqual([
       {
         'params': {
           'slug': ['empty-article'],

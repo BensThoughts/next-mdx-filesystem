@@ -9,34 +9,34 @@ import {BlogArticleMetadata} from '../../test-interface';
 describe('getMdxData', () => {
   test.concurrent('content should be null when includeContent=false', () => {
     const articlePath = path.join(POSTS_DIR, 'root-article.mdx');
-    const mdxArticle = getMdxData(articlePath, false);
-    expect(mdxArticle.content).toStrictEqual(null);
+    const mdxFile = getMdxData(articlePath, false);
+    expect(mdxFile.content).toStrictEqual(null);
   });
   test.concurrent('content should be a string when includeContent=true', () => {
     const articlePath = path.join(POSTS_DIR, 'root-article.mdx');
-    const mdxArticle = getMdxData(articlePath, true);
-    expect(typeof mdxArticle.content).toBe('string');
+    const mdxFile = getMdxData(articlePath, true);
+    expect(typeof mdxFile.content).toBe('string');
   });
   test.concurrent('content should be a string when includeContent is left out', () => {
     const articlePath = path.join(POSTS_DIR, 'root-article.mdx');
-    const mdxArticle = getMdxData(articlePath);
-    expect(typeof mdxArticle.content).toBe('string');
+    const mdxFile = getMdxData(articlePath);
+    expect(typeof mdxFile.content).toBe('string');
   });
 
 
   describe('should get mdx data correctly with full front matter present', () => {
     const articlePath = path.join(POSTS_DIR, 'root-article.mdx');
-    const mdxArticle = getMdxData<BlogArticleMetadata>(articlePath);
-    const {metadata} = mdxArticle;
+    const mdxFile = getMdxData<BlogArticleMetadata>(articlePath);
+    const {metadata} = mdxFile;
     describe('base data is correct', () => {
       test.concurrent('fileName is correct', () => {
-        expect(mdxArticle.fileName).toStrictEqual('root-article.mdx');
+        expect(mdxFile.fileName).toStrictEqual('root-article.mdx');
       });
       test.concurrent('mtimeDate is correct', () => {
-        expect(mdxArticle.mtimeDate).toStrictEqual('2021-11-22');
+        expect(mdxFile.mtimeDate).toStrictEqual('2021-11-22');
       });
       test.concurrent('content is correct', () => {
-        expect(mdxArticle.content).toStrictEqual('This is the root article content.');
+        expect(mdxFile.content).toStrictEqual('This is the root article content.');
       });
     });
     describe('default metadata is correctly overwritten', () => {
@@ -66,17 +66,17 @@ describe('getMdxData', () => {
 
   describe('should get mdx data correctly for an article with no front matter', () => {
     const articlePath = path.join(POSTS_DIR, 'no-frontmatter-article.mdx');
-    const mdxArticle = getMdxData<BlogArticleMetadata>(articlePath);
-    const {metadata} = mdxArticle;
+    const mdxFile = getMdxData<BlogArticleMetadata>(articlePath);
+    const {metadata} = mdxFile;
     describe('base data is correct', () => {
       test.concurrent('fileName is correct', () => {
-        expect(mdxArticle.fileName).toStrictEqual('no-frontmatter-article.mdx');
+        expect(mdxFile.fileName).toStrictEqual('no-frontmatter-article.mdx');
       });
       test.concurrent('mtimeDate is correct', () => {
-        expect(mdxArticle.mtimeDate).toStrictEqual('2021-11-22');
+        expect(mdxFile.mtimeDate).toStrictEqual('2021-11-22');
       });
       test.concurrent('content is an empty string', () => {
-        expect(mdxArticle.content).toStrictEqual('This is an article with no front matter.');
+        expect(mdxFile.content).toStrictEqual('This is an article with no front matter.');
       });
     });
     describe('default metadata is correctly overwritten', () => {
@@ -95,17 +95,17 @@ describe('getMdxData', () => {
 
   describe('should get mdx data correctly for an empty article', () => {
     const articlePath = path.join(POSTS_DIR, 'empty-article.mdx');
-    const mdxArticle = getMdxData<BlogArticleMetadata>(articlePath);
-    const {metadata} = mdxArticle;
+    const mdxFile = getMdxData<BlogArticleMetadata>(articlePath);
+    const {metadata} = mdxFile;
     describe('base data is correct', () => {
       test.concurrent('fileName is correct', () => {
-        expect(mdxArticle.fileName).toStrictEqual('empty-article.mdx');
+        expect(mdxFile.fileName).toStrictEqual('empty-article.mdx');
       });
       test.concurrent('mtimeDate is correct', () => {
-        expect(mdxArticle.mtimeDate).toStrictEqual('2021-11-22');
+        expect(mdxFile.mtimeDate).toStrictEqual('2021-11-22');
       });
       test.concurrent('content is an empty string', () => {
-        expect(mdxArticle.content).toStrictEqual('');
+        expect(mdxFile.content).toStrictEqual('');
       });
     });
     describe('default metadata is correctly overwritten', () => {

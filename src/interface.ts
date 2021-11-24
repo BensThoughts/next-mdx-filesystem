@@ -16,24 +16,25 @@ export interface DirectoryData<T = {}> {
     slug: string;
     description: string | null;
   }
-  mdxArticles: MdxArticleData<T>[]
+  mdxFiles: MdxFileData<T>[]
 }
 
-export interface MdxArticleData<T = {}> {
+export type MdxMetadata<T = {}> = {
+  slug: string,
+  title: string,
+  date: string,
+} & T;
+export interface MdxFileData<T = {}> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
-  metadata: {
-    title: string;
-    date: string;
-    slug: string;
-  } & T;
+  metadata: Expand<MdxMetadata<T>>;
 }
 
 export interface PageData<T, R extends 'tree' | 'array' = 'tree'> {
   isDirectory: boolean;
   directory?: R extends 'tree' ? DirectoryTree<T> : DirectoryData<T>[];
-  mdxArticle?: Expand<MdxArticleData<T>>;
+  mdxFile?: Expand<MdxFileData<T>>;
 }
 
 export interface PageDataOpts<R extends 'tree' | 'array' = 'tree'> {
@@ -52,7 +53,7 @@ export interface GlobalConfig {
 }
 export interface SlugData {
   directories: StaticPath[],
-  mdxArticles: StaticPath[],
+  mdxFiles: StaticPath[],
 }
 
 export interface StaticPath {

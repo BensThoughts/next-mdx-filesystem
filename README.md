@@ -139,7 +139,7 @@ function it returns `isDirectory: boolean` as a property of the returned object.
 > contain all of the metadata about that directory and the mdx articles in it.
 
 > **If the route that the slug points to is an mdx article** then `isDirectory`
-> will be `false` and the property `mdxArticle` will exist.  `mdxArticle` will
+> will be `false` and the property `mdxFile` will exist.  `mdxFile` will
 > contain all of the metadata and content for that mdx file.
 
 ## Arguments and Options: `getPageData()`
@@ -169,7 +169,10 @@ examples in Calling `getPageData()`.
    back when the route is a directory. Valid options are `'tree'` or `'array'`.
 
 - `shallow (defaults to false)`: When `true` the function returns just the
-  articles and directories in the current directory path. When `false` the function recursively gives you back all directories, sub-directories, and mdxArticle metadata all the way down the filesystem tree starting at the current directory path.
+  articles and directories in the current directory path. When `false` the
+  function recursively gives you back all directories, sub-directories, and mdx
+  file metadata all the way down the filesystem tree starting at the current
+  directory path.
 
 - `reSortArray (defaults to true)`: When returnType is array this will resort
   the array alphabetically based on the title of each directory.
@@ -223,7 +226,7 @@ const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>();
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const slugArray = params!.slug as string[];
-  const {isDirectory, directory, mdxArticle} =
+  const {isDirectory, directory, mdxFile} =
     await mdxFilesystem.getPageData({
       slugArray,
       dirOptions: {
@@ -240,12 +243,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       },
     };
   } else {
-    const mdxSource = await serialize(mdxArticle?.content || '');
-    const metadata = mdxArticle?.metadata || null;
+    const mdxSource = await serialize(mdxFile?.content || '');
+    const metadata = mdxFile?.metadata || null;
     return {
       props: {
         isDirectory,
-        mdxArticle: {
+        mdxFile: {
           content: mdxSource,
           metadata,
         },
@@ -269,7 +272,7 @@ The return structure of `getPageData()` is...
 {
   isDirectory: boolean,
   directory: DirectoryTree<T> | DirectoryData<T>[],
-  mdxArticle: MdxArticleData<T>
+  mdxFile: MdxFileData<T>
 }
 ```
 
@@ -282,8 +285,8 @@ either a [`DirectoryTree<T>`](#DirectoryTree) or a
 dirOption, the default is `'tree'`. See below for the structure of
 these objects.
 
-`mdxArticle` If the slug points to an .mdx file `mdxArticle` will contain an
-[`MdxArticleData<T>`](#MdxArticleData) object with the articles content and metadata.
+`mdxFile` If the slug points to an .mdx file `mdxFile` will contain an
+[`MdxFileData<T>`](#MdxFileData) object with the articles content and metadata.
 
 `T` is the shape of *your* mdx metadata as given when you imported and
 created the MdxFilesystem class.
@@ -292,12 +295,12 @@ Listed below are the 3 main data structures that may be returned by
 `getPageData()`.
 
 
-#### MdxArticleData:
+#### MdxFileData:
 
-If the route points to an mdx article `isDirectory` will be `false` and the `mdxArticle` property will contain...
+If the route points to an mdx article `isDirectory` will be `false` and the `mdxFile` property will contain...
 
 ```ts
-interface MdxArticleData<T> {
+interface MdxFileData<T> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
@@ -340,7 +343,7 @@ type DirectoryTree<T> = {
     slug: string;
     description: string | null;
   }
-  mdxArticles: MdxArticleData<T>[]; // all of the mdx articles in the current dir
+  mdxFiles: MdxFileData<T>[]; // all of the mdx articles in the current dir
   directories: DirectoryTree<T>[]; // all of the directories in the current dir
 }
 ```
@@ -361,7 +364,7 @@ to a page that displays the contents of the directory.
 `description`: the description as given in the index.yaml file stored in the
 directory or `null` if no description or index.yaml is given.
 
-`mdxArticles`: an array of every .mdx article that is stored in this directory.
+`mdxFiles`: an array of every .mdx article that is stored in this directory.
 
 `directories`: an array of `DirectoryTree<T>`s that are sub-directories within
 the current directory.
@@ -393,7 +396,7 @@ interface DirectoryData<T> {
       slug: string;
       description: string | null;
     }
-    mdxArticles: MdxArticleData<T>[]
+    mdxFiles: MdxFileData<T>[]
 }
 ```
 
@@ -413,4 +416,4 @@ to a page that displays the contents of the directory.
 `description` the description as given in the index.yaml file stored in the
 directory or `null` if no description or index.yaml is given.
 
-`mdxArticles` an array of every .mdx article that is stored in this directory.
+`mdxFiles` an array of every .mdx article that is stored in this directory.

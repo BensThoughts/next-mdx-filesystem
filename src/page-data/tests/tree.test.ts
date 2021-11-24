@@ -5,7 +5,7 @@ import getDirectoryTree from '../tree';
 
 // import {POSTS_DIR} from '../../config';
 import {BlogArticleMetadata} from '../../test-interface';
-import {DirectoryTree, MdxArticleData} from '../../interface';
+import {DirectoryTree, MdxFileData} from '../../interface';
 // import {DirectoryTree} from '../../interface';
 
 describe('getDirectoryTree', () => {
@@ -17,10 +17,10 @@ describe('getDirectoryTree', () => {
       expect(isSorted(tree.directories)).toStrictEqual(true);
     });
 
-    test.concurrent('mdxArticles should be sorted by their date with most current first', () => {
-      const isSorted = (arr: MdxArticleData<BlogArticleMetadata>[]) =>
+    test.concurrent('mdxFiles should be sorted by their date with most current first', () => {
+      const isSorted = (arr: MdxFileData<BlogArticleMetadata>[]) =>
         arr.every((v, i, a) => !i || a[i-1].metadata.date >= v.metadata.date);
-      expect(isSorted(tree.mdxArticles)).toStrictEqual(true);
+      expect(isSorted(tree.mdxFiles)).toStrictEqual(true);
     });
 
     test.concurrent('tree should be complete', () => {
@@ -44,7 +44,7 @@ describe('getDirectoryTree', () => {
               description: 'articles about google cloud',
             },
             directories: [],
-            mdxArticles: [
+            mdxFiles: [
               {
                 'fileName': 'google-cloud-article-1.mdx',
                 'mtimeDate': '2021-11-22',
@@ -69,7 +69,7 @@ describe('getDirectoryTree', () => {
               description: 'articles about web design',
             },
             directories: [],
-            mdxArticles: [
+            mdxFiles: [
               {
                 'fileName': 'design-article-2.mdx',
                 'mtimeDate': '2021-11-23',
@@ -127,7 +127,7 @@ describe('getDirectoryTree', () => {
                       description: 'these are third level articles',
                     },
                     directories: [],
-                    mdxArticles: [
+                    mdxFiles: [
                       {
                         'fileName': 'third-level-article.mdx',
                         'mtimeDate': '2021-11-22',
@@ -144,7 +144,7 @@ describe('getDirectoryTree', () => {
                     ],
                   },
                 ],
-                mdxArticles: [
+                mdxFiles: [
                   {
                     'fileName': 'second-level-article.mdx',
                     'mtimeDate': '2021-11-22',
@@ -161,7 +161,7 @@ describe('getDirectoryTree', () => {
                 ],
               },
             ],
-            mdxArticles: [
+            mdxFiles: [
               {
                 'fileName': 'draft-2.mdx',
                 'mtimeDate': '2021-11-22',
@@ -198,7 +198,7 @@ describe('getDirectoryTree', () => {
               description: 'articles about react.',
             },
             directories: [],
-            mdxArticles: [
+            mdxFiles: [
               {
                 'fileName': 'react-article-3.mdx',
                 'mtimeDate': '2021-11-22',
@@ -238,7 +238,7 @@ describe('getDirectoryTree', () => {
             ],
           },
         ],
-        mdxArticles: [
+        mdxFiles: [
           {
             'fileName': 'no-frontmatter-article.mdx',
             'mtimeDate': '2021-11-22',

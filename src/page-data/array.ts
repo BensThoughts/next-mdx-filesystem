@@ -33,14 +33,14 @@ function getDirectoryArrayFromTree<T>(
     dirMtimeDate,
     dirMetadata,
     directories,
-    mdxArticles,
+    mdxFiles,
   } = dirTree;
   dirArray = dirArray || [];
   dirArray.push({
     dirName,
     dirMtimeDate,
     dirMetadata,
-    mdxArticles,
+    mdxFiles,
   });
   directories.forEach((nextDirTree) => {
     getDirectoryArrayFromTree(nextDirTree, dirArray);

@@ -17,14 +17,14 @@ import {
 
 import getMdxData from './mdx-data';
 import getDirectoryMetadata from './dir-data';
-import {sortDirsByTitle, sortMdxArticlesByDate} from './sort';
+import {sortDirsByTitle, sortMdxFilesByDate} from './sort';
 
 function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   const dirData: DirectoryTree<T> = {
     dirName: getFileName(cwd),
     dirMtimeDate: getFileModifiedDate(cwd),
     dirMetadata: getDirectoryMetadata(cwd),
-    mdxArticles: [],
+    mdxFiles: [],
     directories: [],
   };
   try {
@@ -54,11 +54,11 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
             description,
           },
           directories: [],
-          mdxArticles: [],
+          mdxFiles: [],
         });
       } else if (!isDirectory && isMdx) {
-        const mdxArticleData = getMdxData<T>(fullPath, false);
-        dirData.mdxArticles.push(mdxArticleData);
+        const mdxFileData = getMdxData<T>(fullPath, false);
+        dirData.mdxFiles.push(mdxFileData);
       };
     });
   } catch (e) {
@@ -66,7 +66,7 @@ function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
   }
 
   sortDirsByTitle(dirData.directories);
-  sortMdxArticlesByDate(dirData.mdxArticles);
+  sortMdxFilesByDate(dirData.mdxFiles);
 
   return dirData;
 }
@@ -82,11 +82,11 @@ export default function getDirectoryTree<T>(
     dirMtimeDate: getFileModifiedDate(cwd),
     dirMetadata: getDirectoryMetadata(cwd),
     directories: [],
-    mdxArticles: [],
+    mdxFiles: [],
   };
   const newDirectoryData = getDirectoryTreeNode<T>(cwd);
   directoryData.directories.push(...newDirectoryData.directories);
-  directoryData.mdxArticles.push(...newDirectoryData.mdxArticles);
+  directoryData.mdxFiles.push(...newDirectoryData.mdxFiles);
   if (!shallow) {
     directoryData.directories.forEach((directory) => {
       const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
