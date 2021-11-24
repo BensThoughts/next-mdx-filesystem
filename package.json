@@ -5,7 +5,6 @@
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
   "dependencies": {
-    "@corex/deepmerge": "^2.6.34",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0"
   },
