@@ -79,7 +79,7 @@ export class MdxFilesystem<T = {}> {
       throw Error(
           `Error, slug lead to neither a directory or .mdx file.
            Path checked: ${dirPath}
-           Check your mdx-filesystem.config.js file to make sure it
+           Check your mdx-filesystem.config.json file to make sure it
            points to the directory that contains your mdx files.`,
       );
     }
