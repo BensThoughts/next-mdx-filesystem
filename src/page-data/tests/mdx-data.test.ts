@@ -80,8 +80,14 @@ describe('getMdxData', () => {
       });
     });
     describe('default metadata is correctly overwritten', () => {
+      test.concurrent('title should equal fileName', () => {
+        expect(metadata.title).toStrictEqual(mdxFile.fileName);
+      });
       test.concurrent('title is correct', () => {
         expect(metadata.title).toStrictEqual('no-frontmatter-article.mdx');
+      });
+      test.concurrent('date should equal mtimeDate', () => {
+        expect(metadata.date).toStrictEqual(mdxFile.mtimeDate);
       });
       test.concurrent('date is correct', () => {
         expect(metadata.date).toStrictEqual('2021-11-22');
@@ -109,8 +115,14 @@ describe('getMdxData', () => {
       });
     });
     describe('default metadata is correctly overwritten', () => {
+      test.concurrent('title should equal fileName', () => {
+        expect(metadata.title).toStrictEqual(mdxFile.fileName);
+      });
       test.concurrent('title is correct', () => {
         expect(metadata.title).toStrictEqual('empty-article.mdx');
+      });
+      test.concurrent('date should equal mtimeDate', () => {
+        expect(metadata.date).toStrictEqual(mdxFile.mtimeDate);
       });
       test.concurrent('date is correct', () => {
         expect(metadata.date).toStrictEqual('2021-11-22');
