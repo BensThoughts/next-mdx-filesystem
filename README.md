@@ -304,12 +304,14 @@ interface MdxFileData<T> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
-  metadata: {
-    title: string;
-    date: string;
-    slug: string;
-  } & T;
+  metadata: MdxMetadata<T>
 }
+
+type MdxMetadata<T> = {
+  slug: string;
+  title: string;
+  date: string;
+} & T
 ```
 
 If `title` is not in the mdx front matter it will be equal to the `fileName`.
