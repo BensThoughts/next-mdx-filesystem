@@ -1,12 +1,12 @@
 import {DirectoryTree} from '../interface';
 
 import {
-  getFileModifiedDate,
+  // getFileModifiedDate,
   readDir,
 } from '../file';
 
 import {
-  getFileName,
+  // getFileName,
   getFullPathFromSlug,
   getPathData,
 } from '../path';
@@ -16,82 +16,58 @@ import {
 } from '../config';
 
 import getMdxData from './mdx-data';
-import getDirectoryMetadata from './dir-data';
+// import getDirectoryMetadata from './dir-data';
 import {sortDirsByTitle, sortMdxFilesByDate} from './sort';
+import getDirectoryMetadata from './dir-metadata';
 
-function getDirectoryTreeNode<T>(cwd: string): DirectoryTree<T> {
-  const dirData: DirectoryTree<T> = {
-    dirName: getFileName(cwd),
-    dirMtimeDate: getFileModifiedDate(cwd),
-    dirMetadata: getDirectoryMetadata(cwd),
-    mdxFiles: [],
-    directories: [],
-  };
-  try {
-    const dirents = readDir(cwd);
-    dirents.forEach((dirent) => {
-      const {
-        isMdx,
-        isDirectory,
-        isExcludedPath,
-        fullPath,
-        slug,
-      } = getPathData(cwd, dirent);
-      if (isDirectory && !isExcludedPath) {
-        const {
-          title,
-          date,
-          description,
-        } = getDirectoryMetadata(fullPath);
-        const dirMtimeDate = getFileModifiedDate(fullPath);
-        dirData.directories.push({
-          dirName: getFileName(fullPath),
-          dirMtimeDate,
-          dirMetadata: {
-            title,
-            date,
-            slug,
-            description,
-          },
-          directories: [],
-          mdxFiles: [],
-        });
-      } else if (!isDirectory && isMdx) {
-        const mdxFileData = getMdxData<T>(fullPath, false);
-        dirData.mdxFiles.push(mdxFileData);
-      };
-    });
-  } catch (e) {
-    console.error(`There was an error reading from ${cwd}: ${e}`);
-  }
-
-  sortDirsByTitle(dirData.directories);
-  sortMdxFilesByDate(dirData.mdxFiles);
-
-  return dirData;
+function getDirectoryTreeNodes<T>(
+    cwd: string,
+    dirTreeNode: DirectoryTree<T>,
+): DirectoryTree<T> {
+  const dirents = readDir(cwd);
+  dirents.forEach((dirent) => {
+    const {
+      isMdx,
+      isDirectory,
+      isExcludedPath,
+      fullPath,
+    } = getPathData(cwd, dirent);
+    if (isDirectory && !isExcludedPath) {
+      dirTreeNode.directories.push({
+        ...getDirectoryMetadata(fullPath),
+        directories: [],
+        mdxFiles: [],
+      });
+    } else if (!isDirectory && isMdx) {
+      dirTreeNode.mdxFiles.push(getMdxData<T>(fullPath, false));
+    }
+  });
+  sortDirsByTitle(dirTreeNode.directories);
+  sortMdxFilesByDate(dirTreeNode.mdxFiles);
+  return dirTreeNode;
 }
 
 export default function getDirectoryTree<T>(
     cwd?: string,
     shallow = false,
-    directoryData?: DirectoryTree<T>,
+    directoryTree?: DirectoryTree<T>,
 ): DirectoryTree<T> {
   cwd = cwd || POSTS_DIR as string;
-  directoryData = directoryData || {
-    dirName: getFileName(cwd),
-    dirMtimeDate: getFileModifiedDate(cwd),
-    dirMetadata: getDirectoryMetadata(cwd),
+  directoryTree = directoryTree ||
+  {
+    ...getDirectoryMetadata(cwd),
     directories: [],
     mdxFiles: [],
   };
-  const newDirectoryData = getDirectoryTreeNode<T>(cwd);
-  directoryData.directories.push(...newDirectoryData.directories);
-  directoryData.mdxFiles.push(...newDirectoryData.mdxFiles);
+
+  getDirectoryTreeNodes(cwd, directoryTree);
+
   if (!shallow) {
-    directoryData.directories.forEach((directory) => {
-      const newCwd = getFullPathFromSlug(directory.dirMetadata.slug);
-      getDirectoryTree(newCwd, shallow, directory);
+    directoryTree.directories.forEach((dirTreeNode) => {
+      const newCwd = getFullPathFromSlug(dirTreeNode.dirMetadata.slug);
+      getDirectoryTree(newCwd, shallow, dirTreeNode);
     });
   }
-  return directoryData;
+
+  return directoryTree;
 }
