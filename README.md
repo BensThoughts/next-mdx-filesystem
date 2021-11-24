@@ -146,7 +146,7 @@ you set `postsDir` to in your `mdx-filesystem.config.json` file.
 should be used inside of a page named `[...slug].tsx`.  You can read more about
 catch all routes in the next.js docs [here](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes).
 
-**Example** use in `/pages/blog/[...slug].tsx`:
+**Example** use in `./pages/blog/[...slug].tsx`:
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -236,12 +236,12 @@ examples in Calling `getPageData()`.
 >`getPageData()` should be called from within `getStaticProps()`.
 
 If you are calling it from within an `index.tsx`, for example
-`/pages/blog/index.tsx`, you can call it without the `slugArray` property and it
-will give you back the `directory` property that contains all of the metadata
+`./pages/blog/index.tsx`, you can call it without the `slugArray` property and
+it will give you back the `directory` property that contains all of the metadata
 for the root directory of your mdx articles as configured by `postsDir` in the
 configuration file `mdx-filesystem.config.json`.
 
-#### **Example** use in `/pages/blog/index.tsx`:
+#### **Example** use in `./pages/blog/index.tsx`:
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -269,7 +269,7 @@ If you are calling `getPageData()` from within `[...slug].tsx` for example
 given by next.js.
 
 
-#### **Example** use in `/pages/blog/[...slug].tsx`:
+#### **Example** use in `./pages/blog/[...slug].tsx`:
 
 ```ts
 import {serialize} from 'next-mdx-remote/serialize';
@@ -490,8 +490,7 @@ npx create-next-app@latest --ts
 
 #### 2: Install next-mdx-remote
 
-In the newly created next.js project. This will be used
-to convert the `content` from a string to react components. Check out the
+In the newly created next.js project. This will be used to convert the `content` from a string to react components. Check out the
 [next-mdx-remote](https://www.npmjs.com/package/next-mdx-remote) package for
 more details. You can technically use any MDX plugin/converter to convert the
 `content`, but I have found next-mdx-remote to be simple and effective.
