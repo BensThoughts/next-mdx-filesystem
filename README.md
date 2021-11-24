@@ -91,7 +91,7 @@ always be given to you based on the filesystem path to the file.
 
 > Note: There are plans to allow for custom date formatting in the future but as
 > of now dates are always *yyyy-mm-dd*. The order of your posts in the output is
-> most recent article first in the array of articles and based on this assumption.
+> most recent article first, and based on this assumption.
 
 ## Function: `getSlugs()`
 
