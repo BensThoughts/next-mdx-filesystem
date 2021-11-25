@@ -14,8 +14,8 @@
 
 ### Latest Version Works With
 
-![](https://img.shields.io/badge/semver-0.1.0--beta.6-brightgreen)
-![](https://img.shields.io/badge/next.js-12.0.4-brightgreen)
+![semver](https://img.shields.io/badge/semver-0.1.0--beta.6-brightgreen)
+![nextjs version](https://img.shields.io/badge/next.js-12.0.4-brightgreen)
 
 # next-mdx-filesystem
 
@@ -30,7 +30,10 @@ you back the data in a format that is easy for react components to consume.
 While this could be used outside of a next.js project it was designed to be used
 inside of next.js `getStaticProps()` and `getStaticPaths()`.
 
->**Important Note:** The directory and .mdx file names become a part of the slug path. They need to use a slug friendly separator such as hyphens. Example: 'react-articles' is *good* 'react articles' is *bad*. 'react-article.mdx' is *good* 'react article.mdx' is *bad*
+>**IMPORTANT NOTE:** The directory and .mdx file names become a part of the slug
+>path. They need to use a slug friendly separator such as hyphens. Example:
+>'react-articles' is *good* 'react articles' is *bad*.
+>'my-first-react-article.mdx' is *good* 'my first react article.mdx' is *bad*
 
 ---
 
@@ -52,6 +55,7 @@ inside of next.js `getStaticProps()` and `getStaticPaths()`.
 - Complete Example
   - [Setup](#setup)
   - [File Structure](#file-structure)
+  - [File to Route Mapping](#file-to-route-mapping)
   - [Example Files](#example-files)
 
 ---
@@ -87,21 +91,19 @@ directory is in the root of the project.
 `excludedProdDirs` is an array of folder names that you would like to exclude
 from your production build. For example `["drafts"]`
 
-`dirIndexFile` is the name of a special file that you can place into any
-directory to specify the metadata for a directory. Currently supported metadata
-is YAML and includes these fields. It is a great way to organize your articles
-by category.
+`dirIndexFile` is the name of a special file you can place into any
+directory to specify the metadata for it. It is a great way to organize your
+articles by category using directories. Currently supported metadata
+is YAML and includes these fields.
 
 ```yaml
 title: string
 date: string
 description: string | undefined
 ```
-
-`date` should take the form *yyyy-mm-dd*. By default `title` and `date` will
-always be included in the metadata of a directory.  If there is no index file in
-a directory the name of the directory and the last modified date will be used
-for `title` and `date` respectively.
+By default `title` and `date` will always be included in the metadata of a
+directory.  If there is no index file in a directory the name of the directory
+and the last modified date will be used for `title` and `date` respectively. Last modified `date` will take the form *yyyy-mm-dd*.
 
 #### **Example** `index.yaml`:
 
@@ -135,14 +137,18 @@ const mdxFilesystem = new MdxFilesystem<MyFrontMatterShape>()
 The type you place into `MdxFilesystem` defines the shape of your mdx front
 matter data. By default your mdx metadata will always include `title`, `date`,
 and `slug`. If an mdx file fails to provide any of them in its front matter,
-sensible defaults will be given back to you. `title` will become the name of the
-file. `date` will become the files last modified date as (*yyyy-mm-dd*). `slug`
-is unique in that it cannot be set manually within your front matter and will
-always be given to you based on the filesystem path to the file.
+sensible defaults will be given back to you.
 
-> Note: There are plans to allow for custom date formatting in the future but as
-> of now dates are always *yyyy-mm-dd*. The order of your posts in the output is
-> most recent article first, and based on this assumption.
+- `title` will become the name of the file if none is given.
+- `date` will become the files last modified date as (*yyyy-mm-dd*) if none is given.
+- `slug` is unique in that it cannot be set manually within your front matter
+  and will always be given to you based on the filesystem path to the file.
+
+> **IMPORTANT NOTE:** If you give an article a date string it should be in the
+> form *yyyy-mm-dd*. The order of your posts in the output is most recent
+> article first, and based on dates in the form *yyyy-mm-dd*. There are plans to
+> allow for custom date formatting in the future but as of now dates are always
+>*yyyy-mm-dd*. 
 
 ---
 
@@ -152,13 +158,15 @@ always be given to you based on the filesystem path to the file.
 
 `getSlugs()` is used to tell next.js about all of the routes that exist based on
 the file structure of your mdx directory. Your mdx directory is the directory
-you set `postsDir` to in your `mdx-filesystem.config.json` file.
+you set `postsDir` to in your `mdx-filesystem.config.json` file or the default
+of `./mdx-posts` in the root directory of your project.
 
 `getSlugs()` can be used inside of a next.js catch all route. Specifically it
 should be used inside of a page named `[...slug].tsx`.  You can read more about
-catch all routes in the next.js docs [here](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes).
+catch all routes in the next.js docs
+[here](https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes).
 
-**Example** use in `./pages/blog/[...slug].tsx`:
+**Example** use in `./pages/blog/[...slug].tsx` ([goto complete example](#blog-article-page)):
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -198,13 +206,10 @@ slug for that route within `getStaticProps()`. Given that there is no way to
 know if a slug points to a directory or an mdx file prior to calling the
 function it returns `isDirectory: boolean` as a property of the returned object.
 
-> **If the route that the slug points to is a directory** then `isDirectory`
-> will be `true` and the property `directory` will exist. `directory` will
-> contain all of the metadata about that directory and the mdx articles in it.
-
-> **If the route that the slug points to is an mdx article** then `isDirectory`
-> will be `false` and the property `mdxFile` will exist.  `mdxFile` will
-> contain all of the metadata and content for that mdx file.
+You can use `isDirectory` within your react components or pages to conditionally
+render an .mdx file or a listing of directory contents, depending if the route
+pointed to a directory or .mdx file. See [Return Data
+Structures](#return-data-structures---getpagedata) for more information.
 
 ### Arguments and Options - `getPageData`
 
@@ -219,7 +224,7 @@ mdxFilesystem.getPageData(args?: {
 })
 ```
 
-`slugArray` is the current path. If called in an `index.tsx` page you can leave
+`slugArray`: is the current path. If called in an `index.tsx` page you can leave
 this option out. If called in a `[...slug].tsx` page `{params.slug}` can be
 handed directly to `slugArray` to request data for that route. `{params.slug}`
 is given to you by next.js and will be the slug array for the current route. See
@@ -229,17 +234,18 @@ examples in Calling `getPageData()`.
 
 `dirOptions`:
 
-- `returnType (defaults to 'tree')`: Choose the data structure you want to get
+- `returnType`: Choose the data structure you want to get
    back when the route is a directory. Valid options are `'tree'` or `'array'`.
+   *Default is* `'tree'`.
 
-- `shallow (defaults to false)`: When `true` the function returns just the
+- `shallow`: When `true` the function returns just the
   articles and directories in the current directory path. When `false` the
   function recursively gives you back all directories, sub-directories, and mdx
   file metadata all the way down the filesystem tree starting at the current
-  directory path.
+  directory path. *Default is* `false`.
 
-- `reSortArray (defaults to true)`: When returnType is array this will resort
-  the array alphabetically based on the title of each directory.
+- `reSortArray`: When `returnType` is array this will resort the array
+  alphabetically based on the title of each directory. *Default is* `true`.
 
 ---
 
@@ -253,7 +259,7 @@ it will give you back the `directory` property that contains all of the metadata
 for the root directory of your mdx articles as configured by `postsDir` in the
 configuration file `mdx-filesystem.config.json`.
 
-#### **Example** use in `./pages/blog/index.tsx`:
+#### **Example** use in `./pages/blog/index.tsx` ([goto complete example](#blog-article-list-page)):
 
 ```ts
 import {MdxFilesystem} from 'next-mdx-filesystem';
@@ -281,7 +287,7 @@ If you are calling `getPageData()` from within `[...slug].tsx` for example
 given by next.js.
 
 
-#### **Example** use in `./pages/blog/[...slug].tsx`:
+#### **Example** use in `./pages/blog/[...slug].tsx` ([goto complete example](#blog-article-page)):
 
 ```ts
 import {serialize} from 'next-mdx-remote/serialize';
@@ -323,15 +329,15 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 ```
 
-The example above uses `next-mdx-remote/serialize` to serialize the mdx file
-into something that can be rendered by next.js but you are free to do whatever
-you want with the data.
+>**Note:** The example above uses `next-mdx-remote/serialize` to serialize the
+>mdx file into something that can be rendered by next.js but you are free to do
+>whatever you want with the data.
 
 ---
 
 ### Return Data Structures - `getPageData`
 
-The return structure of `getPageData()` is...
+The object returned by `getPageData()` is...
 
 ```ts
 {
@@ -341,19 +347,18 @@ The return structure of `getPageData()` is...
 }
 ```
 
-`isDirectory`: will be `true` if slug given to `slugArray` points to a directory
-and will be `false` if the slug points to a .mdx file.  
+`isDirectory`: will be `true` if the current route points to a
+directory and will be `false` if it points to an .mdx file.
 
-`directory`: If the slug points to a directory path `directory` will contain
-either a [`DirectoryTree<T>`](#DirectoryTree) or a
+`directory`: If the current route points to a directory path `directory` will
+contain either a [`DirectoryTree<T>`](#DirectoryTree) or a
 [`DirectoryData<T>[]`](#DirectoryData) array depending on the `returnType`
-dirOption, the default is `'tree'`. See below for the structure of
-these objects.
+that you set in the `dirOption` object when calling `getPageData()`. The default is `'tree'`.
 
-`mdxFile` If the slug points to an .mdx file `mdxFile` will contain an
-[`MdxFileData<T>`](#MdxFileData) object with the articles content and metadata.
+`mdxFile`: If the route points to an .mdx file `mdxFile` will contain an
+[`MdxFileData<T>`](#MdxFileData) object with the files content and metadata.
 
-`T` is the shape of *your* mdx metadata as given when you imported and
+`T`: is the shape of *your* mdx metadata as given when you imported and
 created the MdxFilesystem class.
 
 Listed below are the 3 main data structures that may be returned by
@@ -362,7 +367,7 @@ Listed below are the 3 main data structures that may be returned by
 
 #### MdxFileData
 
-If the route points to an mdx article `isDirectory` will be `false` and the `mdxFile` property will contain...
+If the route points to an mdx file `isDirectory` will be `false` and the `mdxFile` property will contain...
 
 ```ts
 interface MdxFileData<T> {
@@ -382,12 +387,12 @@ type MdxMetadata<T> = {
 If `title` is not in the mdx front matter it will be equal to the `fileName`.
 
 If `date` is not in the mdx front matter it will be equal to the `mtimeDate` as
-yyyy-mm-dd.
+*yyyy-mm-dd*.
 
-`slug` is always equal to the slug path and cannot be manually set in mdx front
+`slug`: is always equal to the slug path and cannot be manually set in mdx front
 matter.
 
-`T` is the shape of *your* metadata as you defined when you imported `next-mdx-filesystem`
+`T`: is the shape of *your* metadata as you defined when you imported `next-mdx-filesystem`
 
 #### DirectoryTree
 
@@ -410,7 +415,7 @@ type DirectoryTree<T> = {
     slug: string;
     description: string | null;
   }
-  mdxFiles: MdxFileData<T>[]; // all of the mdx articles in the current dir
+  mdxFiles: MdxFileData<T>[]; // all of the mdx files in the current dir
   directories: DirectoryTree<T>[]; // all of the directories in the current dir
 }
 ```
@@ -431,7 +436,7 @@ to a page that displays the contents of the directory.
 `description`: the description as given in the index.yaml file stored in the
 directory or `null` if no description or index.yaml is given.
 
-`mdxFiles`: an array of every .mdx article that is stored in this directory.
+`mdxFiles`: an array of every .mdx file that is stored in this directory.
 
 `directories`: an array of `DirectoryTree<T>`s that are sub-directories within
 the current directory.
@@ -440,10 +445,10 @@ the current directory.
 #### DirectoryData
 When the route points to a directory and `returnType` is set to `array`
 `getPageData()` will return `DirectoryData<T>[]`, an array of data objects
-representing directories and the .mdx articles they hold.
+representing directories and the .mdx files they hold.
 
 It is convenient for displaying a long list of all directories with links to the
-.mdx articles they hold. You may want to use this return type on your main /blog
+.mdx files they hold. You may want to use this return type on your main /blog
 route.
 
 When the `dirOption` `shallow` is `false` (which is default) the array will
@@ -483,7 +488,7 @@ to a page that displays the contents of the directory.
 `description` the description as given in the index.yaml file stored in the
 directory or `null` if no description or index.yaml is given.
 
-`mdxFiles` an array of every .mdx article that is stored in this directory.
+`mdxFiles` an array of every .mdx file that is stored in this directory.
 
 ---
 
@@ -491,58 +496,83 @@ directory or `null` if no description or index.yaml is given.
 
 ### Setup
 
-#### 1: Start a New next.js Project with Typescript.
-
-Check out the
+#### 1. Start a New next.js Project With Typescript 
+- Check out the
 [next.js install guide](https://nextjs.org/docs/basic-features/typescript) for more details.
 
 ```bash
-npx create-next-app@latest --ts
+ npx create-next-app@latest --ts
 ```
 
-#### 2: Install next-mdx-remote
+#### 2. Install next-mdx-remote
 
-In the newly created next.js project. This will be used to convert the `content` from a string to react components. Check out the
+This will be used to convert the .mdx file `content` property from a string to
+react components. Check out the
 [next-mdx-remote](https://www.npmjs.com/package/next-mdx-remote) package for
-more details. You can technically use any MDX plugin/converter to convert the
-`content`, but I have found next-mdx-remote to be simple and effective.
+more details. You can use any MDX converter to convert the `content` from a
+string to components, but I have found next-mdx-remote to be simple and
+effective.
+
+- In a terminal at the root of the next.js project
 
 ```bash
 npm i --save next-mdx-remote
 ```
 
-#### 3: Install next-mdx-filesystem
+#### 3. Install next-mdx-filesystem
 
-In the next.js project.
+- In a terminal at the root of the next.js project
 
 ```bash
 npm i --save next-mdx-filesystem
 ```
 
-#### 4. Create a Directory to Hold .mdx files/folders
+#### 4. Create a Directory to Hold .mdx Files/Folders
 
-In a terminal at the root of your next.js project
+You can place your .mdx files into this directory. You can also create
+sub-directories in here to hold .mdx files as well.
+
+- In a terminal at the root of your next.js project
 
 ```bash
 mkdir mdx-posts
 ```
 
-You can place your .mdx files into this directory. You can also create
-sub-directories in here to hold articles.
+#### 5. Create Directory Index Files (Optional)
 
-#### 5: Create Your Config File (Optional)
+If you would like custom metadata about each directory to be returned from
+`getPageData()` you can place an `index.yaml` file into each directory. Check
+out the [configuration](#configuration) section for more details.
+
+- In a terminal inside one of your `mdx-posts` directories
+
+```bash
+touch index.yaml
+```
+
+- Open your favorite editor and edit `index.yaml` to look like
+
+```yaml
+title: 'Design Articles'
+date: '2021-11-07'
+description: 'Articles about web design.'
+```
+
+
+
+#### 6. Create a Custom Config File (Optional)
 
 If you would like to set some custom options for next-mdx-filesystem you can
 create a config file. Check out the [configuration](#configuration) section for
-more info about these options.
+more details.
 
-In a terminal at the root of your next.js project
+- In a terminal at the root of your next.js project
 
 ```bash
 touch mdx-filesystem.config.json
 ```
 
-Open your favorite editor and edit `mdx-filesystem.config.json` to look like
+- Open your favorite editor and edit `mdx-filesystem.config.json` to look like
 
 ```json
 {
@@ -611,6 +641,8 @@ The folder structure should look similar to the following:
 └── tsconfig.json
 ```
 
+### File To Route Mapping
+
 Directories and Mdx files will map to next.js routes like below...
 
 - `./mdx-posts/` --> `http://localhost:3000/blog`
@@ -636,6 +668,7 @@ or the directory at http://localhost:3000/blog/drafts/second-level
 The following shows the code for some of the files that have been added to the
 starter next.js project.
 
+#### Interface
 In `./interfaces/index.ts` I have:
 
 ```ts
@@ -648,6 +681,7 @@ export interface BlogArticleMetaData {
   tags: string[],
 }
 ```
+#### Blog Article List Page
 
 In `./pages/blog/index.tsx` I have:
 
@@ -717,6 +751,8 @@ export default function BlogArticleListPage({directory}: BlogArticleListProps) {
 };
 ```
 
+#### Blog Article Page
+
 In `./pages/blog/[...slug].tsx` I have:
 
 ```tsx
@@ -785,7 +821,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   }
 };
 
-type PostProps = {
+interface BlogArticlePageProps {
   isDirectory: boolean;
   directory?: DirectoryTree<BlogArticleMetaData>,
   mdxFile?: {
@@ -794,11 +830,11 @@ type PostProps = {
   }
 }
 
-export default function PostsPage({
+export default function BlogArticlePage({
   isDirectory,
   directory,
   mdxFile,
-}: PostProps) {
+}: BlogArticlePageProps) {
   if (isDirectory && directory) {
     const {dirMetadata, directories, mdxFiles} = directory;
     return (
@@ -858,6 +894,8 @@ export default function PostsPage({
   }
 };
 ```
+
+#### Example .mdx File
 
 An example of a .mdx file `./mdx-posts/root-article-1.mdx` is
 
