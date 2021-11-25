@@ -20,10 +20,10 @@
 # next-mdx-filesystem
 
 Do you want to strongly type the shape of you mdx front matter data in your
-next.js project? This package is for you. Do you want to organize your articles
-into folders that represent categories but don't want to write an algorithm that
-will correctly walk through them all recursively and give you back all of the
-mdx and directory metadata? This package is for you.
+next.js project? This package is for you. Do you want to organize your .mdx
+articles into folders that represent categories but don't want to write an
+algorithm that will correctly walk through them all recursively and give you
+back all of the mdx and directory metadata? This package is for you.
 
 This package provides 2 functions that read the contents of a directory and give
 you back the data in a format that is easy for react components to consume.
@@ -93,7 +93,7 @@ from your production build. For example `["drafts"]`
 
 `dirIndexFile` is the name of a special file you can place into any
 directory to specify the metadata for it. It is a great way to organize your
-articles by category using directories. Currently supported metadata
+files by category using directories. Currently supported metadata
 is YAML and includes these fields.
 
 ```yaml
@@ -144,11 +144,11 @@ sensible defaults will be given back to you.
 - `slug` is unique in that it cannot be set manually within your front matter
   and will always be given to you based on the filesystem path to the file.
 
-> **IMPORTANT NOTE:** If you give an article a date string it should be in the
-> form *yyyy-mm-dd*. The order of your posts in the output is most recent
-> article first, and based on dates in the form *yyyy-mm-dd*. There are plans to
-> allow for custom date formatting in the future but as of now dates are always
->*yyyy-mm-dd*. 
+> **IMPORTANT NOTE:** If you give a file a date string it should be in the
+> form *yyyy-mm-dd*. The order of your .mdx files in the output of
+> `getPageData()` is most recent article first, and based on dates in the form
+> *yyyy-mm-dd*. There are plans to allow for custom date formatting in the
+> future but as of now dates are always *yyyy-mm-dd*. 
 
 ---
 
@@ -198,7 +198,7 @@ interface StaticPath {
 ## Function - `getPageData`
 
 This is the meat and potatoes of next-mdx-filesystem. It is the function that
-will give you all of the data for a directory or mdx article in an easy to
+will give you all of the data for a directory or mdx file in an easy to
 consume package for your react components.
 
 When a user navigates to a route that is dynamic next.js will give you the
@@ -234,18 +234,11 @@ examples in Calling `getPageData()`.
 
 `dirOptions`:
 
-- `returnType`: Choose the data structure you want to get
-   back when the route is a directory. Valid options are `'tree'` or `'array'`.
-   *Default is* `'tree'`.
+- `returnType`: Choose the data structure you want to get back when the route is a directory. Valid options are `'tree'` or `'array'`. *Default is* `'tree'`.
 
-- `shallow`: When `true` the function returns just the
-  articles and directories in the current directory path. When `false` the
-  function recursively gives you back all directories, sub-directories, and mdx
-  file metadata all the way down the filesystem tree starting at the current
-  directory path. *Default is* `false`.
+- `shallow`: When `true` the function returns just the files and directories in the current directory path. When `false` the function recursively gives you back all directories, sub-directories, and mdx file metadata all the way down the filesystem tree starting at the current directory path. *Default is* `false`.
 
-- `reSortArray`: When `returnType` is array this will resort the array
-  alphabetically based on the title of each directory. *Default is* `true`.
+- `reSortArray`: When `returnType` is array this will resort the array of directories alphabetically based on the `title`. *Default is* `true`.
 
 ---
 
@@ -256,8 +249,11 @@ examples in Calling `getPageData()`.
 If you are calling it from within an `index.tsx`, for example
 `./pages/blog/index.tsx`, you can call it without the `slugArray` property and
 it will give you back the `directory` property that contains all of the metadata
-for the root directory of your mdx articles as configured by `postsDir` in the
-configuration file `mdx-filesystem.config.json`.
+for the root directory of your mdx files.
+
+*Note:* The root directory for your .mdx files is the directory configured by
+`postsDir` in the configuration file, `mdx-filesystem.config.json`, or the
+default `./mdx-posts`.
 
 #### **Example** use in `./pages/blog/index.tsx` ([goto complete example](#blog-article-list-page)):
 
@@ -643,7 +639,7 @@ The folder structure should look similar to the following:
 
 ### File To Route Mapping
 
-Directories and Mdx files will map to next.js routes like below...
+Directories and .mdx files will map to next.js routes like below...
 
 - `./mdx-posts/` --> `http://localhost:3000/blog`
 - `./mdx-posts/root-article-1.mdx` --> `http://localhost:3000/blog/root-article-1`
