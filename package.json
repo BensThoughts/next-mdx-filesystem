@@ -21,7 +21,6 @@
     "eslint": "^8.2.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.3.1",
-    "jest-coverage-badges": "^1.1.2",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2"
   },
@@ -34,8 +33,7 @@
     "test:cjs": "MDX_FILESYSTEM_CONFIG_PATH=test-setup/test.config.json jest --testPathPattern=./dist/cjs",
     "test:esm": "MDX_FILESYSTEM_CONFIG_PATH=test-setup/test.config.json jest --testPathPattern=./dist/esm",
     "preversion": "npm run build && npm run test",
-    "test:coverage": "npm run test:ts -- --coverage",
-    "test:badges": "npm run test:coverage  && jest-coverage-badges"
+    "test:coverage": "npm run test:ts -- --coverage"
   },
   "keywords": [
     "next",
@@ -54,7 +52,7 @@
   "sideEffects": false,
   "jest": {
     "coverageReporters": [
-      "json-summary", 
+      "json-summary",
       "text",
       "lcov"
     ]
