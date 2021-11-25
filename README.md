@@ -5,6 +5,18 @@
   
   ---
 
+### Unit Test Coverage With Jest
+
+![lines](https://img.shields.io/badge/lines-95.41%25-green)
+![functions](https://img.shields.io/badge/functions-94.11%25-green)
+![branch](https://img.shields.io/badge/branch-81.15%25-green)
+![statements](https://img.shields.io/badge/statements-95.45%25-green)
+
+### Latest Version Works With
+
+![](https://img.shields.io/badge/semver-0.1.0--beta.6-brightgreen)
+![](https://img.shields.io/badge/next.js-12.0.4-brightgreen)
+
 # next-mdx-filesystem
 
 Do you want to strongly type the shape of you mdx front matter data in your

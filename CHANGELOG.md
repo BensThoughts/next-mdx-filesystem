@@ -7,8 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.0-beta.6] - 2021-11-24
 ### Added
-- Added table of contents and division lines to README.md
-- Added complete example to README.md
+- To README.me added table of contents and division lines. Added complete
+  tutorial like example. Added test coverage with jest icons.
 ### Changed
 - Removed @corex/deepmerge from dependencies.  It is no longer needed.
 - Fixed error message when path is not present to guide user to check their
