@@ -29,7 +29,7 @@ export const slugArrayToFullPath = (slugArr: string[]): string => {
 export const getSlugFromFullPath = (fullPath: string): string => {
   let slug = fullPath
       .replace(POSTS_DIR, '')
-      .replace(path.sep, '/')
+      .replace(/\\/g, '/')
       .replace('.mdx', '');
   slug = slug.charAt(0) === '/' ? slug.substr(1) : slug;
   return slug;
