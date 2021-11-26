@@ -1,9 +1,9 @@
-import {getFileModifiedDate} from '..';
-import {POSTS_DIR} from '../../config';
+import {formatDate} from '..';
 
 describe('getFileModifiedDate', () => {
   test('returns the correct file modified date format', () => {
-    expect(getFileModifiedDate(POSTS_DIR))
+    const date = new Date(2021, 10, 22);
+    expect(formatDate(date))
         .toStrictEqual('2021-11-22');
   });
 });
