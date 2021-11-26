@@ -7,10 +7,10 @@
 
 ### Unit Test Coverage With Jest
 
-![lines](https://img.shields.io/badge/lines-95.41%25-green)
-![functions](https://img.shields.io/badge/functions-94.11%25-green)
+![statements](https://img.shields.io/badge/statements-95.48%25-green)
 ![branch](https://img.shields.io/badge/branch-81.15%25-green)
-![statements](https://img.shields.io/badge/statements-95.45%25-green)
+![functions](https://img.shields.io/badge/functions-94.28%25-green)
+![lines](https://img.shields.io/badge/lines-95.45%25-green)
 
 ### Latest Version Works With
 
