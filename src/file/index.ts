@@ -21,8 +21,11 @@ export const isPathFile = (path:string): boolean => {
 };
 
 export const getFileModifiedDate = (path: string): string => {
-  const fullDate = fs.statSync(path).mtime;
-  const date = `${fullDate.getUTCFullYear()}-${fullDate.getUTCMonth() + 1}` +
-    `-${fullDate.getUTCDate()}`;
-  return date;
+  const date = fs.statSync(path).mtime;
+  return formatDate(date);
+};
+
+export const formatDate = (date: Date) => {
+  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}` +
+    `-${date.getUTCDate()}`;
 };
