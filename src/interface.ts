@@ -22,11 +22,11 @@ export type DirectoryTree<T = {}> = DirectoryData<T> & {
   directories: DirectoryTree<T>[];
 }
 
-export type MdxMetadata<T = {}> = {
+export type MdxMetadata<T= {}> = {
   slug: string;
   title: string;
   date: string;
-} & T;
+} & Expand<Partial<T>>;
 export interface MdxFileData<T = {}> {
   fileName: string;
   mtimeDate: string;

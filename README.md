@@ -879,9 +879,9 @@ export default function BlogArticlePage({
         <ul>
           <li>Title: {metadata.title}</li>
           <li>Date: {metadata.date}</li>
-          <li>Read Time: {metadata.readTime}</li>
-          <li>Description: {metadata.description}</li>
-          <li>Tags: <ul>{metadata.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul></li>
+          {metadata.readTime && <li>Read Time: {metadata.readTime}</li>}
+          {metadata.description && <li>Description: {metadata.description}</li>}
+          {metadata.tags && <li>Tags: <ul>{metadata.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul></li>}
         </ul>
         <hr />
         <MDXRemote {...content} />

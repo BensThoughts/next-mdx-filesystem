@@ -7,8 +7,14 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.0-beta.7] - 2021-11-26
 ### Changed
-- Separated out formatDate() from getFileModifiedDate()
-- Added regex replace to correctly convert paths on windows to slugs in getSlugFromFullPath()/
+- Wrapped user Metadata in Partial so users are aware that their mdx front
+  matter may not exist and needs to be checked for in their components.
+- Updated README.md [...slug].tsx to reflect that user defined metadata is
+  Partial and could be undefined.
+- Separated out formatDate() from getFileModifiedDate().
+- Added regex replace to correctly convert paths on windows to slugs in
+  getSlugFromFullPath().
+
 
 ## [0.1.0-beta.6] - 2021-11-24
 ### Added
@@ -41,7 +47,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Extracted an interface for MdxMetadata so that others can import it into
   their projects in the case they do not want to use any additional user defined
-  metadata
+  metadata.
 - Extracted an interface for DirMetadata.
 - Added more unit tests for mdx-data and dir-metadata modules.
 - Added default empty object for T (user defined MdxMetadata) so that users can

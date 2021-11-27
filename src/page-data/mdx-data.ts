@@ -1,5 +1,6 @@
 import {
   MdxFileData,
+  MdxMetadata,
 } from '../interface';
 
 import {
@@ -32,7 +33,7 @@ export default function getMdxData<T>(
     fileName,
     mtimeDate,
     metadata: {
-      ...data as Expand<T>,
+      ...data as Expand<MdxMetadata<T>>,
       date,
       title,
       slug,
