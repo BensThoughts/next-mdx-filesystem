@@ -1,4 +1,6 @@
-import {formatDate} from '..';
+import {
+  formatDate,
+} from '..';
 
 describe('formatDate', () => {
   test('returns the correct file modified date format', () => {
