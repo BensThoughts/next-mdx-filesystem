@@ -31,8 +31,7 @@
     "test": "npm run test:ts && npm run test:cjs",
     "test:ts": "MDX_FILESYSTEM_CONFIG_PATH=test-setup/test.config.json jest --testPathPattern=./src",
     "test:cjs": "MDX_FILESYSTEM_CONFIG_PATH=test-setup/test.config.json jest --testPathPattern=./dist/cjs",
-    "test:windows": "jest --testPathPattern=src",
-    "test:coverage": "npm run test:ts -- --coverage"
+    "test:windows": "jest --testPathPattern=src"
   },
   "keywords": [
     "next",
@@ -48,12 +47,5 @@
     "type": "git",
     "url": "git+https://github.com/BensThoughts/next-mdx-filesystem.git"
   },
-  "sideEffects": false,
-  "jest": {
-    "coverageReporters": [
-      "json-summary",
-      "text",
-      "lcov"
-    ]
-  }
+  "sideEffects": false
 }

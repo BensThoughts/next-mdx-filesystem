@@ -5,6 +5,8 @@
   
   ---
 
+# next-mdx-filesystem
+
 ### Unit Test Coverage With Jest:
 ![statements](https://img.shields.io/badge/statements-95.48%25-green)
 ![branch](https://img.shields.io/badge/branch-81.15%25-yellowgreen)
@@ -18,8 +20,6 @@
 - Works On: 
   ![Linux](https://img.shields.io/badge/Linux--brightgreen?logoColor=white&logo=linux)
   ![Mac](https://img.shields.io/badge/Mac--brightgreen?logo=apple) ![Windows](https://img.shields.io/badge/Windows--brightgreen?logo=windows)
-
-# next-mdx-filesystem
 
 Do you want to strongly type the shape of you mdx front matter data in your
 next.js project? This package is for you. Do you want to organize your .mdx
