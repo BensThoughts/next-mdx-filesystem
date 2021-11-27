@@ -767,9 +767,6 @@ import {
 } from 'next-mdx-filesystem';
 const mdxFilesystem = new MdxFilesystem<BlogArticleMetaData>();
 
-export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-
-
 export const getStaticPaths: GetStaticPaths = (params) => {
   const slugs = mdxFilesystem.getSlugs();
   return {
