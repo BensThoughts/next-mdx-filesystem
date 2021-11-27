@@ -11,6 +11,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated getDirectoryMetadata so that it works even when an index.yaml file is empty.
 ## Added
 - Tests for an empty index.yaml file in a directory
+- Tests for array to test with reSortArray=false and calling with no args.
 
 ## [0.1.0-beta.7] - 2021-11-26
 ### Changed
