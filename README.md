@@ -14,8 +14,10 @@
 
 ### Latest Version Works With
 
-![semver](https://img.shields.io/badge/semver-0.1.0--beta.6-brightgreen)
-![nextjs version](https://img.shields.io/badge/next.js-12.0.4-brightgreen)
+- Latest Version: ![semver](https://img.shields.io/badge/semver-0.1.0--beta.7-brightgreen)
+- Works With: ![nextjs
+  version](https://img.shields.io/badge/next.js-12.0.4-brightgreen)
+- Works On: ![Linux](https://img.shields.io/badge/Linux--brightgreen) ![Mac](https://img.shields.io/badge/Mac--brightgreen) ![Windows](https://img.shields.io/badge/Windows--brightgreen)
 
 # next-mdx-filesystem
 
