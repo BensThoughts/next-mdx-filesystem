@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   coverageDirectory: './coverage',
   collectCoverage: true,
-  coverageReporters: ['json-summary', 'lcov', 'text-summary'],
+  coverageReporters: ['json-summary', 'lcov', 'text'],
   // globals: {
   //   'ts-jest': {
   //     diagnostics: true,
