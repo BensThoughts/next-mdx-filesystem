@@ -11,6 +11,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
   matter may not exist and needs to be checked for in their components.
 - Updated README.md [...slug].tsx to reflect that user defined metadata is
   Partial and could be undefined.
+- Wrapped MdxMetadata in Expand<> so that users can hover over their metadata to
+  see it.
 - Separated out formatDate() from getFileModifiedDate().
 - Added regex replace to correctly convert paths on windows to slugs in
   getSlugFromFullPath().

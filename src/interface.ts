@@ -22,16 +22,16 @@ export type DirectoryTree<T = {}> = DirectoryData<T> & {
   directories: DirectoryTree<T>[];
 }
 
-export type MdxMetadata<T= {}> = {
+export type MdxMetadata<T= {}> = Expand<{
   slug: string;
   title: string;
   date: string;
-} & Expand<Partial<T>>;
+} & Expand<Partial<T>>>;
 export interface MdxFileData<T = {}> {
   fileName: string;
   mtimeDate: string;
   content: string | null;
-  metadata: Expand<MdxMetadata<T>>;
+  metadata: MdxMetadata<T>;
 }
 
 export interface PageData<T, R extends 'tree' | 'array' = 'tree'> {

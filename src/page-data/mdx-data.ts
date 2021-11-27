@@ -14,7 +14,6 @@ import {
 } from '../file';
 
 import matter from 'gray-matter';
-import {Expand} from '..';
 
 export default function getMdxData<T>(
     fullPath: string,
@@ -33,7 +32,7 @@ export default function getMdxData<T>(
     fileName,
     mtimeDate,
     metadata: {
-      ...data as Expand<MdxMetadata<T>>,
+      ...data as MdxMetadata<T>,
       date,
       title,
       slug,
