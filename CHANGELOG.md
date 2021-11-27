@@ -16,6 +16,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Separated out formatDate() from getFileModifiedDate().
 - Added regex replace to correctly convert paths on windows to slugs in
   getSlugFromFullPath().
+- Updated README.md to show that it works on Linux/Mac/Windows
+- Removed esm build from ./dist, it seems that Webpack just doesn't play well
+  with esm. Can revisit this later.
 
 
 ## [0.1.0-beta.6] - 2021-11-24
