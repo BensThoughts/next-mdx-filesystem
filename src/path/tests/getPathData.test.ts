@@ -10,7 +10,21 @@ import {
 } from '../../config/index';
 
 describe('getPathData', () => {
-  describe('getPathData should read a first level directory correctly', () => {
+  describe('getPathData should return that a route is excluded when env is production', () => {
+    test.concurrent('returns isExcludedPath false', () => {
+      const dirents = fs.readdirSync(POSTS_DIR, {withFileTypes: true});
+      const tempNodeEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+      const pathData = getPathData(
+          POSTS_DIR,
+          dirents.filter((dirent) => dirent.name === 'drafts')[0],
+      );
+      // need to reset env back to 'test'
+      process.env.NODE_ENV = tempNodeEnv;
+      expect(pathData.isExcludedPath).toBe(true);
+    });
+  });
+  describe('getPathData should read a first level directory correctly when env is not production', () => {
     const dirents = fs.readdirSync(POSTS_DIR, {withFileTypes: true});
     const pathData = getPathData(
         POSTS_DIR,
@@ -53,8 +67,11 @@ describe('getPathData', () => {
     });
   });
 
+  // TODO: Write a test to make sure deeper paths under an excluded path are
+  // TODO: excluded in production as well.
   describe('getPathData should read a third-level level directory correctly', () => {
-    const cwd = POSTS_DIR + '/drafts/second-level'; ;
+    const cwd = POSTS_DIR + '/drafts/second-level';
+    // process.env.NODE_ENV = 'production';
     const dirents = fs.readdirSync(
         cwd,
         {withFileTypes: true},

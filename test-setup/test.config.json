@@ -1,3 +1,4 @@
 {
-  "postsDir": "test-setup/blog-folder"
+  "postsDir": "test-setup/blog-folder",
+  "excludedProdDirs": ["drafts"]
 }
