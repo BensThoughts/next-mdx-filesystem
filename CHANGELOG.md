@@ -5,13 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0-beta.8] - 2021-11-27
+## [0.1.0-beta.8] - 2021-11-28
 
 ## Changed
-- Updated getDirectoryMetadata so that it works even when an index.yaml file is empty.
+- Updated getDirectoryMetadata so that it works even when an index.yaml file is
+  empty.
+- Refactored config module.
+
 ## Added
 - Tests for an empty index.yaml file in a directory
 - Tests for array to test with reSortArray=false and calling with no args.
+- Tests for getPathData with 'production' env.
+- Tests for config
 
 ## [0.1.0-beta.7] - 2021-11-26
 ### Changed

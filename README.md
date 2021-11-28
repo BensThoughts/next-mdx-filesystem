@@ -8,13 +8,13 @@
 # next-mdx-filesystem
 
 ### Unit Test Coverage With Jest:
-![statements](https://img.shields.io/badge/statements-95.48%25-green)
-![branch](https://img.shields.io/badge/branch-81.15%25-yellowgreen)
-![functions](https://img.shields.io/badge/functions-94.28%25-green)
-![lines](https://img.shields.io/badge/lines-95.45%25-green)
+![statements](https://img.shields.io/badge/statements-100%25-brightgreen)
+![branch](https://img.shields.io/badge/branch-100%25-brightgreen)
+![functions](https://img.shields.io/badge/functions-100%25-brightgreen)
+![lines](https://img.shields.io/badge/lines-100%25-brightgreen)
 
 ### Latest Version Works With:
-- Latest Version: ![semver](https://img.shields.io/badge/semver-0.1.0--beta.7-blue)
+- Latest Version: ![semver](https://img.shields.io/badge/semver-0.1.0--beta.8-blue)
 - Works With: ![nextjs
   version](https://img.shields.io/badge/next.js-12.0.4-blue)
 - Works On: 
