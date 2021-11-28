@@ -11,6 +11,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated getDirectoryMetadata so that it works even when an index.yaml file is
   empty.
 - Refactored config module.
+- Added test files to .npmignore for smaller package
+- Removed dist from .gitignore for dist tracking in github
 
 ## Added
 - Tests for an empty index.yaml file in a directory
