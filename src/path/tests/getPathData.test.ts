@@ -19,20 +19,18 @@ describe('getPathData', () => {
           POSTS_DIR,
           dirents.filter((dirent) => dirent.name === 'drafts')[0],
       );
-      // need to reset env back to 'test'
       process.env.NODE_ENV = tempNodeEnv;
       expect(pathData.isExcludedPath).toBe(true);
     });
   });
   describe('getPathData should read a first level directory correctly when env is not production', () => {
     const dirents = fs.readdirSync(POSTS_DIR, {withFileTypes: true});
+    const tempNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'test';
     const pathData = getPathData(
         POSTS_DIR,
         dirents.filter((dirent) => dirent.name === 'drafts')[0],
     );
-    // test.concurrent('returns correct fullPath', () => {
-    //   expect(pathData.fullPath).toStrictEqual('src/tests/blog-folder/drafts');
-    // });
     test.concurrent('returns correct slug', () => {
       expect(pathData.slug).toStrictEqual('drafts');
     });
@@ -45,6 +43,7 @@ describe('getPathData', () => {
     test.concurrent('returns isExcludedPath false', () => {
       expect(pathData.isExcludedPath).toStrictEqual(false);
     });
+    process.env.NODE_ENV = tempNodeEnv;
   });
 
   describe('getPathData should read a first level mdx file correctly', () => {
@@ -71,7 +70,6 @@ describe('getPathData', () => {
   // TODO: excluded in production as well.
   describe('getPathData should read a third-level level directory correctly', () => {
     const cwd = POSTS_DIR + '/drafts/second-level';
-    // process.env.NODE_ENV = 'production';
     const dirents = fs.readdirSync(
         cwd,
         {withFileTypes: true},
