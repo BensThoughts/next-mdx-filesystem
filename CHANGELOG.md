@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-beta.9] - 2021-11-28
+##
+- Updated tests for sortDirsByTitle and sortMdxFilesByDate
+- mdx files are now sorted by date first and title second (so if dates are the
+  same title will be alphabetical descending).
+
 ## [0.1.0-beta.8] - 2021-11-28
 
 ## Changed
