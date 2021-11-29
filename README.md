@@ -128,8 +128,8 @@ interface MyFrontMatterShape {
   slug: string,
   title: string,
   date: string,
-  description: string,
-  readTime: number
+  description?: string,
+  readTime?: number
 }
 
 import {MdxFilesystem} from 'next-mdx-filesystem'
@@ -379,7 +379,7 @@ type MdxMetadata<T> = {
   slug: string;
   title: string;
   date: string;
-} & T
+} & Partial<T>
 ```
 
 If `title` is not in the mdx front matter it will be equal to the `fileName`.
@@ -674,11 +674,18 @@ export interface BlogArticleMetaData {
   slug: string,
   title: string,
   date: string,
-  description: string,
-  readTime: number,
-  tags: string[],
+  description?: string,
+  readTime?: number,
+  tags?: string[],
 }
 ```
+
+Take note that `description`, `readTime`, and `tags` are possibly undefined.
+All user given metadata is returned to you as a Partial so that you are aware of
+the fact that it is possible to forget to include a piece of metadata in an .mdx
+file.  This is to help prevent rendering errors. `slug`, `title`, and `date` are
+the only metadata guaranteed to exist because sensible defaults will be filled
+in when they are missing.
 #### Blog Article List Page
 
 In `./pages/blog/index.tsx` I have:

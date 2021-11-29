@@ -6,21 +6,24 @@ and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.1.0-beta.9] - 2021-11-28
-##
+### Changed
 - Updated tests for sortDirsByTitle and sortMdxFilesByDate
 - mdx files are now sorted by date first and title second (so if dates are the
   same title will be alphabetical descending).
 
+### Added
+- Added in information about user metadata being given back as Partial to README.md.
+
 ## [0.1.0-beta.8] - 2021-11-28
 
-## Changed
+### Changed
 - Updated getDirectoryMetadata so that it works even when an index.yaml file is
   empty.
 - Refactored config module.
 - Added test files to .npmignore for smaller package
 - Removed dist from .gitignore for dist tracking in github
 
-## Added
+### Added
 - Tests for an empty index.yaml file in a directory
 - Tests for array to test with reSortArray=false and calling with no args.
 - Tests for getPathData with 'production' env.
