@@ -1,2 +1,6 @@
-Add backup sort of mdx files by name when date is the same
-Add way to customize the date format
+## Non-Breaking Changes
+- Add way to customize the date format.
+
+## Breaking Changes
+- Consider placing `slug` in base data instead of metadata.
+- Consider making 'array' the default return type.

@@ -7,39 +7,84 @@ describe('sortMdxFilesByDate', () => {
     test.concurrent('should be sorted by standard date with latest date first', () => {
         const mdxData = [
             {
-                fileName: 'a',
+                fileName: 'test',
                 mtimeDate: '2022-01-03',
                 content: null,
                 metadata: {
-                    title: 'b-article-1',
-                    date: '2020-01-03',
+                    title: '6',
+                    date: '2022-01-02',
                     slug: '',
                 },
             },
             {
-                fileName: 'a',
+                fileName: 'test',
                 mtimeDate: '2019-01-01',
                 content: null,
                 metadata: {
-                    title: 'a-article-1',
-                    date: '2021-01-03',
+                    title: 'a',
+                    date: '2022-01-04',
                     slug: '',
                 },
             },
             {
-                fileName: 'a',
+                fileName: 'test',
+                mtimeDate: '2019-01-01',
+                content: null,
+                metadata: {
+                    title: 'd',
+                    date: '2022-01-04',
+                    slug: '',
+                },
+            },
+            {
+                fileName: 'test',
+                mtimeDate: '2019-01-01',
+                content: null,
+                metadata: {
+                    title: 'c',
+                    date: '2022-01-04',
+                    slug: '',
+                },
+            },
+            {
+                fileName: 'test',
+                mtimeDate: '2019-01-01',
+                content: null,
+                metadata: {
+                    title: 'b',
+                    date: '2022-01-04',
+                    slug: '',
+                },
+            },
+            {
+                fileName: 'test',
                 mtimeDate: '2020-01-03',
                 content: null,
                 metadata: {
-                    title: 'c-article-1',
+                    title: '5',
                     date: '2022-01-03',
+                    slug: '',
+                },
+            },
+            {
+                fileName: 'test',
+                mtimeDate: '2020-01-03',
+                content: null,
+                metadata: {
+                    title: '0',
+                    date: '2022-01-05',
                     slug: '',
                 },
             },
         ];
         const sortedData = (0, sort_1.sortMdxFilesByDate)(mdxData);
-        const isSorted = (arr) => arr.every((v, i, a) => !i || a[i - 1].metadata.date >= v.metadata.date);
-        expect(isSorted(sortedData)).toStrictEqual(true);
+        expect(sortedData[0].metadata.title).toBe('0');
+        expect(sortedData[1].metadata.title).toBe('a');
+        expect(sortedData[2].metadata.title).toBe('b');
+        expect(sortedData[3].metadata.title).toBe('c');
+        expect(sortedData[4].metadata.title).toBe('d');
+        expect(sortedData[5].metadata.title).toBe('5');
+        expect(sortedData[6].metadata.title).toBe('6');
     });
 });
 describe('sortDirsByTitle', () => {
@@ -115,5 +160,10 @@ describe('sortDirsByTitle', () => {
         const sortedData = (0, sort_1.sortDirsByTitle)(dirData);
         const isSorted = (arr) => arr.every((v, i, a) => !i || a[i - 1].dirMetadata.title.toLocaleLowerCase() <= v.dirMetadata.title.toLocaleLowerCase());
         expect(isSorted(sortedData)).toStrictEqual(true);
+        expect(sortedData[0].dirMetadata.title).toBe('blog-posts');
+        expect(sortedData[1].dirMetadata.title).toBe('design');
+        expect(sortedData[2].dirMetadata.title).toBe('Drafts');
+        expect(sortedData[3].dirMetadata.title).toBe('Google Cloud');
+        expect(sortedData[4].dirMetadata.title).toBe('React');
     });
 });

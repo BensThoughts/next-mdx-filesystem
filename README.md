@@ -1,7 +1,9 @@
-- **IMPORTANT Change in 0.1.0-beta.1:** `mdxArticle` is now `mdxFile`
-  throughout. It is more accurate, mdx files do not have to be articles. This
-  means the data returned for an mdx file with `getPageData()` now includes the
-  property `mdxFile` instead of `mdxArticle`.
+- **Notice:**
+  - Please file any issues on the github repo. I am actively maintaining this and would like to ensure it remains cross compatible and functional.
+  - Please DM me on twitter [@bensthoughts](https://twitter.com/bensthoughts) if
+    you find this software useful, have a suggestion for improvement, or any
+    other feedback about the project. I need a little motivation to continue
+    working on this and your thoughts are important to me.
   
   ---
 
@@ -595,47 +597,47 @@ The folder structure should look similar to the following:
 
 ```bash
 ├── interfaces
-│   └── index.ts
+│   └── index.ts
 ├── mdx-posts
-│   ├── design
-│   │   ├── design-article-1.mdx
-│   │   ├── design-article-2.mdx
-│   │   └── index.yaml
-│   ├── drafts
-│   │   ├── draft-1.mdx
-│   │   ├── draft-2.mdx
-│   │   ├── index.yaml
-│   │   └── second-level
-│   │       ├── second-level-article.mdx
-│   │       ├── index.yaml
-│   │       └── third-level
-│   │           ├── index.yaml
-│   │           └── third-level-article.mdx
-│   ├── react-articles
-│   │   ├── index.yaml
-│   │   ├── react-article-1.mdx
-│   │   ├── react-article-2.mdx
-│   │   └── react-article-3.mdx
-│   └── index.yaml
-│   └── root-article-1.mdx
-│   └── root-article-2.mdx
+│   ├── design
+│   │   ├── design-article-1.mdx
+│   │   ├── design-article-2.mdx
+│   │   └── index.yaml
+│   ├── drafts
+│   │   ├── draft-1.mdx
+│   │   ├── draft-2.mdx
+│   │   ├── index.yaml
+│   │   └── second-level
+│   │       ├── second-level-article.mdx
+│   │       ├── index.yaml
+│   │       └── third-level
+│   │           ├── index.yaml
+│   │           └── third-level-article.mdx
+│   ├── react-articles
+│   │   ├── index.yaml
+│   │   ├── react-article-1.mdx
+│   │   ├── react-article-2.mdx
+│   │   └── react-article-3.mdx
+│   └── index.yaml
+│   └── root-article-1.mdx
+│   └── root-article-2.mdx
 ├── next.config.js
 ├── next-env.d.ts
 ├── package.json
 ├── package-lock.json
 ├── pages
-│   ├── _app.tsx
-│   ├── blog
-│   │   ├── index.tsx
-│   │   └── [...slug].tsx
-│   └── index.tsx
+│   ├── _app.tsx
+│   ├── blog
+│   │   ├── index.tsx
+│   │   └── [...slug].tsx
+│   └── index.tsx
 ├── public
-│   ├── favicon.ico
-│   └── vercel.svg
+│   ├── favicon.ico
+│   └── vercel.svg
 ├── README.md
 ├── styles
-│   ├── globals.css
-│   └── Home.module.css
+│   ├── globals.css
+│   └── Home.module.css
 └── tsconfig.json
 ```
 
